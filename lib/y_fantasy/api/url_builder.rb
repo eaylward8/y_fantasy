@@ -40,36 +40,13 @@ module YFantasy
           return @url.concat("/scoreboard;week=", @week)
         end
 
-        # validate subresources here?
-        # possible syntax: (or consider dry-validation)
-        # SubresourceValidator.for(resource/resource, subresources).validate!
-        url_with_subresources
+        params = SubresourceParamBuilder.new(@subresources).build
+        @url.concat(params)
       end
 
       private
 
-      def url_with_subresources
-        # start simple - no nested subs
-        # TODO: clean this up
-        subresources = @subresources.map do |sub|
-          case sub
-          when :draft_results
-            :draftresults
-          when :ownership_percentage
-            :percent_owned
-          when :team_standings
-            :standings
-          else
-            sub
-          end
-        end
-
-        out_params = ";out=#{subresources.join(",")}"
-        @url.concat(out_params)
-      end
-
       def build_resource_url
-        # TODO: raise error if more than one key?
         @url.concat("/", @resource, "/", @keys.first)
       end
 
