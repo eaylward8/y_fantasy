@@ -48,6 +48,14 @@ module YFantasy
     has_subresource :settings, klass: Settings
     has_subresource :standings, klass: Standings
 
+    def started?
+      Date.today >= start_date
+    end
+
+    def ended?
+      is_finished
+    end
+
     def previous_league_key
       renew&.split("_")&.join(".l.")
     end

@@ -28,6 +28,9 @@ module YFantasy
     option :faab_balance, optional: true, type: Types::Coercible::Integer
     option :waiver_priority, optional: true, type: Types::Coercible::Integer
 
+    option :league_key, optional: true
+    option :league, optional: true
+
     # Subresources
     option :draft_results, optional: true, type: array_of(DraftResult)
     option :matchups, optional: true, type: array_of(Matchup), default: -> { [] }
@@ -57,6 +60,14 @@ module YFantasy
         points_for: team_standings.points_for,
         points_against: team_standings.points_against
       }
+    end
+
+    def league_key
+      @league_key ||= team_key.sub(/\.t\.\d+/, "")
+    end
+
+    def league
+      @league ||= League.find(league_key)
     end
 
     def matchups_for_week(week)
