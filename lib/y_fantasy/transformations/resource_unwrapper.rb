@@ -5,8 +5,9 @@ module YFantasy
     class ResourceUnwrapper < BaseTransform
       extend Forwardable
 
-      def initialize(resources)
+      def initialize(resources, for_collection: false)
         @resources = Array(resources)
+        @for_collection = for_collection
         @function = compose_function
         super(resources)
       end
@@ -14,7 +15,9 @@ module YFantasy
       private
 
       def compose_function
-        t(:guard, ->(_data) { !@resources.empty? }, ->(data) { compose_resource_functions.call(data) })
+        fn = ->(data) { compose_resource_functions.call(data) }
+        fn = t(:map_array, fn) if @for_collection
+        t(:guard, ->(_data) { !@resources.empty? }, fn)
       end
 
       def compose_resource_functions

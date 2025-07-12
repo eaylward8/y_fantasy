@@ -35,11 +35,11 @@ module YFantasy
 
     def collection
       @collection ||=
-        Transformations::CollectionMapper.new(
-          @client.get(@resource, @keys, @subresources, scope_to_user: @scope_to_user),
-          @resource,
-          subresources: @subresources
-        ).map
+        Transformations::CollectionMapper.new(@resource, subresources: @subresources).call(fetch_data)
+    end
+
+    def fetch_data
+      @client.get(@resource, @keys, @subresources, scope_to_user: @scope_to_user)
     end
 
     # This is just to make irb/console output look better

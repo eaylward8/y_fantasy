@@ -2,21 +2,17 @@
 
 module YFantasy
   module Transformations
-    class UserUnwrapper < Dry::Transformer::Pipe
-      import :guard, from: T
-      import :unwrap, from: T
-      import :reject_keys, from: T
-
-      def self.pipeline
-        new.transproc
+    class UserUnwrapper < BaseTransform
+      def initialize
+        @function = compose_function
       end
 
-      define! do
-        guard ->(data) { data.key?(:users) } do
-          unwrap :users
-          unwrap :user
-          reject_keys [:guid]
-        end
+      private
+
+      def compose_function
+        fn = KeyUnwrapper.new(:users, :user) >> t(:reject_keys, [:guid])
+
+        t(:guard, ->(data) { data.key?(:users) }, ->(data) { fn.call(data) })
       end
     end
   end
