@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "dry-transformer"
   spec.add_dependency "dry-types"
   spec.add_dependency "dry-validation"
-  spec.add_dependency "httparty"
   spec.add_dependency "mechanize"
   spec.add_dependency "ox"
   spec.add_dependency "zeitwerk", "~> 2.5"
