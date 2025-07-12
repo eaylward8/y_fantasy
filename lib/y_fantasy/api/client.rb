@@ -8,17 +8,21 @@ require "ox"
 module YFantasy
   module Api
     class Client
+      @@retry = true
+
       def self.get(resource, keys, subresources = [], scope_to_user: false)
         new.get(resource, keys, subresources, scope_to_user: scope_to_user)
+      rescue YFantasy::Api::Client::Error
+        if @@retry
+          @@retry = false
+          retry
+        end
+
+        raise
       end
 
       def initialize
-        YFantasy::Api::Authentication.authenticate
-        @access_token = YFantasy::Api::Authentication.access_token
-        @refresh_token = YFantasy::Api::Authentication.refresh_token
-
-        puts @access_token # TODO: remove
-        puts @refresh_token
+        authenticate
       end
 
       # NOTE: URL construction needs to be sophisticated enough to know when it should use "out" params vs
@@ -33,7 +37,7 @@ module YFantasy
 
       def get(resource, keys, subresources = [], scope_to_user: false)
         url = UrlBuilder.new(resource, keys, subresources, scope_to_user: scope_to_user).build
-        puts "\n Client#get #{url} \n"
+        puts "\n Client#get #{url} \n" # TODO: remove
         response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
         body = response.body
 
@@ -44,12 +48,33 @@ module YFantasy
           error = Ox.load(body, mode: :hash_no_attrs)
           error_msg = error.dig(:"yahoo:error", :"yahoo:description")
           msg = "#{response.code}: #{error_msg}"
-          raise msg
+          raise YFantasy::Api::Client::Error.new(msg)
+        else
+          raise YFantasy::Api::Client::Error.new("An unknown error occurred")
         end
       end
 
-      def reauthenticate
-        # TODO - if request fails, reset access token ivars by calling auth again
+      def authenticate
+        # TODO: clean up
+        if YFantasy::Api::Authentication.authenticate
+          @access_token = YFantasy::Api::Authentication.access_token
+          @refresh_token = YFantasy::Api::Authentication.refresh_token
+
+          puts @access_token
+          puts @refresh_token
+        else
+          @error_type = YFantasy::Api::Authentication.error_type
+          @error_desc = YFantasy::Api::Authentication.error_desc
+
+          puts @error_type
+          puts @error_desc
+        end
+      end
+
+      class Error < StandardError
+        def initialize(msg = "")
+          super
+        end
       end
     end
   end

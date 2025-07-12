@@ -11,6 +11,16 @@ RSpec.describe YFantasy::Api::Client do
 
       described_class.get("game", "nfl", [:game_weeks], scope_to_user: true)
     end
+
+    it "retries once if an error is raised" do
+      instance = instance_double(described_class)
+      expect(described_class).to receive(:new).twice.and_return(instance) # Called twice
+      allow(instance).to receive(:get).and_raise(described_class::Error.new("test error"))
+
+      expect(described_class.class_variable_get("@@retry")).to be(true)
+      expect { described_class.get("game", "nfl", [:game_weeks], scope_to_user: true) }.to raise_error(YFantasy::Api::Client::Error)
+      expect(described_class.class_variable_get("@@retry")).to be(false)
+    end
   end
 
   describe "#get" do
@@ -79,7 +89,7 @@ RSpec.describe YFantasy::Api::Client do
       end
 
       it "raises" do
-        expect { client.get("game", "nfl") }.to raise_error(RuntimeError, /Please provide valid credentials/)
+        expect { client.get("game", "nfl") }.to raise_error(YFantasy::Api::Client::Error)
       end
     end
   end

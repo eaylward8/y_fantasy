@@ -19,7 +19,7 @@ module YFantasy
       # NOTE: access token expires in 1 hour (3600 seconds)
 
       class << self
-        attr_reader :access_token, :expires_in_seconds, :refresh_token
+        attr_reader :access_token, :expires_in_seconds, :refresh_token, :error_type, :error_desc
 
         def authenticate
           return true if access_token_valid?
@@ -29,29 +29,35 @@ module YFantasy
 
         private
 
-        # TODO: Use HTTPSuccess (2xx) and HTTPClientError (4xx) classes to handle responses
-
         def authenticate_with_refresh_token
           puts "auth with refresh token"
-          # TODO: error handling
           response = post(GET_TOKEN_URL, post_data("refresh_token", refresh_token: refresh_token))
-          body = JSON.parse(response.body)
-          set_token_data(body["access_token"], body["expires_in"], body["refresh_token"])
-          true
+          handle_response(response)
         end
 
         def authenticate_with_code
           puts "auth with code (mechanize)"
           code = get_auth_code
-          # TODO: error handling
           response = post(GET_TOKEN_URL, post_data("authorization_code", code: code))
+          handle_response(response)
+        end
+
+        def handle_response(response)
           body = JSON.parse(response.body)
-          set_token_data(body["access_token"], body["expires_in"], body["refresh_token"])
-          true
+
+          case response
+          when Net::HTTPSuccess
+            set_token_data(body["access_token"], body["expires_in"], body["refresh_token"])
+            clear_error_data
+            true
+          when Net::HTTPClientError, Net::HTTPServerError
+            set_error_data(body["error"], body["error_description"])
+            false
+          end
         end
 
         def get_auth_code
-          # TODO: error handling, move this crap to a new class
+          # TODO: error handling
           agent = Mechanize.new
           login_page1 = agent.get(REQUEST_AUTH_URL)
           username_form = login_page1.forms.first
@@ -67,7 +73,12 @@ module YFantasy
           # Extract code
           # TODO: sometimes below line fails w/ undefined method [] for nil, add a retry?
           match = auth_code_page.uri.query.match(/code=(?<code>\w+)/)
-          match[:code] if match
+          # match[:code] if match
+          if match
+            match[:code]
+          else
+            binding.pry
+          end
         end
 
         def post(url, data)
@@ -98,6 +109,16 @@ module YFantasy
           @access_token = access_token
           @expires_in_seconds = expires_in.to_i
           @refresh_token = refresh_token
+        end
+
+        def set_error_data(type, desc)
+          @error_type = type
+          @error_desc = desc
+        end
+
+        def clear_error_data
+          @error_type = nil
+          @error_desc = nil
         end
 
         def access_token_valid?

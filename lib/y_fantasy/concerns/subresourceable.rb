@@ -38,7 +38,7 @@ module YFantasy
           dependent ? (dependent_subresources << sub) : (primary_subresources << sub)
 
           define_method(sub) do
-            ivar = "@#{sub}".to_sym
+            ivar = :"@#{sub}"
             value = instance_variable_get(ivar)
             return value if value
             return value if self.class.respond_to?(:dependent?) && self.class.dependent?
