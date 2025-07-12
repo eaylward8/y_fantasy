@@ -18,7 +18,7 @@ module YFantasy
 
       # Individual resources
       def find(key, with: [])
-        subresources = Array.wrap(with)
+        subresources = Array(with)
         SubresourceValidator.new(self, subresources).validate! unless subresources.empty?
 
         client = YFantasy::Api::Client.new
@@ -43,7 +43,7 @@ module YFantasy
       def resource_name
         return if self == YFantasy::BaseResource
 
-        to_s.demodulize.downcase
+        to_s.partition("::").last.downcase
       end
 
       def collection_name

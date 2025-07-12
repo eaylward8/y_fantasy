@@ -5,9 +5,9 @@ module YFantasy
     class ResourceMapper
       def initialize(data, resource, subresources: [])
         @data = data
-        @resource = make_singular(resource)
-        @subresources = Array.wrap(subresources)
-        @klass = "YFantasy::#{resource.to_s.classify}".constantize
+        @resource = make_singular(resource).to_sym
+        @subresources = Array(subresources)
+        @klass = Object.const_get("YFantasy::#{@resource.to_s.capitalize}") # TODO: create map of resources/classes instead of using const_get
         @transformation = build_transformation
       end
 
@@ -41,8 +41,10 @@ module YFantasy
         pipeline
       end
 
-      def make_singular(subresource)
-        subresource.to_s.singularize.to_sym
+      def make_singular(resource)
+        return resource unless resource.to_s.end_with?("s")
+
+        resource.to_s[0...-1]
       end
     end
   end
