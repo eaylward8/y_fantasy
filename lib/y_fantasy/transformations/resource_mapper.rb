@@ -22,9 +22,10 @@ module YFantasy
         T[*args]
       end
 
+      # Can I make something like:
+      # Unwrapper.new(:fantasy_content, @resource) >> SubresourceUnwrapper.new(data, subresources) >> Instantiator.for(@klass)
       def build_transformation
-        t(:unwrap, :fantasy_content)
-          .>> t(:unwrap, @resource)
+        KeyUnwrapper.for(:fantasy_content, @resource)
           .>> t(:guard, ->(data) { !@subresources.empty? }, ->(data) { subresource_transformations.call(data) })
           .>> Instantiator.for(@klass)
       end
