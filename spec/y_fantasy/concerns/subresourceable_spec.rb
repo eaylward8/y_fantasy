@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Concerns::Subresourceable do
+RSpec.describe YFantasy::Subresourceable do
   let(:test_class) do
     Class.new do
-      include YFantasy::Concerns::Subresourceable
+      include YFantasy::Subresourceable
 
       has_subresources :tacos, :burgers
       has_subresources :pizzas, :pastas, dependent: true

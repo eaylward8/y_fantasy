@@ -97,7 +97,7 @@ RSpec.describe YFantasy::Transformations::CollectionMapper do
 
         expect(results).to be_an(Array)
         results.each do |result|
-          expect(result.game_weeks).to all(be_a(YFantasy::Subresources::GameWeek))
+          expect(result.game_weeks).to all(be_a(YFantasy::GameWeek))
         end
       end
     end

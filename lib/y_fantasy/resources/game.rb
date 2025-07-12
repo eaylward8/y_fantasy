@@ -21,10 +21,10 @@ module YFantasy
     option :has_schedule, optional: true, type: Types::Params::Bool
 
     # Subresources
-    option :game_weeks, optional: true, type: array_of(Subresources::GameWeek)
-    option :position_types, optional: true, type: array_of(Subresources::PositionType)
-    option :roster_positions, optional: true, type: array_of(Subresources::RosterPosition)
-    option :stat_categories, optional: true, type: array_of(Subresources::Stat)
+    option :game_weeks, optional: true, type: array_of(GameWeek)
+    option :position_types, optional: true, type: array_of(PositionType)
+    option :roster_positions, optional: true, type: array_of(RosterPosition)
+    option :stat_categories, optional: true, type: array_of(Stat)
 
     has_subresources :game_weeks,
       :position_types,

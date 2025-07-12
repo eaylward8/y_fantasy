@@ -3,7 +3,7 @@
 module YFantasy
   class BaseResource
     extend Dry::Initializer[undefined: false]
-    include Concerns::Subresourceable
+    include Subresourceable
 
     # Class methods
     class << self

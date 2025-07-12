@@ -3,7 +3,7 @@
 RSpec.describe YFantasy::SubresourceValidator do
   let(:test_class) do
     Class.new do
-      include YFantasy::Concerns::Subresourceable
+      include YFantasy::Subresourceable
 
       has_subresources :jawns
     end

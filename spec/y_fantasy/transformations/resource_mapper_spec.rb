@@ -58,7 +58,7 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
         result = described_class.new("game", subresources: [:game_weeks]).call(data)
 
         expect(result).to be_a(YFantasy::Game)
-        expect(result.game_weeks).to all(be_a(YFantasy::Subresources::GameWeek))
+        expect(result.game_weeks).to all(be_a(YFantasy::GameWeek))
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
         result = described_class.new("game", subresources: [:stat_categories]).call(data)
 
         expect(result).to be_a(YFantasy::Game)
-        expect(result.stat_categories).to all(be_a(YFantasy::Subresources::Stat))
+        expect(result.stat_categories).to all(be_a(YFantasy::Stat))
       end
     end
   end
