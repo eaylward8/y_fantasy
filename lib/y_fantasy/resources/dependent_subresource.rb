@@ -16,6 +16,11 @@ module YFantasy
         to_s.split("::").last.scan(/[A-Z][a-z]+/).join("_").downcase.to_sym
       end
 
+      def find(resource_name, key)
+        data = YFantasy::Api::Client.get(resource_name, key, subresources)
+        Transformations::ResourceTransformer.new(resource_name).call(data)
+      end
+
       private
 
       def array_of(klass)

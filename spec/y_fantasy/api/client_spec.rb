@@ -17,9 +17,9 @@ RSpec.describe YFantasy::Api::Client do
       expect(described_class).to receive(:new).twice.and_return(instance) # Called twice
       allow(instance).to receive(:get).and_raise(described_class::Error.new("test error"))
 
-      expect(described_class.class_variable_get("@@retry")).to be(true)
+      expect(described_class.class_variable_get(:@@retry)).to be(true)
       expect { described_class.get("game", "nfl", [:game_weeks], scope_to_user: true) }.to raise_error(YFantasy::Api::Client::Error)
-      expect(described_class.class_variable_get("@@retry")).to be(false)
+      expect(described_class.class_variable_get(:@@retry)).to be(false)
     end
   end
 

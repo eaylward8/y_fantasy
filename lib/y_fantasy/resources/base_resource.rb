@@ -46,7 +46,7 @@ module YFantasy
       def collection_name
         return if base_resource?
 
-        "#{resource_name}s".to_sym
+        :"#{resource_name}s"
       end
 
       private
@@ -68,7 +68,7 @@ module YFantasy
     # TODO: Is this needed?
     def key
       if (name = self.class.resource_name)
-        public_send("#{name}_key")
+        public_send(:"#{name}_key")
       end
     end
   end
