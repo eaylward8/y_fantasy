@@ -28,7 +28,7 @@ module YFantasy
       #
       # This fails because "stats" is not a subresource of league: /league/380.l.190823;out=teams/stats
 
-      def get(resource, keys, subresources, scope_to_user: false)
+      def get(resource, keys, subresources = [], scope_to_user: false)
         url = UrlBuilder.new(resource, keys, subresources, scope_to_user: scope_to_user).build
         puts "\n Client#get #{url} \n"
         response = Net::HTTP.get(URI(url), "Authorization" => "Bearer #{@access_token}")
