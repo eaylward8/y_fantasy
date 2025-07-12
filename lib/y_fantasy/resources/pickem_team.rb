@@ -26,10 +26,6 @@ module YFantasy
 
     has_subresource :week_picks, klass: WeekPick
 
-    def self.resource_name
-      :pickem_team
-    end
-
     def key
       team_key
     end

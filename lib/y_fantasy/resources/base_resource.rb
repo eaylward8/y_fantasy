@@ -46,7 +46,7 @@ module YFantasy
       def resource_name
         return if base_resource?
 
-        to_s.partition("::").last.downcase.to_sym
+        to_s.split("::").last.scan(/[A-Z][a-z]+/).join("_").downcase.to_sym
       end
 
       def collection_name
