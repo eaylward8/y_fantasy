@@ -7,6 +7,7 @@ module YFantasy
     end
 
     module ClassMethods
+      # TODO: may not need these first 3 methods if the subresource_tree works the way I want it to
       def primary_subresources
         @primary_subresources ||= []
       end
@@ -27,12 +28,15 @@ module YFantasy
           ivar = :"@#{sub}"
           value = instance_variable_get(ivar)
 
-          return value if self.class.respond_to?(:dependent?) && self.class.dependent?
           # `fetched?` is defined on Team::StatCollection to help identify whether or not a team's stats have already
           # been fetched from the Yahoo API. Yahoo values for team stats vary by sport and scoring type.
-          # This helps prevent fetching team stats in an infinite loop.
-          return value if value && !value.empty? && !value.respond_to?(:fetched?)
-          return value if value.respond_to?(:fetched) && value.fetched?
+          # This prevents fetching team stats in an infinite loop.
+          should_return =
+            (self.class.respond_to?(:dependent?) && self.class.dependent?) ||
+            (value && value != [] && !value.respond_to?(:fetched?)) ||
+            (value.respond_to?(:fetched?) && value.fetched?)
+
+          return value if should_return
 
           instance_variable_set(ivar, self.class.fetch_subresource(key, sub))
         end
