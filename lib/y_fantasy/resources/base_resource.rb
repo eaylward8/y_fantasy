@@ -9,6 +9,10 @@ module YFantasy
     class << self
       # Collections
       def for_current_user
+        # TODO: this is not creating the correct URLs for anything besides games
+        # Ex: League.for_current_user is producing 'https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/leagues'
+        # But it should produce: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/leagues
+        # OR: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_codes=nfl/leagues
         CollectionProxy.new(collection_name, scope_to_user: true)
       end
 
@@ -20,23 +24,9 @@ module YFantasy
       def find(key, with: [])
         subresources = Array(with).map(&:to_sym)
         SubresourceValidator.validate!(self, subresources)
-
-        # TODO: move client stuff elsewhere?
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
         data = YFantasy::Api::Client.get(resource_name, key, subresources)
-        # TODO: can I have a single instance of these classes created when the gem is loaded?
-        # Then we just reuse them, instead of calling .new on every request?
-        if resource_name == :game
-          Transformations::GameTransformer.new.call(data)
-        elsif resource_name == :league
-          Transformations::LeagueTransformer.new.call(data)
-        elsif resource_name == :player
-          Transformations::PlayerTransformer.new.call(data)
-        elsif resource_name == :team
-          Transformations::TeamTransformer.new.call(data)
-        else
-          Transformations::ResourceTransformer.new(resource_name).call(data)
-        end
+        Transformations.transformer_for(resource_name).call(data)
       end
 
       def fetch_subresource(key, subresource)

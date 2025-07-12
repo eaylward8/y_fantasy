@@ -42,4 +42,10 @@ RSpec.describe YFantasy::Transformations::T do
       expect(described_class.wrap_in_array(["yo"])).to eq(["yo"])
     end
   end
+
+  describe ".no_op" do
+    it "returns the given value with no modifications" do
+      expect(described_class.no_op("Randy Butternubs")).to eq("Randy Butternubs")
+    end
+  end
 end

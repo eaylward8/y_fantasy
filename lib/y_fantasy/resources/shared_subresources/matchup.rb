@@ -17,7 +17,7 @@ module YFantasy
     option :winner_team_key, optional: true
 
     # Subresources
-    option :teams
+    option :teams, type: array_of(Team)
 
     has_subresources :teams
   end

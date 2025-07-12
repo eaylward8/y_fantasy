@@ -3,9 +3,10 @@
 module YFantasy
   module Transformations
     class PlayerTransformer < BaseTransform
-      def initialize
+      def initialize(nested: false)
+        @nested = nested
         @function = compose_function
-        super
+        super(nested)
       end
 
       private
@@ -14,7 +15,7 @@ module YFantasy
         t(:guard, ->(data) { data.key?(:player) }, t(:unwrap, :player))
           .>> transform_ownership_percentage
           .>> transform_stats
-          .>> Instantiator.new(YFantasy::Player)
+          .>> instantiate
       end
 
       def transform_ownership_percentage
@@ -23,6 +24,10 @@ module YFantasy
 
       def transform_stats
         Player::StatsTransformer.new
+      end
+
+      def instantiate
+        @nested ? t(:no_op) : Instantiator.new(YFantasy::Player)
       end
     end
   end

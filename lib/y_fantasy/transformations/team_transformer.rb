@@ -3,10 +3,10 @@
 module YFantasy
   module Transformations
     class TeamTransformer < BaseTransform
-      def initialize(include_matchups: true)
-        @include_matchups = include_matchups
+      def initialize(nested: false)
+        @nested = nested
         @function = compose_function
-        super(include_matchups)
+        super(nested)
       end
 
       private
@@ -19,7 +19,7 @@ module YFantasy
           .>> transform_standings
           .>> transform_stats
           .>> transform_matchups
-          .>> Instantiator.new(YFantasy::Team)
+          .>> instantiate
       end
 
       def transform_managers
@@ -31,7 +31,7 @@ module YFantasy
       end
 
       def transform_matchups
-        @include_matchups ? MatchupsTransformer.new : t(->(data) { data })
+        @nested ? t(:no_op) : MatchupsTransformer.new
       end
 
       def transform_roster
@@ -44,6 +44,10 @@ module YFantasy
 
       def transform_stats
         Team::StatsTransformer.new
+      end
+
+      def instantiate
+        @nested ? t(:no_op) : Instantiator.new(YFantasy::Team)
       end
     end
   end

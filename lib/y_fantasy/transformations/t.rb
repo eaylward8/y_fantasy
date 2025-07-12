@@ -32,6 +32,10 @@ module YFantasy
       def self.wrap_in_array(data)
         data.is_a?(Array) ? data : [data]
       end
+
+      def self.no_op(data)
+        data
+      end
     end
   end
 end
