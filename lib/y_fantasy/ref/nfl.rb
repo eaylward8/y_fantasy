@@ -42,6 +42,16 @@ module YFantasy
         TEAM_KEY_MAP.fetch(key.to_sym, nil)
       end
       module_function :team
+
+      # TODO: Work in progress...
+      STAT_MAP = {
+        0 => "Games Played",
+        8 => "Rush Att",
+        9 => "Rush Yds",
+        11 => "Rec",
+        12 => "Rec Yds",
+        13 => "Rec TD"
+      }
     end
   end
 end

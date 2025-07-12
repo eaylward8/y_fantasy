@@ -2,8 +2,9 @@
 
 module YFantasy
   class Group
+    # Standings for a Yahoo Fantasy NFL Survival Group
     class Standings < BaseSubresource
-      # Required attributes
+      # --- REQUIRED ATTRIBUTES ----------------------------------------------------------------------------------------
       option :teams, array_of(PickemTeam)
     end
   end

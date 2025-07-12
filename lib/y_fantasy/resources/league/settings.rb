@@ -2,8 +2,9 @@
 
 module YFantasy
   class League
+    # Represents a league's settings
     class Settings < BaseSubresource
-      # Required attributes
+      # --- REQUIRED ATTRIBUTES ----------------------------------------------------------------------------------------
       option :cant_cut_list
       option :draft_together, type: Types::Params::Bool
       option :draft_type
@@ -21,7 +22,7 @@ module YFantasy
       option :waiver_time, type: Types::Coercible::Integer
       option :waiver_type
 
-      # Optional attributes
+      # --- OPTIONAL ATTRIBUTES ----------------------------------------------------------------------------------------
       option :divisions, optional: true, type: ->(h) { h[:division] }
       option :draft_pick_time, optional: true, type: Types::Coercible::Integer
       option :draft_time, optional: true, type: Types::Coercible::Integer
@@ -35,18 +36,16 @@ module YFantasy
       option :pickem_enabled, optional: true, type: Types::Params::Bool
       option :playoff_start_week, optional: true, type: Types::Coercible::Integer
       option :roster_import_deadline, optional: true, type: Types::Params::Date
+      option :roster_positions, optional: true, type: array_of(RosterPosition)
       option :season_type, optional: true
+      option :stat_categories, optional: true, type: array_of(StatCategory)
+      option :stat_modifiers, optional: true, type: array_of(StatModifier)
       option :uses_fractional_points, optional: true, type: Types::Params::Bool
       option :uses_lock_eliminated_teams, optional: true, type: Types::Params::Bool
       option :uses_negative_points, optional: true, type: Types::Params::Bool
       option :uses_playoff_reseeding, optional: true, type: Types::Params::Bool
       option :uses_roster_import, optional: true, type: Types::Params::Bool
       option :waiver_days, optional: true, type: ->(h) { h.values.flatten }
-
-      # Subresources
-      option :roster_positions, optional: true, type: array_of(RosterPosition)
-      option :stat_categories, optional: true, type: array_of(StatCategory)
-      option :stat_modifiers, optional: true, type: array_of(StatModifier)
     end
   end
 end

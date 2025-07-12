@@ -21,7 +21,8 @@ module YFantasy
           when Hash
             key = subresource.keys.first
             fetched_subresources << key
-            send(key)&.each do |sub_instance|
+            sub_instances = Transformations::T.wrap_in_array(send(key))
+            sub_instances&.each do |sub_instance|
               sub_instance.add_fetched_subresources(subresource[key])
             end
           end
