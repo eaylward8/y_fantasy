@@ -33,11 +33,6 @@ module YFantasy
         option :live_games, optional: true, default: -> {}
         option :remaining_games, optional: true, default: -> {}
       end
-
-      # TODO: document why this is needed.
-      def fetched?
-        !!(team_stats || team_points || team_projected_points || team_remaining_games)
-      end
     end
   end
 end
