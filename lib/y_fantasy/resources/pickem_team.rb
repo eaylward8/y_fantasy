@@ -26,6 +26,14 @@ module YFantasy
 
     has_subresource :week_picks, klass: WeekPick
 
+    def self.resource_name
+      :pickem_team
+    end
+
+    def key
+      team_key
+    end
+
     def group_key
       @group_key ||= team_key.sub(/\.t\.\d+/, "")
     end

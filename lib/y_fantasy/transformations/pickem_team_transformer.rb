@@ -13,9 +13,16 @@ module YFantasy
 
       def compose_function
         t(:guard, ->(data) { data.key?(:team) }, t(:unwrap, :team))
+          .>> rename_team_name_to_name
           .>> transform_manager
           .>> transform_week_picks
           .>> instantiate
+      end
+
+      # When a team is returned by itself, or as a Group subresource, it has the key `name`.
+      # When a team is returned inside Group standings, it has the key `team_name`.
+      def rename_team_name_to_name
+        t(:rename_keys, team_name: :name)
       end
 
       def transform_manager

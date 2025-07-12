@@ -46,11 +46,7 @@ module YFantasy
       def resource_name
         return if base_resource?
 
-        str = to_s.partition("::").last
-        return str.downcase.to_sym unless str.match?(/[a-z][A-Z]/)
-
-        parts = str.split(/([a-z][A-Z])/)
-        "#{parts[0]}#{parts[1][0]}_#{parts[1][1]}#{parts[2]}".downcase.to_sym
+        to_s.partition("::").last.downcase.to_sym
       end
 
       def collection_name

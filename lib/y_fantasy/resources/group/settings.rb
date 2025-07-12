@@ -3,6 +3,9 @@
 module YFantasy
   class Group
     class Settings < DependentSubresource
+      DEADLINE_1_DESC = "5 minutes before the first game of each week"
+      DEADLINE_2_DESC = "Sunday at 1:00 PM EST"
+
       # Required attributes
       option :start_week, type: Types::Coercible::Integer
       option :end_week, type: Types::Coercible::Integer
@@ -14,9 +17,9 @@ module YFantasy
 
       def deadline_desc
         if deadline == 1
-          "5 minutes before the first game of each week"
+          DEADLINE_1_DESC
         elsif deadline == 2
-          "Sunday at 1:00 PM EST"
+          DEADLINE_2_DESC
         end
       end
     end

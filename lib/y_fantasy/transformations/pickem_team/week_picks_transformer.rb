@@ -21,8 +21,7 @@ module YFantasy
         end
 
         def transform_picks
-          DefaultTransformer.new(:picks)
-            .>> t(:map_value, :picks, t(:wrap_in_array) >> t(:map_array, t(:rename_keys, team: :team_key)))
+          DefaultTransformer.new(:picks) >> t(:map_value, :picks, t(:wrap_in_array))
         end
       end
     end
