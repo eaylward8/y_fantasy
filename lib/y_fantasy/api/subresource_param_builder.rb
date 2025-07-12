@@ -62,6 +62,8 @@ module YFantasy
           @params.concat("/#{val}") if val.is_a?(Symbol)
           @params.concat("/#{val.keys.first}/#{val.values.first}") if val.is_a?(Hash)
           @params.concat(";out=#{val.join(",")}") if val.is_a?(Array)
+        else
+          raise self.class::Error.new("Not possible to construct a URL with 2+ sets of nested subresources: #{@nested_subs}")
         end
       end
 
@@ -127,6 +129,9 @@ module YFantasy
         end
 
         [@regular_subs, @nested_subs]
+      end
+
+      class Error < StandardError
       end
     end
   end

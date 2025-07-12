@@ -19,14 +19,14 @@ RSpec.describe YFantasy::BaseResource do
 
     describe ".find_all" do
       it "instantiates a CollectionProxy with keys" do
-        keys = %w[thingamajig whatchamacallit]
+        keys = %w[cheesesteak hoagie]
         expect(YFantasy::CollectionProxy).to receive(:new).with(:things, keys)
         YFantasy::Thing.find_all(keys)
       end
     end
 
     describe ".find" do
-      let(:key) { "thingamajig" }
+      let(:key) { "pretzel" }
       let(:thing_transformer) { ->(data) { data } }
 
       it "calls the API and finds a transformer to map the data" do
@@ -39,7 +39,7 @@ RSpec.describe YFantasy::BaseResource do
     end
 
     describe ".fetch_subresource" do
-      let(:key) { "doodad" }
+      let(:key) { "wooder" }
       let(:thing) { instance_double(YFantasy::Thing) }
 
       it "makes a request for subresource data and calls the subresource method" do

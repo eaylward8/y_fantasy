@@ -35,6 +35,13 @@ RSpec.describe YFantasy::Api::SubresourceParamBuilder do
       end
     end
 
+    context "with multiple sets of nested subresources" do
+      it "raises" do
+        builder = described_class.new([{teams: :draft_results}, {players: :draft_analysis}])
+        expect { builder.build }.to raise_error(YFantasy::Api::SubresourceParamBuilder::Error)
+      end
+    end
+
     context "with non-nested and nested subresources" do
       it "returns a string of 'out' params, followed by nested subresource with its own 'out' params'" do
         builder = described_class.new([:scoreboard, {teams: [:matchups, :team_standings]}])
