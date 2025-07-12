@@ -69,8 +69,8 @@ module YFantasy
           auth_code_page.uri.query.match(/code=(?<code>\w+)/)[:code]
         end
 
-        def post(uri, data)
-          Net::HTTP.post(URI(uri), URI.encode_www_form(data), post_headers)
+        def post(url, data)
+          Net::HTTP.post(URI(url), URI.encode_www_form(data), post_headers)
         end
 
         def post_headers
