@@ -5,6 +5,8 @@ inherit_gem:
 
 AllCops:
   TargetRubyVersion: 3.1
+  Exclude:
+    - "scratch/**/*"
 
 Style/FrozenStringLiteralComment:
   Enabled: true
