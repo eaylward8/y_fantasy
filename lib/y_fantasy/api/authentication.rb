@@ -8,12 +8,12 @@ require "mechanize"
 module YFantasy
   module Api
     class Authentication
-      CLIENT_ID = ENV["YAHOO_CLIENT_ID"]
-      CLIENT_SECRET = ENV["YAHOO_CLIENT_SECRET"]
-      YAHOO_USERNAME = ENV["YAHOO_USERNAME"]
-      YAHOO_PASSWORD = ENV["YAHOO_PASSWORD"]
+      YAHOO_CLIENT_ID = YFantasy.config.yahoo_client_id
+      YAHOO_CLIENT_SECRET = YFantasy.config.yahoo_client_secret
+      YAHOO_USERNAME = YFantasy.config.yahoo_username
+      YAHOO_PASSWORD = YFantasy.config.yahoo_password
 
-      REQUEST_AUTH_URL = "https://api.login.yahoo.com/oauth2/request_auth?client_id=#{CLIENT_ID}&redirect_uri=oob&response_type=code"
+      REQUEST_AUTH_URL = "https://api.login.yahoo.com/oauth2/request_auth?client_id=#{YAHOO_CLIENT_ID}&redirect_uri=oob&response_type=code"
       GET_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
 
       # NOTE: access token expires in 1 hour (3600 seconds)
@@ -107,7 +107,7 @@ module YFantasy
         end
 
         def basic_auth_token
-          @basic_auth_token ||= Base64.strict_encode64("#{CLIENT_ID}:#{CLIENT_SECRET}")
+          @basic_auth_token ||= Base64.strict_encode64("#{YAHOO_CLIENT_ID}:#{YAHOO_CLIENT_SECRET}")
         end
 
         def set_token_data(access_token, expires_in, refresh_token)

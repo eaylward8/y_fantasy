@@ -4,6 +4,7 @@ require "forwardable"
 require "json"
 
 require "dry-initializer"
+require "dry-configurable"
 require "dry-transformer"
 require "dry-types"
 require "dry-validation"
@@ -16,6 +17,13 @@ loader.collapse("#{__dir__}/y_fantasy/resources/shared_subresources")
 loader.setup
 
 module YFantasy
+  extend Dry::Configurable
+
+  setting :yahoo_client_id, default: ENV["YAHOO_CLIENT_ID"]
+  setting :yahoo_client_secret, default: ENV["YAHOO_CLIENT_SECRET"]
+  setting :yahoo_username, default: ENV["YAHOO_USERNAME"]
+  setting :yahoo_password, default: ENV["YAHOO_PASSWORD"]
+
   module Types
     include Dry.Types()
   end
