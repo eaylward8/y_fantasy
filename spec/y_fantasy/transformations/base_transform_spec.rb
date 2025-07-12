@@ -17,14 +17,15 @@ RSpec.describe YFantasy::Transformations::BaseTransform do
 
   context "when @function ivar is set appropriately" do
     before do
-      allow(function).to receive(:is_a?).with(Dry::Transformer::Function).and_return(true)
+      allow(function).to receive(:respond_to?).with(:>>).and_return(true)
+      allow(function).to receive(:respond_to?).with(:call).and_return(true)
     end
 
     it "does not raise error on instantiation" do
       expect { test_class.new(function) }.to_not raise_error
     end
 
-    it "responds to #>> for chaining" do
+    it "responds to #>> for composing functions" do
       expect(test_class.new(function)).to respond_to(:>>)
     end
 

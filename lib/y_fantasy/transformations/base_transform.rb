@@ -16,7 +16,7 @@ module YFantasy
       end
 
       def ensure_function_set
-        return if @function.is_a?(Dry::Transformer::Function)
+        return if @function.respond_to?(:>>) && @function.respond_to?(:call)
 
         raise "Subclass must set @function instance variable"
       end
