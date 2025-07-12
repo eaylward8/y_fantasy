@@ -13,7 +13,7 @@ module YFantasy
       private
 
       def compose_function
-        fn = t(->(data) { @klass.new(**data) })
+        fn = t(->(data) { data.is_a?(Hash) ? @klass.new(**data) : data })
         for_collection? ? t(:map_array, fn) : fn
       end
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "dry/transformer/all"
-
 module YFantasy
   module Transformations
     module T
@@ -29,10 +27,6 @@ module YFantasy
 
       def self.wrap_in_array(data)
         data.is_a?(Array) ? data : [data]
-      end
-
-      def self.map_numeric_values(data, method: :to_i)
-        data.transform_values { |v| v.match?(/\d/) ? v.send(method) : v }
       end
     end
   end

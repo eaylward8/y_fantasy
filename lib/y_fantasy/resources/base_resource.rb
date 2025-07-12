@@ -24,7 +24,7 @@ module YFantasy
         # TODO: move client stuff elsewhere?
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
         data = YFantasy::Api::Client.get(resource_name, key, subresources)
-        Transformations::Finder.find(resource_name).call(data)
+        Transformations::ResourceTransformer.new(resource_name).call(data)
       end
 
       def fetch_subresource(key, subresource)
@@ -56,7 +56,6 @@ module YFantasy
       end
 
       def instance_of(klass)
-        puts "\n instance_of #{klass} \n"
         Transformations::Instantiator.new(klass)
       end
 

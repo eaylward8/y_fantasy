@@ -5,7 +5,7 @@ module YFantasy
     class BaseTransform
       extend Forwardable
 
-      def_delegators :@function, :>>, :call
+      def_delegators :@function, :>>, :call, :[]
 
       def initialize(*args)
         ensure_function_set

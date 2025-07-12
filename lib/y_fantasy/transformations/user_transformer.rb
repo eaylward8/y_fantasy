@@ -2,7 +2,7 @@
 
 module YFantasy
   module Transformations
-    class UserUnwrapper < BaseTransform
+    class UserTransformer < BaseTransform
       def initialize
         @function = compose_function
       end
@@ -12,7 +12,7 @@ module YFantasy
       def compose_function
         fn = KeyUnwrapper.new(:users, :user) >> t(:reject_keys, [:guid])
 
-        t(:guard, ->(data) { data.key?(:users) }, ->(data) { fn.call(data) })
+        t(:guard, ->(data) { data.key?(:users) }, fn)
       end
     end
   end

@@ -35,10 +35,14 @@ module YFantasy
 
     # Subresources
     option :draft_results, optional: true, type: array_of(DraftResult)
+    option :scoreboard, optional: true, type: instance_of(Scoreboard)
     option :settings, optional: true, type: instance_of(Settings)
+    option :standings, optional: true, type: instance_of(Standings)
 
     has_subresources :draft_results,
+      :scoreboard,
       :settings,
+      :standings,
       dependent: true
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Transformations::UserUnwrapper do
+RSpec.describe YFantasy::Transformations::UserTransformer do
   describe "#call" do
     it "unwraps users/user keys and removes guid" do
       data = {
