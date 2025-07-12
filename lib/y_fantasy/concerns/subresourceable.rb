@@ -19,19 +19,20 @@ module YFantasy
         primary_subresources | dependent_subresources
       end
 
-      def subresource_tree
-        tree = {}
+      # TODO: what am I doing with this? maybe needed for nested subresources?
+      # def subresource_tree
+      #   tree = {}
 
-        dependent_subresources.each do |sub|
-          tree[sub] = ResourceFinder.find_dependent(sub).subresource_tree
-        end
+      #   dependent_subresources.each do |sub|
+      #     tree[sub] = ResourceFinder.find_dependent(sub).subresource_tree
+      #   end
 
-        primary_subresources.each do |sub|
-          tree[sub] = ResourceFinder.find_primary(sub).subresource_tree
-        end
+      #   primary_subresources.each do |sub|
+      #     tree[sub] = ResourceFinder.find_primary(sub).subresource_tree
+      #   end
 
-        tree.any? ? tree : nil
-      end
+      #   tree.any? ? tree : nil
+      # end
 
       def has_subresources(*subs, dependent: false)
         subs.each do |sub|
