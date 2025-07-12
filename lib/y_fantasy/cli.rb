@@ -8,6 +8,7 @@ module YFantasy
 
     desc "version", "Prints the YFantasy gem version"
     def version
+      require "y_fantasy/version"
       puts YFantasy::VERSION
     end
 
