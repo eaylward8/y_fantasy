@@ -23,6 +23,7 @@ module YFantasy
 
       def initialize(resource, keys: [], game_codes: [], subresources: [], **options)
         @resource = resource.to_s
+        override_resource
         @keys = Array(keys).map(&:to_s)
         @game_codes = Array(game_codes).map(&:to_s)
         @subresources = Array(subresources)
@@ -40,6 +41,14 @@ module YFantasy
       end
 
       private
+
+      def override_resource
+        if @resource == "pickem_team"
+          @resource = "team"
+        elsif @resource == "pickem_teams"
+          @resource = "teams"
+        end
+      end
 
       def build_resource_url
         @url.concat("/", @resource, "/", @keys.first)

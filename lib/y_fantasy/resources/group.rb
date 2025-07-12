@@ -20,9 +20,9 @@ module YFantasy
 
     # Subresources
     option :settings, optional: true, type: instance_of(Settings)
-    option :teams, optional: true, type: array_of(PickemGroupTeam)
+    option :teams, optional: true, type: array_of(PickemTeam)
 
     has_subresource :settings, klass: Settings
-    has_subresource :teams, klass: PickemGroupTeam
+    has_subresource :teams, klass: PickemTeam
   end
 end

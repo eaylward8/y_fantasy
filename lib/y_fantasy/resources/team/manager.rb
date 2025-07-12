@@ -11,8 +11,8 @@ module YFantasy
       # Optional attributes
       option :email, optional: true
       option :fantasy_profile_url, optional: true
-      option :felo_score, type: Types::Coercible::Integer
-      option :felo_tier
+      option :felo_score, optional: true, type: Types::Coercible::Integer
+      option :felo_tier, optional: true
       option :image_url, optional: true
       option :is_comanager, optional: true, type: Types::Params::Bool
       option :is_commissioner, optional: true, type: Types::Params::Bool

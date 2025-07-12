@@ -23,6 +23,14 @@ module YFantasy
       @@league_transformer ||= LeagueTransformer.new
     end
 
+    def self.pickem_team_transformer(nested: false)
+      if nested
+        @@pickem_team_transformer_nested ||= PickemTeamTransformer.new(nested: true)
+      else
+        @@pickem_team_transformer ||= PickemTeamTransformer.new
+      end
+    end
+
     def self.player_transformer(nested: false)
       if nested
         @@player_transformer_nested ||= PlayerTransformer.new(nested: true)
