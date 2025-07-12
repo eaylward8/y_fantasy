@@ -9,10 +9,19 @@ RSpec.describe YFantasy::SubresourceValidator do
     end
   end
 
-  let(:primary_subresource) { Class.new(YFantasy::BaseResource) }
+  let(:subresource_1) do
+    Class.new(YFantasy::BaseResource) do
+      include YFantasy::Subresourceable
+
+      has_subresource :wooders, klass: Wooder
+    end
+  end
+
+  let(:subresource_2) { Class.new(YFantasy::BaseResource) }
 
   before do
-    stub_const("Jawn", primary_subresource)
+    stub_const("Wooder", subresource_2)
+    stub_const("Jawn", subresource_1)
     stub_const("TestClass", test_class)
   end
 
@@ -29,6 +38,16 @@ RSpec.describe YFantasy::SubresourceValidator do
 
     it "raises if subresources do not exist on given class" do
       validator = described_class.new(TestClass, [:things])
+      expect { validator.validate! }.to raise_error(YFantasy::SubresourceValidator::InvalidSubresourceError, /things is not a valid subresource/)
+    end
+
+    it "returns true for valid nested subresources" do
+      validator = described_class.new(TestClass, [{jawns: :wooders}])
+      expect(validator.validate!).to be(true)
+    end
+
+    it "raises for invalid nested subresources" do
+      validator = described_class.new(TestClass, [{jawns: :things}])
       expect { validator.validate! }.to raise_error(YFantasy::SubresourceValidator::InvalidSubresourceError, /things is not a valid subresource/)
     end
   end

@@ -33,11 +33,18 @@ module YFantasy
         next key.failure(fail_msg) unless value.is_a?(Symbol) || value.is_a?(Hash)
 
         if value.is_a?(Symbol)
-          next if klass.subresources.include?(value)
+          next if klass.subresource_tree.key?(value)
 
           key.failure(fail_msg)
         elsif value.is_a?(Hash)
-          # TODO: implement nested subresource checks
+          sub, nested_subs = value.keys.first, Array(value.values.first)
+          valid_nested_subs = klass.subresource_tree.dig(sub)
+          next key.failure(fail_msg) if !valid_nested_subs
+
+          nested_subs.each do |nested_sub|
+            next if valid_nested_subs.include?(nested_sub)
+            key.failure("#{nested_sub} is not a valid subresource of #{sub}")
+          end
         end
       end
     end
