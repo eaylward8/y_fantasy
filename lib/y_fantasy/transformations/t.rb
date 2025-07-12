@@ -16,6 +16,7 @@ module YFantasy
       import Dry::Transformer::Conditional
       import Dry::Transformer::Recursion
 
+      # https://philadelphiaencyclopedia.org/essays/jawn/
       def self.pluralize(jawn)
         jawn = jawn.to_s
         jawn.end_with?("s") ? jawn : "#{jawn}s"
@@ -26,7 +27,6 @@ module YFantasy
         jawn.end_with?("s") ? jawn[0...-1] : jawn
       end
 
-      # Input is a hash, output is array
       def self.fetch_value(data, key)
         puts "\n Calling T.fetch_value \n"
         data.fetch(key)
