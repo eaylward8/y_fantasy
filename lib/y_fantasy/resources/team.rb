@@ -35,6 +35,7 @@ module YFantasy
     option :stats, optional: true, type: instance_of(StatCollection), default: -> {}
     option :team_standings, optional: true, type: instance_of(Standings)
 
+    has_subresource :draft_results, klass: DraftResult
     has_subresource :matchups, klass: Matchup
     has_subresource :roster, klass: Roster
     has_subresource :stats, klass: StatCollection
