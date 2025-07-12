@@ -86,19 +86,4 @@ RSpec.describe "Requesting Games" do
       expect(nba_game.leagues).to be_nil # No leagues for this game for this user
     end
   end
-
-
-
-      # context "with subresources" do
-      #   before do
-      #     stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/games;game_keys=nfl,nba/roster_positions")
-      #       .to_return(status: 200, body: Fixture.load("resources/raw/games_nfl_nba_roster_positions.xml"))
-      #   end
-
-      #   it "parses xml and returns a hash" do
-      #     actual = client.get("games", keys: %w[nfl nba], subresources: [:roster_positions])
-      #     expected = Fixture.load_yaml("resources/parsed/games_nfl_nba_roster_positions.yaml")
-      #     expect(actual).to eq(expected)
-      #   end
-      # end
 end

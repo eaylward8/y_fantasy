@@ -8,16 +8,6 @@ module YFantasy
 
     # Class methods
     class << self
-      # TODO: get rid of CollectionProxy? Is it more complicated than useful?
-      # Collections
-      # def for_current_user
-      #   # TODO: this is not creating the correct URLs for anything besides games
-      #   # Ex: League.for_current_user is producing 'https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/leagues'
-      #   # But it should produce: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/leagues
-      #   # OR: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_codes=nfl/leagues
-      #   CollectionProxy.new(collection_name, scope_to_user: true)
-      # end
-
       def find_all(keys = [], with: [], scope_to_user: false)
         keys = Array(keys)
         subresources = Transformations::T.wrap_in_array(with)
