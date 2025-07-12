@@ -7,33 +7,22 @@ module YFantasy
     class KeyUnwrapper
       extend Forwardable
 
-      def self.for(*keys)
-        return if keys.none?
-
-        new(*keys)
-      end
-
-      def_delegator :@transproc, :>>
+      def_delegators :@transproc, :>>, :call
 
       def initialize(*keys)
-        @pipe = init_pipe(*keys).new
-        @transproc = @pipe.transproc
-      end
-
-      def call(data)
-        @pipe.call(data)
+        @transproc = pipe(*keys).transproc
       end
 
       private
 
-      def init_pipe(*keys)
+      def pipe(*keys)
         Class.new(Dry::Transformer::Pipe) do
           import :unwrap, from: T
 
           define! do
             keys.each { |key| unwrap(key) }
           end
-        end
+        end.new
       end
     end
   end

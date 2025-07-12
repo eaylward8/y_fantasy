@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe YFantasy::Transformations::KeyUnwrapper do
-  describe ".for" do
-    it "returns the pipe's transproc for chaining" do
-      expect(described_class.for(:a)).to be_a(Dry::Transformer::Function)
-    end
+  it "responds to :>> for chaining" do
+    expect(described_class.new(:a)).to respond_to(:>>)
   end
 
   describe "#call" do
