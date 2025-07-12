@@ -90,21 +90,6 @@ module YFantasy
           }
         end
 
-        def post_options(grant_type, refresh_token: nil, code: nil)
-          {
-            body: {
-              grant_type: grant_type,
-              redirect_uri: "oob",
-              refresh_token: refresh_token,
-              code: code
-            },
-            headers: {
-              Authorization: "Basic #{basic_auth_token}",
-              "Content-Type": "application/x-www-form-urlencoded"
-            }
-          }
-        end
-
         def basic_auth_token
           @basic_auth_token ||= Base64.strict_encode64("#{CLIENT_ID}:#{CLIENT_SECRET}")
         end
