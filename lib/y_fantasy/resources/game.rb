@@ -24,7 +24,7 @@ module YFantasy
     option :game_weeks, optional: true, type: array_of(GameWeek)
     option :position_types, optional: true, type: array_of(PositionType)
     option :roster_positions, optional: true, type: array_of(RosterPosition)
-    option :stat_categories, optional: true, type: array_of(Stat)
+    option :stat_categories, optional: true, type: array_of(StatCategory)
 
     has_subresources :game_weeks,
       :position_types,

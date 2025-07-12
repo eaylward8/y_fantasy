@@ -44,15 +44,48 @@ RSpec.describe YFantasy::Subresourceable do
       expect(instance.burgers).to match_array(burgers)
     end
 
-    it "fetches and sets subresources if not set" do
-      instance = TestClass.new
-      tacos = ["Awesome Taco", "Spicy Taco"]
+    describe "fetching and setting subresources if not initially set" do
+      context "non-dependent resource" do
+        it "fetches and sets subresources" do
+          instance = TestClass.new
+          tacos = ["Awesome Taco", "Spicy Taco"]
 
-      expect(TestClass).to receive(:fetch_subresource).and_return(["fake_subresource"])
-      expect(instance).to receive(:key)
-      expect(instance).to receive(:instance_variable_set).with(:@tacos, ["fake_subresource"]).and_return(tacos)
+          expect(TestClass).to receive(:fetch_subresource).and_return(["fake_subresource"])
+          expect(instance).to receive(:key)
+          expect(instance).to receive(:instance_variable_set).with(:@tacos, ["fake_subresource"]).and_return(tacos)
 
-      expect(instance.tacos).to match_array(tacos)
+          expect(instance.tacos).to match_array(tacos)
+        end
+      end
+
+      context "dependent resource" do
+        let(:dependent_test_class) do
+          Class.new do
+            include YFantasy::Subresourceable
+
+            has_subresources :tacos, :burgers
+            has_subresources :pizzas, :pastas, dependent: true
+
+            def self.dependent?
+              true
+            end
+          end
+        end
+
+        before do
+          stub_const("DependentTestClass", dependent_test_class)
+        end
+
+        it "does nothing" do
+          instance = DependentTestClass.new
+
+          expect(DependentTestClass).to_not receive(:fetch_subresource)
+          expect(instance).to_not receive(:key)
+          expect(instance).to_not receive(:instance_variable_set)
+
+          expect(instance.tacos).to be_nil
+        end
+      end
     end
   end
 end

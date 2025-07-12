@@ -3,9 +3,16 @@
 module YFantasy
   class DependentSubresource
     extend Dry::Initializer[undefined: false]
+    include Subresourceable
 
-    def self.dependent?
-      true
+    class << self
+      def dependent?
+        true
+      end
+
+      def array_of(klass)
+        Transformations::Instantiator.new(klass, collection: true)
+      end
     end
   end
 end

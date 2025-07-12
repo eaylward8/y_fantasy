@@ -5,19 +5,17 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
     context "without subresources" do
       let(:data) do
         {
-          fantasy_content: {
-            game: {
-              game_key: "414",
-              game_id: "414",
-              name: "Football",
-              code: "nfl",
-              type: "full",
-              url: "https://football.fantasysports.yahoo.com/f1",
-              season: "2022",
-              is_registration_over: "1",
-              is_game_over: "0",
-              is_offseason: "0"
-            }
+          game: {
+            game_key: "414",
+            game_id: "414",
+            name: "Football",
+            code: "nfl",
+            type: "full",
+            url: "https://football.fantasysports.yahoo.com/f1",
+            season: "2022",
+            is_registration_over: "1",
+            is_game_over: "0",
+            is_offseason: "0"
           }
         }
       end
@@ -31,24 +29,22 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
     context "with 'standard' subresources (plural/singular keys)" do
       let(:data) do
         {
-          fantasy_content: {
-            game: {
-              game_key: "414",
-              game_id: "414",
-              name: "Football",
-              code: "nfl",
-              type: "full",
-              url: "https://football.fantasysports.yahoo.com/f1",
-              season: "2022",
-              is_registration_over: "1",
-              is_game_over: "0",
-              is_offseason: "0",
-              game_weeks: {
-                game_week: [
-                  {week: "1", display_name: "1", start: "2022-09-08", end: "2022-09-12"},
-                  {week: "2", display_name: "2", start: "2022-09-13", end: "2022-09-19"}
-                ]
-              }
+          game: {
+            game_key: "414",
+            game_id: "414",
+            name: "Football",
+            code: "nfl",
+            type: "full",
+            url: "https://football.fantasysports.yahoo.com/f1",
+            season: "2022",
+            is_registration_over: "1",
+            is_game_over: "0",
+            is_offseason: "0",
+            game_weeks: {
+              game_week: [
+                {week: "1", display_name: "1", start: "2022-09-08", end: "2022-09-12"},
+                {week: "2", display_name: "2", start: "2022-09-13", end: "2022-09-19"}
+              ]
             }
           }
         }
@@ -65,25 +61,23 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
     context "with 'non-standard' subresources (non-plural/singular keys)" do
       let(:data) do
         {
-          fantasy_content: {
-            game: {
-              game_key: "414",
-              game_id: "414",
-              name: "Football",
-              code: "nfl",
-              type: "full",
-              url: "https://football.fantasysports.yahoo.com/f1",
-              season: "2022",
-              is_registration_over: "1",
-              is_game_over: "0",
-              is_offseason: "0",
-              stat_categories: {
-                stats: {
-                  stat: [
-                    {stat_id: "1", name: "Passing Attempts", display_name: "Pass Att", sort_order: "1", position_types: {position_type: "O"}},
-                    {stat_id: "2", name: "Completions", display_name: "Comp", sort_order: "1", position_types: {position_type: "O"}}
-                  ]
-                }
+          game: {
+            game_key: "414",
+            game_id: "414",
+            name: "Football",
+            code: "nfl",
+            type: "full",
+            url: "https://football.fantasysports.yahoo.com/f1",
+            season: "2022",
+            is_registration_over: "1",
+            is_game_over: "0",
+            is_offseason: "0",
+            stat_categories: {
+              stats: {
+                stat: [
+                  {stat_id: "1", name: "Passing Attempts", display_name: "Pass Att", sort_order: "1", position_types: {position_type: "O"}},
+                  {stat_id: "2", name: "Completions", display_name: "Comp", sort_order: "1", position_types: {position_type: "O"}}
+                ]
               }
             }
           }
@@ -94,7 +88,7 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
         result = described_class.new("game", subresources: [:stat_categories]).call(data)
 
         expect(result).to be_a(YFantasy::Game)
-        expect(result.stat_categories).to all(be_a(YFantasy::Stat))
+        expect(result.stat_categories).to all(be_a(YFantasy::StatCategory))
       end
     end
   end

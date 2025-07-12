@@ -7,8 +7,13 @@ module YFantasy
 
       def_delegator :@function, :call
 
+      # CLASS_MAP = {
+      #   game: YFantasy::Game,
+
+      # }
+
       def initialize(resource, subresources: [])
-        @resource = T[:singularize].call(resource).to_sym
+        @resource = resource.to_sym
         @subresources = Array(subresources)
         @klass = Object.const_get("YFantasy::#{@resource.to_s.capitalize}") # TODO: create map of resources/classes instead of using const_get
         @function = compose_function
@@ -17,7 +22,7 @@ module YFantasy
       private
 
       def compose_function
-        KeyUnwrapper.new(:fantasy_content, @resource)
+        KeyUnwrapper.new(@resource)
           .>> ResourceUnwrapper.new(@subresources)
           .>> Instantiator.new(@klass)
       end

@@ -54,6 +54,11 @@ module YFantasy
         self == YFantasy::BaseResource
       end
 
+      def instance_of(klass)
+        puts "\n instance_of #{klass} \n"
+        Transformations::Instantiator.new(klass)
+      end
+
       def array_of(klass)
         Transformations::Instantiator.new(klass, collection: true)
       end

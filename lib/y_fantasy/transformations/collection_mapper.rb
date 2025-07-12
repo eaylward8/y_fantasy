@@ -19,8 +19,7 @@ module YFantasy
       private
 
       def compose_function
-        KeyUnwrapper.new(:fantasy_content)
-          .>> UserUnwrapper.new
+        UserUnwrapper.new
           .>> KeyUnwrapper.new(@collection)
           .>> ResourceArrayFetcher.new(@resource)
           .>> ResourceUnwrapper.new(@subresources, collection: true)

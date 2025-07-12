@@ -1,149 +1,147 @@
----
-:fantasy_content:
-  :games:
-    :game:
-    - :game_key: '414'
-      :game_id: '414'
-      :name: Football
-      :code: nfl
-      :type: full
-      :url: https://football.fantasysports.yahoo.com/f1
-      :season: '2022'
-      :is_registration_over: '1'
-      :is_game_over: '0'
-      :is_offseason: '0'
-      :roster_positions:
-        :roster_position:
-        - :position: QB
-          :abbreviation: QB
-          :display_name: Quarterback
-          :position_type: O
-        - :position: WR
-          :abbreviation: WR
-          :display_name: Wide Receiver
-          :position_type: O
-        - :position: RB
-          :abbreviation: RB
-          :display_name: Running Back
-          :position_type: O
-        - :position: TE
-          :abbreviation: TE
-          :display_name: Tight End
-          :position_type: O
-        - :position: W/T
-          :abbreviation: W/T
-          :display_name: Wide Receiver/Tight End
-          :position_type: O
-        - :position: W/R
-          :abbreviation: W/R
-          :display_name: Wide Receiver/Running Back
-          :position_type: O
-        - :position: W/R/T
-          :abbreviation: W/R/T
-          :display_name: Wide Receiver/Running Back/Tight End
-          :position_type: O
-        - :position: Q/W/R/T
-          :abbreviation: Q/W/R/T
-          :display_name: Quarterback/Wide Receiver/Running Back/Tight End
-          :position_type: O
-        - :position: K
-          :abbreviation: K
-          :display_name: Kicker
-          :position_type: K
-        - :position: DEF
-          :abbreviation: DEF
-          :display_name: Defense/Special Teams
-          :position_type: DT
-        - :position: D
-          :abbreviation: D
-          :display_name: Defensive Player
-          :position_type: DP
-        - :position: DB
-          :abbreviation: DB
-          :display_name: Defensive Back
-          :position_type: DP
-        - :position: DL
-          :abbreviation: DL
-          :display_name: Defensive Lineman
-          :position_type: DP
-        - :position: LB
-          :abbreviation: LB
-          :display_name: Linebacker
-          :position_type: DP
-        - :position: DT
-          :abbreviation: DT
-          :display_name: Defensive Tackle
-          :position_type: DP
-        - :position: DE
-          :abbreviation: DE
-          :display_name: Defensive End
-          :position_type: DP
-        - :position: CB
-          :abbreviation: CB
-          :display_name: Cornerback
-          :position_type: DP
-        - :position: S
-          :abbreviation: S
-          :display_name: Safety
-          :position_type: DP
-        - :position: BN
-          :abbreviation: BN
-          :display_name: Bench
-          :is_bench: '1'
-        - :position: IR
-          :abbreviation: IR
-          :display_name: Injured Reserve
-    - :game_key: '418'
-      :game_id: '418'
-      :name: Basketball
-      :code: nba
-      :type: full
-      :url: https://basketball.fantasysports.yahoo.com/nba
-      :season: '2022'
-      :is_registration_over: '0'
-      :is_game_over: '0'
-      :is_offseason: '0'
-      :roster_positions:
-        :roster_position:
-        - :position: PG
-          :abbreviation: PG
-          :display_name: Point Guard
-          :position_type: P
-        - :position: SG
-          :abbreviation: SG
-          :display_name: Shooting Guard
-          :position_type: P
-        - :position: G
-          :abbreviation: G
-          :display_name: Guard
-          :position_type: P
-        - :position: SF
-          :abbreviation: SF
-          :display_name: Small Forward
-          :position_type: P
-        - :position: PF
-          :abbreviation: PF
-          :display_name: Power Forward
-          :position_type: P
-        - :position: F
-          :abbreviation: F
-          :display_name: Forward
-          :position_type: P
-        - :position: C
-          :abbreviation: C
-          :display_name: Center
-          :position_type: P
-        - :position: Util
-          :abbreviation: Util
-          :display_name: Utility
-          :position_type: P
-        - :position: BN
-          :abbreviation: BN
-          :display_name: Bench
-          :is_bench: '1'
-        - :position: IL
-          :abbreviation: IL
-          :display_name: Injured List
-        - :position: IL+
-          :abbreviation: IL+
-          :display_name: Injured, Out For Season, Out, or Game Time Decision
+:games:
+  :game:
+  - :game_key: '414'
+    :game_id: '414'
+    :name: Football
+    :code: nfl
+    :type: full
+    :url: https://football.fantasysports.yahoo.com/f1
+    :season: '2022'
+    :is_registration_over: '1'
+    :is_game_over: '0'
+    :is_offseason: '0'
+    :roster_positions:
+      :roster_position:
+      - :position: QB
+        :abbreviation: QB
+        :display_name: Quarterback
+        :position_type: O
+      - :position: WR
+        :abbreviation: WR
+        :display_name: Wide Receiver
+        :position_type: O
+      - :position: RB
+        :abbreviation: RB
+        :display_name: Running Back
+        :position_type: O
+      - :position: TE
+        :abbreviation: TE
+        :display_name: Tight End
+        :position_type: O
+      - :position: W/T
+        :abbreviation: W/T
+        :display_name: Wide Receiver/Tight End
+        :position_type: O
+      - :position: W/R
+        :abbreviation: W/R
+        :display_name: Wide Receiver/Running Back
+        :position_type: O
+      - :position: W/R/T
+        :abbreviation: W/R/T
+        :display_name: Wide Receiver/Running Back/Tight End
+        :position_type: O
+      - :position: Q/W/R/T
+        :abbreviation: Q/W/R/T
+        :display_name: Quarterback/Wide Receiver/Running Back/Tight End
+        :position_type: O
+      - :position: K
+        :abbreviation: K
+        :display_name: Kicker
+        :position_type: K
+      - :position: DEF
+        :abbreviation: DEF
+        :display_name: Defense/Special Teams
+        :position_type: DT
+      - :position: D
+        :abbreviation: D
+        :display_name: Defensive Player
+        :position_type: DP
+      - :position: DB
+        :abbreviation: DB
+        :display_name: Defensive Back
+        :position_type: DP
+      - :position: DL
+        :abbreviation: DL
+        :display_name: Defensive Lineman
+        :position_type: DP
+      - :position: LB
+        :abbreviation: LB
+        :display_name: Linebacker
+        :position_type: DP
+      - :position: DT
+        :abbreviation: DT
+        :display_name: Defensive Tackle
+        :position_type: DP
+      - :position: DE
+        :abbreviation: DE
+        :display_name: Defensive End
+        :position_type: DP
+      - :position: CB
+        :abbreviation: CB
+        :display_name: Cornerback
+        :position_type: DP
+      - :position: S
+        :abbreviation: S
+        :display_name: Safety
+        :position_type: DP
+      - :position: BN
+        :abbreviation: BN
+        :display_name: Bench
+        :is_bench: '1'
+      - :position: IR
+        :abbreviation: IR
+        :display_name: Injured Reserve
+  - :game_key: '418'
+    :game_id: '418'
+    :name: Basketball
+    :code: nba
+    :type: full
+    :url: https://basketball.fantasysports.yahoo.com/nba
+    :season: '2022'
+    :is_registration_over: '0'
+    :is_game_over: '0'
+    :is_offseason: '0'
+    :roster_positions:
+      :roster_position:
+      - :position: PG
+        :abbreviation: PG
+        :display_name: Point Guard
+        :position_type: P
+      - :position: SG
+        :abbreviation: SG
+        :display_name: Shooting Guard
+        :position_type: P
+      - :position: G
+        :abbreviation: G
+        :display_name: Guard
+        :position_type: P
+      - :position: SF
+        :abbreviation: SF
+        :display_name: Small Forward
+        :position_type: P
+      - :position: PF
+        :abbreviation: PF
+        :display_name: Power Forward
+        :position_type: P
+      - :position: F
+        :abbreviation: F
+        :display_name: Forward
+        :position_type: P
+      - :position: C
+        :abbreviation: C
+        :display_name: Center
+        :position_type: P
+      - :position: Util
+        :abbreviation: Util
+        :display_name: Utility
+        :position_type: P
+      - :position: BN
+        :abbreviation: BN
+        :display_name: Bench
+        :is_bench: '1'
+      - :position: IL
+        :abbreviation: IL
+        :display_name: Injured List
+      - :position: IL+
+        :abbreviation: IL+
+        :display_name: Injured, Out For Season, Out, or Game Time Decision

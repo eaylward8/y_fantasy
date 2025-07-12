@@ -44,7 +44,11 @@ module YFantasy
 
       def url_with_subresources
         # start simple - no nested subs
-        out_params = ";out=#{@subresources.join(",")}"
+        # TODO: clean this up
+        subresources = @subresources.map do |sub|
+          sub == :draft_results ? :draftresults : sub
+        end
+        out_params = ";out=#{subresources.join(",")}"
         @url.concat(out_params)
       end
 

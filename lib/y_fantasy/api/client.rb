@@ -33,7 +33,7 @@ module YFantasy
         url = UrlBuilder.new(resource, keys, subresources, scope_to_user: scope_to_user).build
         puts "\n Client#get #{url} \n"
         response = Net::HTTP.get(URI(url), "Authorization" => "Bearer #{@access_token}")
-        Ox.load(response, mode: :hash_no_attrs)
+        Ox.load(response, mode: :hash_no_attrs).fetch(:fantasy_content)
       end
 
       def reauthenticate

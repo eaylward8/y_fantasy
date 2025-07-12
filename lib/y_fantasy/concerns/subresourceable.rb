@@ -27,6 +27,7 @@ module YFantasy
             ivar = "@#{sub}".to_sym
             value = instance_variable_get(ivar)
             return value if value
+            return value if self.class.respond_to?(:dependent?) && self.class.dependent?
 
             instance_variable_set(ivar, self.class.fetch_subresource(key, sub))
           end
