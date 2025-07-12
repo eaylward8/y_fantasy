@@ -10,17 +10,16 @@ RSpec.describe YFantasy::BaseResource do
   end
 
   describe "class methods" do
-    describe ".for_current_user" do
-      it "instantiates a CollectionProxy with scope_to_user set to true" do
-        expect(YFantasy::CollectionProxy).to receive(:new).with(:things, scope_to_user: true)
-        YFantasy::Thing.for_current_user
-      end
-    end
-
     describe ".find_all" do
+      let(:keys) { %w[cheesesteak hoagie] }
+      let(:thing_transformer) { ->(data) { data } }
+      let(:things) { Array.new(2, YFantasy::Thing.new) }
+
       it "instantiates a CollectionProxy with keys" do
-        keys = %w[cheesesteak hoagie]
-        expect(YFantasy::CollectionProxy).to receive(:new).with(:things, keys)
+        expect(YFantasy::Api::Client).to receive(:get).with(:things, keys: keys, subresources: [], scope_to_user: false)
+        expect(YFantasy::Transformations::CollectionTransformer).to receive(:new).with(:things).and_return(thing_transformer)
+        expect(thing_transformer).to receive(:call).and_return(things)
+
         YFantasy::Thing.find_all(keys)
       end
     end
@@ -28,11 +27,12 @@ RSpec.describe YFantasy::BaseResource do
     describe ".find" do
       let(:key) { "pretzel" }
       let(:thing_transformer) { ->(data) { data } }
+      let(:thing) { YFantasy::Thing.new }
 
       it "calls the API and finds a transformer to map the data" do
         expect(YFantasy::Api::Client).to receive(:get).with(:thing, keys: key, subresources: [])
         expect(YFantasy::Transformations).to receive(:transformer_for).with(:thing).and_return(thing_transformer)
-        expect(thing_transformer).to receive(:call)
+        expect(thing_transformer).to receive(:call).and_return(thing)
 
         YFantasy::Thing.find(key)
       end

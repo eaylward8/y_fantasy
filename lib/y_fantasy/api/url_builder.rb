@@ -22,13 +22,12 @@ module YFantasy
       CURRENT_USER_URL = "#{BASE_URL}/users;use_login=1"
 
       def initialize(resource, keys: [], game_codes: [], subresources: [], **options)
-        @resource = resource.to_s
-        override_resource
+        @options = options
+        @url = options[:scope_to_user] ? CURRENT_USER_URL.dup : BASE_URL.dup
+        @resource = override_resource(resource.to_s)
         @keys = Array(keys).map(&:to_s)
         @game_codes = Array(game_codes).map(&:to_s)
         @subresources = Array(subresources)
-        @options = options
-        @url = options[:scope_to_user] ? CURRENT_USER_URL.dup : BASE_URL.dup
       end
 
       def build
@@ -42,12 +41,11 @@ module YFantasy
 
       private
 
-      def override_resource
-        if @resource == "pickem_team"
-          @resource = "team"
-        elsif @resource == "pickem_teams"
-          @resource = "teams"
-        end
+      def override_resource(resource)
+        return "team" if resource == "pickem_team"
+        return "teams" if resource == "pickem_teams"
+
+        resource
       end
 
       def build_resource_url
@@ -73,7 +71,7 @@ module YFantasy
       end
 
       def singularize(resource)
-        YFantasy::Transformations::T.singularize(resource)
+        Transformations::T.singularize(resource)
       end
 
       def validate_args!

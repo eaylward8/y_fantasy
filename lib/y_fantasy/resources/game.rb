@@ -36,7 +36,7 @@ module YFantasy
     has_subresource :roster_positions, klass: RosterPosition
     has_subresource :stat_categories, klass: StatCategory
 
-    has_subresource :groups, klass: Group
+    has_subresource :groups, klass: Group # NFL Survival
     has_subresource :leagues, klass: League
 
     def self.find_all_by_code(codes, with: [], **options)
@@ -48,17 +48,6 @@ module YFantasy
 
     # def leagues(league_keys = [])
     #   @leagues ||= League.find_all(Array(league_keys))
-    # end
-
-    # def self.fetch_subresource(key, subresource)
-    #   if subresource == :leagues
-    #     game = find_all(key, with: subresource, scope_to_user: true).first
-    #     binding.pry
-    #     # game.send(subresource)
-    #   else
-    #     resource = find(key, with: [subresource])
-    #     resource.send(subresource)
-    #   end
     # end
   end
 end

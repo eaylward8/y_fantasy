@@ -19,8 +19,12 @@ module YFantasy
       end
     end
 
-    def self.league_transformer
-      @@league_transformer ||= LeagueTransformer.new
+    def self.league_transformer(nested: false)
+      if nested
+        @@league_transformer_nested ||= LeagueTransformer.new(nested: true)
+      else
+        @@league_transformer ||= LeagueTransformer.new
+      end
     end
 
     def self.pickem_team_transformer(nested: false)

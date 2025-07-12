@@ -10,21 +10,17 @@ module YFantasy
     class << self
       # TODO: get rid of CollectionProxy? Is it more complicated than useful?
       # Collections
-      def for_current_user
-        # TODO: this is not creating the correct URLs for anything besides games
-        # Ex: League.for_current_user is producing 'https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/leagues'
-        # But it should produce: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/leagues
-        # OR: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_codes=nfl/leagues
-        CollectionProxy.new(collection_name, scope_to_user: true)
-      end
-
-      # def find_all(keys = [])
-      #   CollectionProxy.new(collection_name, keys)
+      # def for_current_user
+      #   # TODO: this is not creating the correct URLs for anything besides games
+      #   # Ex: League.for_current_user is producing 'https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/leagues'
+      #   # But it should produce: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/leagues
+      #   # OR: https://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_codes=nfl/leagues
+      #   CollectionProxy.new(collection_name, scope_to_user: true)
       # end
 
       def find_all(keys = [], with: [], scope_to_user: false)
         keys = Array(keys)
-        subresources = Array(with)
+        subresources = Transformations::T.wrap_in_array(with)
         data = YFantasy::Api::Client.get(
           collection_name, keys: keys, subresources: subresources, scope_to_user: scope_to_user
         )
@@ -35,22 +31,17 @@ module YFantasy
 
       # Individual resources
       def find(key, with: [], **options)
+        validate_options(options)
         subresources = Transformations::T.wrap_in_array(with)
         SubresourceValidator.validate!(self, subresources)
         # TODO: Remove
-        puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}, #{options}) \n"
+        # puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}, #{options}) \n"
 
         data = YFantasy::Api::Client.get(resource_name, keys: key, subresources: subresources, **options)
         resource = Transformations.transformer_for(resource_name).call(data)
         resource.add_fetched_subresources(subresources)
         resource
       end
-
-      # TODO: move to subresourceable?
-      # def fetch_subresource(key, subresource)
-      #   resource = find(key, with: [subresource])
-      #   resource.send(subresource)
-      # end
 
       # Other class methods
       def dependent?
@@ -82,14 +73,22 @@ module YFantasy
       def array_of(klass)
         Transformations::Instantiator.new(klass, collection: true)
       end
+
+      def validate_options(options)
+        return unless options[:scope_to_user]
+
+        raise Error.new("`scope_to_user` is not valid when requesting a single resource. Use `.find_all`.")
+      end
     end
 
     # Instance methods
-    # TODO: Is this needed?
     def key
       if (name = self.class.resource_name)
         public_send(:"#{name}_key")
       end
+    end
+
+    class Error < StandardError
     end
   end
 end

@@ -40,7 +40,7 @@ module YFantasy
 
         url = UrlBuilder.new(resource, keys: keys, game_codes: game_codes, subresources: subresources, **options).build
 
-        puts "\n Client#get #{url} \n" # TODO: remove
+        # puts "\n Client#get #{url} \n" # TODO: remove
 
         response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
         body = response.body

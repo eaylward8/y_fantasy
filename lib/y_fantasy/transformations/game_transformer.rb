@@ -14,6 +14,7 @@ module YFantasy
         t(:guard, ->(data) { data.key?(:game) }, t(:unwrap, :game))
           .>> transform_game_weeks
           .>> transform_groups
+          .>> transform_leagues
           .>> transform_position_types
           .>> transform_roster_positions
           .>> transform_stat_categories
@@ -29,6 +30,12 @@ module YFantasy
         # wrap_in_array is needed when there is only 1 group
         fn = DefaultTransformer.new(:groups) >> t(:map_value, :groups, t(:wrap_in_array) >> map_groups_fn)
         t(:guard, ->(data) { !data[:groups].nil? }, fn)
+      end
+
+      def transform_leagues
+        map_leagues_fn = t(:map_array, Transformations.league_transformer(nested: true))
+        fn = DefaultTransformer.new(:leagues) >> t(:map_value, :leagues, t(:wrap_in_array) >> map_leagues_fn)
+        t(:guard, ->(data) { !data[:leagues].nil? }, fn)
       end
 
       def transform_position_types

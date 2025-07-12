@@ -3,7 +3,8 @@
 module YFantasy
   module Transformations
     class LeagueTransformer < BaseTransform
-      def initialize
+      def initialize(nested: false)
+        @nested = nested
         @function = compose_function
         super
       end
@@ -18,7 +19,7 @@ module YFantasy
           .>> transform_standings
           .>> transform_players
           .>> transform_teams
-          .>> Instantiator.new(YFantasy::League)
+          .>> instantiate
       end
 
       def transform_draft_results
@@ -44,7 +45,12 @@ module YFantasy
 
       def transform_teams
         map_teams_fn = t(:map_array, Transformations.team_transformer(nested: true))
-        DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_teams_fn)
+        # wrap_in_array is needed when there is only 1 team. This can happen when requesting data scoped to current user.
+        DefaultTransformer.new(:teams) >> t(:map_value, :teams, t(:wrap_in_array) >> map_teams_fn)
+      end
+
+      def instantiate
+        @nested ? t(:no_op) : Instantiator.new(YFantasy::League)
       end
     end
   end
