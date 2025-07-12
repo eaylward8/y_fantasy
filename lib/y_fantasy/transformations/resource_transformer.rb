@@ -8,13 +8,14 @@ module YFantasy
       def initialize(resource)
         @resource = resource.to_sym
         @klass = class_for(@resource)
-        puts @klass
         @function = compose_function
         super
       end
 
       private
 
+      # TODO: can I check data structure for subresources and only add the subresources transformers I need?
+      # alternatively, what if all transformers were initialized from the beginning, and then I'd just need to look them up?
       def compose_function
         t(:guard, ->(data) { data.key?(@resource) }, t(:unwrap, @resource))
           .>> transform_subresources
@@ -26,6 +27,7 @@ module YFantasy
         transforms = primary_subresource_transforms | dependent_subresource_transforms
         transforms << Team::ManagerTransformer.new if resource_is?(:team)
         transforms << DefaultTransformer.new(:stat_winners) if resource_is?(:matchup)
+        return t(->(data) { data }) if transforms.empty? # TODO: is this necessary?
         transforms.inject(&:>>)
       end
 

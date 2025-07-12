@@ -12,7 +12,7 @@ RSpec.describe YFantasy::BaseResource do
   describe "class methods" do
     describe ".for_current_user" do
       it "instantiates a CollectionProxy with scope_to_user set to true" do
-        expect(YFantasy::CollectionProxy).to receive(:new).with("things", scope_to_user: true)
+        expect(YFantasy::CollectionProxy).to receive(:new).with(:things, scope_to_user: true)
         YFantasy::Thing.for_current_user
       end
     end
@@ -20,7 +20,7 @@ RSpec.describe YFantasy::BaseResource do
     describe ".find_all" do
       it "instantiates a CollectionProxy with keys" do
         keys = %w[thingamajig whatchamacallit]
-        expect(YFantasy::CollectionProxy).to receive(:new).with("things", keys)
+        expect(YFantasy::CollectionProxy).to receive(:new).with(:things, keys)
         YFantasy::Thing.find_all(keys)
       end
     end
@@ -30,8 +30,8 @@ RSpec.describe YFantasy::BaseResource do
       let(:resource_transformer) { instance_double(YFantasy::Transformations::ResourceTransformer) }
 
       it "calls the API and finds a transformer to map the data" do
-        expect(YFantasy::Api::Client).to receive(:get).with("thing", key, [])
-        expect(YFantasy::Transformations::ResourceTransformer).to receive(:new).with("thing").and_return(resource_transformer)
+        expect(YFantasy::Api::Client).to receive(:get).with(:thing, key, [])
+        expect(YFantasy::Transformations::ResourceTransformer).to receive(:new).with(:thing).and_return(resource_transformer)
         expect(resource_transformer).to receive(:call)
 
         YFantasy::Thing.find(key)
@@ -55,8 +55,8 @@ RSpec.describe YFantasy::BaseResource do
         expect(described_class.resource_name).to be_nil
       end
 
-      it "returns singular, lowercase string of class name" do
-        expect(YFantasy::Thing.resource_name).to eq("thing")
+      it "returns singular, lowercase symbol of class name" do
+        expect(YFantasy::Thing.resource_name).to eq(:thing)
       end
     end
 
@@ -65,8 +65,8 @@ RSpec.describe YFantasy::BaseResource do
         expect(described_class.collection_name).to be_nil
       end
 
-      it "returns plural, lowercase string of class name" do
-        expect(YFantasy::Thing.collection_name).to eq("things")
+      it "returns plural, lowercase symbol of class name" do
+        expect(YFantasy::Thing.collection_name).to eq(:things)
       end
     end
   end

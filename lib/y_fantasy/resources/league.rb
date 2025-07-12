@@ -38,11 +38,9 @@ module YFantasy
     option :scoreboard, optional: true, type: instance_of(Scoreboard)
     option :settings, optional: true, type: instance_of(Settings)
     option :standings, optional: true, type: instance_of(Standings)
+    option :teams, optional: true, type: array_of(Team)
 
-    has_subresources :draft_results,
-      :scoreboard,
-      :settings,
-      :standings,
-      dependent: true
+    has_subresources :teams
+    has_subresources :draft_results, :scoreboard, :settings, :standings, dependent: true
   end
 end

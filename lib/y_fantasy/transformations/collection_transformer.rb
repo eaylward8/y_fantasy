@@ -14,8 +14,8 @@ module YFantasy
 
       def compose_function
         UserTransformer.new
-          .>> t(:map_value, @collection, transform_collection)
-          .>> t(:guard, ->(_data) { return_array? }, t(:dig_value, @collection))
+          .>> t(:guard, ->(data) { data.key?(@collection) }, t(:map_value, @collection, transform_collection)) # TODO: clean up - pretty complex
+          .>> t(:guard, ->(_data) { puts "sdfasdfasdfa"; return_array? }, t(:dig_value, @collection))
       end
 
       def transform_collection

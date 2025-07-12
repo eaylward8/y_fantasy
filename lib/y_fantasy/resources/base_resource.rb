@@ -40,13 +40,13 @@ module YFantasy
       def resource_name
         return if base_resource?
 
-        to_s.partition("::").last.downcase
+        to_s.partition("::").last.downcase.to_sym
       end
 
       def collection_name
         return if base_resource?
 
-        "#{resource_name}s"
+        "#{resource_name}s".to_sym
       end
 
       private

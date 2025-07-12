@@ -20,3 +20,5 @@ module YFantasy
     include Dry.Types()
   end
 end
+
+loader.eager_load_dir("#{__dir__}/y_fantasy/resources")

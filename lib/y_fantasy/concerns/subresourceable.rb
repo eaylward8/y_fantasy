@@ -19,6 +19,20 @@ module YFantasy
         primary_subresources | dependent_subresources
       end
 
+      def subresource_tree
+        tree = {}
+
+        dependent_subresources.each do |sub|
+          tree[sub] = ResourceFinder.find_dependent(sub).subresource_tree
+        end
+
+        primary_subresources.each do |sub|
+          tree[sub] = ResourceFinder.find_primary(sub).subresource_tree
+        end
+
+        tree.any? ? tree : nil
+      end
+
       def has_subresources(*subs, dependent: false)
         subs.each do |sub|
           dependent ? (dependent_subresources << sub) : (primary_subresources << sub)
