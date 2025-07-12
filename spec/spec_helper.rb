@@ -6,6 +6,7 @@ SimpleCov.start do
 end
 
 require "pry-byebug"
+require "webmock/rspec"
 require "y_fantasy"
 
 RSpec.configure do |config|
