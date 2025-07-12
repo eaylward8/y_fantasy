@@ -6,7 +6,6 @@ module YFantasy
       option :team_stats, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}
-        # Getting hacky here, maybe there's a better way.
         # Fully qualified class name needed because nested options create intermediate classes on the fly.
         # At this level we have: YF::Team::StatCollection::TeamStats. TeamStats is created on-the-fly and does not
         # inherit from BaseResource.
@@ -16,14 +15,14 @@ module YFantasy
       option :team_points, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}
-        option :total, optional: true, default: -> {}
+        option :total, optional: true, type: Types::Coercible::Float, default: -> {}
         option :week, optional: true, default: -> {}
       end
 
       option :team_projected_points, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}
-        option :total, optional: true, default: -> {}
+        option :total, optional: true, type: Types::Coercible::Float, default: -> {}
         option :week, optional: true, default: -> {}
       end
 

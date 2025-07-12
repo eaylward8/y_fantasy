@@ -15,7 +15,7 @@ module YFantasy
         map_matchups_fn = t(:map_array, DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_teams_fn))
         # wrap_in_array is needed when requesting a team's matchup for a single week
         fn = DefaultTransformer.new(:matchups) >> t(:map_value, :matchups, t(:wrap_in_array) >> map_matchups_fn)
-        t(:guard, ->(data) { data.key?(:matchups) }, fn)
+        t(:guard, ->(data) { !data[:matchups].nil? }, fn)
       end
     end
   end

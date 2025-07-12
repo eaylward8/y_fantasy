@@ -30,7 +30,7 @@ module YFantasy
 
     # Subresources
     option :draft_results, optional: true, type: array_of(DraftResult)
-    option :matchups, optional: true, type: array_of(Matchup)
+    option :matchups, optional: true, type: array_of(Matchup), default: -> { [] }
     option :roster, optional: true, type: instance_of(Roster)
     option :stats, optional: true, type: instance_of(StatCollection), default: -> {}
     option :team_standings, optional: true, type: instance_of(Standings)
@@ -47,6 +47,10 @@ module YFantasy
 
     def roster_for_week(week)
       self.class.find(team_key, with: :roster, week: week).roster
+    end
+
+    def stats_for_week(week)
+      self.class.find(team_key, with: :stats, week: week).stats
     end
   end
 end
