@@ -21,10 +21,11 @@ module YFantasy
       BASE_URL = "https://fantasysports.yahooapis.com/fantasy/v2"
       CURRENT_USER_URL = "#{BASE_URL}/users;use_login=1"
 
-      def initialize(resource, keys, subresources = [], scope_to_user: false)
+      def initialize(resource, keys, subresources = [], week: nil, scope_to_user: false)
         @resource = resource.to_s
         @keys = Array(keys).map(&:to_s)
         @subresources = Array(subresources)
+        @week = week.to_s
         @url = scope_to_user ? CURRENT_USER_URL.dup : BASE_URL.dup
       end
 
@@ -33,6 +34,11 @@ module YFantasy
         # raise some error if resource (and keys?) not set
         singular_resource? ? build_resource_url : build_collection_url
         return @url if @subresources.empty?
+
+        # TODO: this is hacky, just wanted to make something work.
+        if @subresources.include?(:scoreboard) && @week
+          return @url.concat("/scoreboard;week=", @week)
+        end
 
         # validate subresources here?
         # possible syntax: (or consider dry-validation)
@@ -53,8 +59,6 @@ module YFantasy
             :percent_owned
           when :team_standings
             :standings
-          when :team_stats # TODO: can this clause be removed?
-            :stats
           else
             sub
           end

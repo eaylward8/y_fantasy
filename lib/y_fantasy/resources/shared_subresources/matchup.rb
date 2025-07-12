@@ -20,5 +20,28 @@ module YFantasy
     option :teams, type: array_of(Team)
 
     has_subresources :teams
+
+    def winning_team
+      return if is_tied
+
+      teams.find { |team| team.team_key == winner_team_key }
+    end
+
+    def losing_team
+      return if is_tied
+
+      teams.find { |team| team.team_key != winner_team_key }
+    end
+
+    def scores
+      teams.map do |team|
+        {
+          team_key: team.team_key,
+          team_name: team.name,
+          total: team.stats.team_points.total,
+          proj_total: team.stats.team_projected_points.total
+        }
+      end
+    end
   end
 end

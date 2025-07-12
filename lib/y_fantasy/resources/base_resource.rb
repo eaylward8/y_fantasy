@@ -21,11 +21,11 @@ module YFantasy
       end
 
       # Individual resources
-      def find(key, with: [])
+      def find(key, with: [], week: nil)
         subresources = Array(with).map(&:to_sym)
         SubresourceValidator.validate!(self, subresources)
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
-        data = YFantasy::Api::Client.get(resource_name, key, subresources)
+        data = YFantasy::Api::Client.get(resource_name, key, subresources, week: week)
         Transformations.transformer_for(resource_name).call(data)
       end
 
