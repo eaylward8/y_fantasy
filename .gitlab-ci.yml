@@ -1,16 +1,19 @@
 image: ruby:3.1.2
 
-stages:
-  - build
-  - test
+# stages:
+#   - build
+#   - test
 
-build-job:
-  stage: build
-  script:
-    - gem install bundler -v 2.3.7
-    - bundle install
+# build-job:
+#   stage: build
+#   script:
+#     - gem install bundler -v 2.3.7
+#     - bundle install
+
+before_script:
+  - gem install bundler -v 2.3.7
+  - bundle install
 
 test-job:
-  stage: test
   script:
     - bundle exec rspec
