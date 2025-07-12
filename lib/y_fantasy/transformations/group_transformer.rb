@@ -19,13 +19,16 @@ module YFantasy
       end
 
       def transform_teams
-        map_teams_fn = t(:map_array, Transformations.pickem_team_transformer(nested: true))
         DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_teams_fn)
       end
 
       def transform_standings
-        map_teams_fn = t(:map_array, Transformations.pickem_team_transformer(nested: true))
-        t(:map_value, :standings, t(:rename_keys, team: :teams) >> t(:map_value, :teams, map_teams_fn))
+        map_standings_fn = t(:map_value, :standings, t(:rename_keys, team: :teams) >> t(:map_value, :teams, map_teams_fn))
+        t(:guard, ->(data) { data.key?(:standings) }, map_standings_fn)
+      end
+
+      def map_teams_fn
+        t(:map_array, Transformations.pickem_team_transformer(nested: true))
       end
 
       def instantiate
