@@ -60,6 +60,7 @@ module YFantasy
     end
 
     # Instance methods
+    # TODO: Is this needed?
     def key
       if (name = self.class.resource_name)
         public_send("#{name}_key")

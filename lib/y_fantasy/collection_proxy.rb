@@ -2,16 +2,15 @@
 
 module YFantasy
   class CollectionProxy
-    def initialize(resource, keys = [], scope_to_user: false)
-      @resource = resource
-      @keys = keys
+    def initialize(collection_name, keys = [], scope_to_user: false)
+      @collection_name = collection_name
+      @keys = Array(keys)
       @scope_to_user = scope_to_user
       @subresources = []
-      @client = YFantasy::Api::Client.new
     end
 
     def find_all(keys = [])
-      @keys = keys
+      @keys = Array(keys)
       self
     end
 
@@ -26,6 +25,9 @@ module YFantasy
     end
 
     def load
+      ensure_collection
+      ensure_keys
+
       collection
     end
     alias_method :to_a, :load
@@ -33,20 +35,59 @@ module YFantasy
 
     private
 
+    def client
+      @client ||= YFantasy::Api::Client.new
+    end
+
     def collection
       @collection ||=
-        Transformations::CollectionMapper.new(@resource, subresources: @subresources).call(fetch_data)
+        Transformations::CollectionMapper.new(@collection_name, subresources: @subresources).call(fetch_data)
     end
 
     def fetch_data
-      @client.get(@resource, @keys, @subresources, scope_to_user: @scope_to_user)
+      client.get(@collection_name, @keys, @subresources, scope_to_user: @scope_to_user)
+    end
+
+    def ensure_collection
+      raise CollectionNameError if @collection_name.to_s.empty?
+    end
+
+    def ensure_keys
+      raise MissingKeysError.new("No keys provided for #{@collection_name} collection") if @keys.compact.empty?
+    end
+
+    # :nocov:
+    def method_missing(method_name, *args, &block)
+      if Array.instance_methods.include?(method_name)
+        collection.send(method_name, *args, &block)
+      else
+        super(method_names, *args, &block)
+      end
+    end
+    # :nocov:
+
+    def respond_to_missing?(name, include_private = false)
+      Array.instance_methods.include?(name) || super
+    end
+
+    class CollectionNameError < StandardError
+      def initialize(msg = "No collection name provided")
+        super
+      end
+    end
+
+    class MissingKeysError < StandardError
+      def initialize(msg = "No keys provided")
+        super
+      end
     end
 
     # This is just to make irb/console output look better
     # Adapted from code found in ActiveRecord
+    # :nocov:
     def inspect
       entries = collection.take(5).map do |entry|
-        inspection = entry.instance_values.take(5).map do |k, v|
+        inspection = entry.instance_values.take(2).map do |k, v|
           next if v.nil?
           v.is_a?(Array) ? "#{k}: [#{v.first.class.name}...]" : "#{k}: #{v}"
         end
@@ -58,17 +99,6 @@ module YFantasy
 
       "#<#{self.class.name} [#{entries.join(", ")}]>"
     end
-
-    def method_missing(method_name, *args, &block)
-      if Array.instance_methods.include?(method_name)
-        collection.send(method_name, *args, &block)
-      else
-        super(method_names, *args, &block)
-      end
-    end
-
-    def respond_to_missing?(name, include_private = false)
-      Array.instance_methods.include?(name) || super
-    end
+    # :nocov:
   end
 end

@@ -2,9 +2,7 @@
 
 RSpec.describe YFantasy::BaseResource do
   let(:test_class) do
-    Class.new(described_class) do
-
-    end
+    Class.new(described_class)
   end
 
   before do
@@ -55,6 +53,38 @@ RSpec.describe YFantasy::BaseResource do
 
           YFantasy::Thing.find(key, with: subresources)
         end
+      end
+    end
+
+    describe ".fetch_subresource" do
+      let(:key) { "doodad" }
+      let(:thing) { instance_double(YFantasy::Thing) }
+
+      it "makes a request for subresource data and calls the subresource method" do
+        expect(YFantasy::Thing).to receive(:find).with(key, with: [:subresource]).and_return(thing)
+        expect(thing).to receive(:send).with(:subresource)
+
+        YFantasy::Thing.fetch_subresource(key, :subresource)
+      end
+    end
+
+    describe ".resource_name" do
+      it "returns nil for BaseResource" do
+        expect(described_class.resource_name).to be_nil
+      end
+
+      it "returns singular, lowercase string of class name" do
+        expect(YFantasy::Thing.resource_name).to eq("thing")
+      end
+    end
+
+    describe ".collection_name" do
+      it "returns nil for BaseResource" do
+        expect(described_class.collection_name).to be_nil
+      end
+
+      it "returns plural, lowercase string of class name" do
+        expect(YFantasy::Thing.collection_name).to eq("things")
       end
     end
   end
