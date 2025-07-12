@@ -7,9 +7,9 @@ module YFantasy
       def initialize(data, collection, subresources: [])
         @data = data
         @collection = collection.to_sym
-        @collection_singular = make_singular(collection)
+        @collection_singular = make_singular(collection).to_sym
         @subresources = subresources
-        @klass = "YFantasy::#{collection.to_s.classify}".constantize
+        @klass = Object.const_get("YFantasy::#{@collection_singular.to_s.capitalize}") # TODO: create map of resources/classes instead of using const_get
         @transformation = build_transformation
       end
 
@@ -46,8 +46,10 @@ module YFantasy
         pipeline
       end
 
-      def make_singular(jawn)
-        jawn.to_s.singularize.to_sym
+      def make_singular(resource)
+        return resource unless resource.to_s.end_with?("s")
+
+        resource.to_s[0...-1]
       end
     end
   end

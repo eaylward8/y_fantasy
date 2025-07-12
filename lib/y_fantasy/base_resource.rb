@@ -41,16 +41,22 @@ module YFantasy
       # end
 
       def resource_name
-        return if self == YFantasy::BaseResource
+        return if base_resource?
 
         to_s.partition("::").last.downcase
       end
 
       def collection_name
-        resource_name&.pluralize
+        return if base_resource?
+
+        "#{resource_name}s"
       end
 
       private
+
+      def base_resource?
+        self == YFantasy::BaseResource
+      end
 
       def array_of(klass)
         Transformations::Instantiator.for(klass)
