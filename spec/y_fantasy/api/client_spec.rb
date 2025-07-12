@@ -21,6 +21,19 @@ RSpec.describe YFantasy::Api::Client do
         expected = Fixture.load_yaml("resources/parsed/game_nfl.yaml")
         expect(actual).to eq(expected)
       end
+
+      context "with subresources" do
+        before do
+          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/game/nfl;out=game_weeks")
+            .to_return(status: 200, body: Fixture.load("resources/raw/game_nfl_game_weeks.xml"))
+        end
+
+        it "parses xml and returns a hash" do
+          actual = client.get("game", "nfl", [:game_weeks])
+          expected = Fixture.load_yaml("resources/parsed/game_nfl_game_weeks.yaml")
+          expect(actual).to eq(expected)
+        end
+      end
     end
 
     context "when requesting a collection" do
@@ -33,6 +46,19 @@ RSpec.describe YFantasy::Api::Client do
         actual = client.get("games", %w[nfl nba])
         expected = Fixture.load_yaml("resources/parsed/games_nfl_nba.yaml")
         expect(actual).to eq(expected)
+      end
+
+      context "with subresources" do
+        before do
+          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/games;game_keys=nfl,nba;out=roster_positions")
+            .to_return(status: 200, body: Fixture.load("resources/raw/games_nfl_nba_roster_positions.xml"))
+        end
+
+        it "parses xml and returns a hash" do
+          actual = client.get("games", %w[nfl nba], [:roster_positions])
+          expected = Fixture.load_yaml("resources/parsed/games_nfl_nba_roster_positions.yaml")
+          expect(actual).to eq(expected)
+        end
       end
     end
   end
