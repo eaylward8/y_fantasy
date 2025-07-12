@@ -12,9 +12,14 @@ module YFantasy
       private
 
       def compose_function
-        # DefaultTransformer.new(:groups) >> t(:map_value, :groups, t(:wrap_in_array))
         t(:guard, ->(data) { data.key?(:group) }, t(:unwrap, :group))
+          .>> transform_teams
           .>> instantiate
+      end
+
+      def transform_teams
+        map_teams_fn = t(:map_array, Transformations.pickem_team_transformer(nested: true))
+        DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_teams_fn)
       end
 
       def instantiate
