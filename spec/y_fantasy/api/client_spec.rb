@@ -20,7 +20,7 @@ RSpec.describe YFantasy::Api::Client do
       allow(YFantasy::Api::Authentication).to receive(:refresh_token).and_return("fake_refresh_token")
     end
 
-    context "when requesting resource" do
+    context "when requesting a resource" do
       before do
         stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/game/nfl")
           .to_return(status: 200, body: Fixture.load("resources/raw/game_nfl.xml"))
@@ -69,6 +69,17 @@ RSpec.describe YFantasy::Api::Client do
           expected = Fixture.load_yaml("resources/parsed/games_nfl_nba_roster_positions.yaml")
           expect(actual).to eq(expected)
         end
+      end
+    end
+
+    context "4xx response" do
+      before do
+        stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/game/nfl")
+          .to_return(status: 401, body: Fixture.load("resources/raw/401.xml"))
+      end
+
+      it "raises" do
+        expect { client.get("game", "nfl") }.to raise_error(RuntimeError, /Please provide valid credentials/)
       end
     end
   end
