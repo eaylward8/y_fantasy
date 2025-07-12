@@ -27,7 +27,8 @@ module YFantasy
       def transform_groups
         map_groups_fn = t(:map_array, Transformations.group_transformer(nested: true))
         # wrap_in_array is needed when there is only 1 group
-        DefaultTransformer.new(:groups) >> t(:map_value, :groups, t(:wrap_in_array) >> map_groups_fn)
+        fn = DefaultTransformer.new(:groups) >> t(:map_value, :groups, t(:wrap_in_array) >> map_groups_fn)
+        t(:guard, ->(data) { !data[:groups].nil? }, fn)
       end
 
       def transform_position_types

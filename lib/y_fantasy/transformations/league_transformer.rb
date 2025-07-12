@@ -43,8 +43,8 @@ module YFantasy
       end
 
       def transform_teams
-        map_players_fn = t(:map_array, Transformations.team_transformer(nested: true))
-        DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_players_fn)
+        map_teams_fn = t(:map_array, Transformations.team_transformer(nested: true))
+        DefaultTransformer.new(:teams) >> t(:map_value, :teams, map_teams_fn)
       end
     end
   end
