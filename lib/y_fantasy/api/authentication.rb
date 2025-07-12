@@ -25,7 +25,9 @@ module YFantasy
         def authenticate
           return true if access_token_valid?
 
-          # @refresh_token = 'ANxNNF_.6Nx0JLNpB2Tu0hCN53jfS1o9a4__NPFTfeNOKVtCT3s-' # TODO: remove
+          if YFantasy.config.yahoo_refresh_token
+            @refresh_token = YFantasy.config.yahoo_refresh_token
+          end
 
           refresh_token? ? authenticate_with_refresh_token : authenticate_with_code
         end
@@ -81,11 +83,9 @@ module YFantasy
           # TODO: sometimes below line fails w/ undefined method [] for nil, add a retry?
           match = auth_code_page.uri.query.match(/code=(?<code>\w+)/)
           # match[:code] if match
-          if match
-            match[:code]
-          else
-            binding.pry
-          end
+          return match[:code] if match
+
+          raise self::Error.new("Failed to extract auth code")
         end
 
         def post(url, data)
@@ -130,8 +130,11 @@ module YFantasy
         end
 
         def refresh_token?
-          !!@refresh_token
+          @refresh_token && @refresh_token.length > 0
         end
+      end
+
+      class Error < StandardError
       end
     end
   end

@@ -12,7 +12,7 @@ module YFantasy
 
       def self.get(resource, keys: [], game_codes: [], subresources: [], **options)
         new.get(resource, keys: keys, game_codes: game_codes, subresources: subresources, **options)
-      rescue YFantasy::Api::Client::Error
+      rescue Client::Error, Authentication::Error
         if @@retry
           @@retry = false
           retry

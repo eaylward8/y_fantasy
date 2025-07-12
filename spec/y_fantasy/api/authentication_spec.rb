@@ -36,6 +36,10 @@ RSpec.describe YFantasy::Api::Authentication, :api do
     end
 
     context "with authorization code" do
+      before do
+        YFantasy.config.yahoo_refresh_token = nil
+      end
+
       it "calls .authenticate_with_code" do
         expect(described_class).to receive(:authenticate_with_code).once
         described_class.authenticate

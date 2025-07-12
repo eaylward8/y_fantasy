@@ -23,6 +23,7 @@ module YFantasy
   setting :yahoo_client_secret, default: ENV["YAHOO_CLIENT_SECRET"]
   setting :yahoo_username, default: ENV["YAHOO_USERNAME"]
   setting :yahoo_password, default: ENV["YAHOO_PASSWORD"]
+  setting :yahoo_refresh_token, default: ENV["YAHOO_REFRESH_TOKEN"]
 
   module Types
     include Dry.Types()
