@@ -6,7 +6,7 @@ module YFantasy
       def initialize(resource)
         @resource = resource
         @function = compose_function
-        super(resource)
+        super
       end
 
       private

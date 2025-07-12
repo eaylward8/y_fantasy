@@ -5,7 +5,7 @@ module YFantasy
     class KeyUnwrapper < BaseTransform
       def initialize(*keys)
         @function = keys.map { |key| t(:unwrap, key) }.inject(:>>)
-        super(*keys)
+        super
       end
     end
   end

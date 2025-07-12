@@ -65,7 +65,7 @@ module YFantasy
       if Array.instance_methods.include?(method_name)
         collection.send(method_name, *args, &block)
       else
-        super(method_name, *args, &block)
+        super
       end
     end
     # :nocov:
