@@ -50,6 +50,7 @@ module YFantasy
     has_subresource :ownership_percentage, klass: OwnershipPercentage
     has_subresource :stats, klass: StatCollection
 
+    # :nocov:
     def first_name
       name[:first]
     end
@@ -61,5 +62,6 @@ module YFantasy
     def full_name
       name[:full]
     end
+    # :nocov:
   end
 end

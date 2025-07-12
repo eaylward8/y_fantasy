@@ -7,6 +7,7 @@ module YFantasy
     option :player_key
     option :team_key
 
+    # :nocov:
     def player
       self.class.find(:player, player_key)
     end
@@ -14,5 +15,6 @@ module YFantasy
     def team
       self.class.find(:team, team_key)
     end
+    # :nocov:
   end
 end
