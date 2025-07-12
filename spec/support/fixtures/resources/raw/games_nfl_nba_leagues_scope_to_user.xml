@@ -2,7 +2,7 @@
 <fantasy_content xml:lang="en-US" yahoo:uri="http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl,nba/leagues" time="45.612096786499ms" copyright="Certain Data by Sportradar, Stats Perform and Rotowire" refresh_rate="60" xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" xmlns="http://fantasysports.yahooapis.com/fantasy/v2/base.rng">
     <users count="1">
         <user>
-            <guid>CEI6V5IBF6AZ2K7H4WRME7HYHY</guid>
+            <guid>ABC123</guid>
             <games count="2">
                 <game>
                     <game_key>449</game_key>
@@ -17,11 +17,11 @@
                     <is_offseason>0</is_offseason>
                     <leagues count="2">
                         <league>
-                            <league_key>449.l.146829</league_key>
-                            <league_id>146829</league_id>
+                            <league_key>449.l.999999</league_key>
+                            <league_id>999999</league_id>
                             <name>812</name>
-                            <url>https://football.fantasysports.yahoo.com/f1/146829</url>
-                            <logo_url>https://yahoofantasysports-res.cloudinary.com/image/upload/t_s192sq/fantasy-logos/2f54c2ce9a674ab3fcf7926ad1785e6f7873db0d6d4f8b1965fa4d5b1037bae3.png</logo_url>
+                            <url>www.example.com</url>
+                            <logo_url>www.example.com</logo_url>
                             <password/>
                             <draft_status>postdraft</draft_status>
                             <num_teams>14</num_teams>
@@ -30,11 +30,10 @@
                             <league_update_timestamp>1736408692</league_update_timestamp>
                             <scoring_type>head</scoring_type>
                             <league_type>private</league_type>
-                            <renew>423_822848</renew>
+                            <renew>423_888888</renew>
                             <renewed/>
                             <felo_tier>silver</felo_tier>
                             <iris_group_chat_id/>
-                            <short_invitation_url>https://football.fantasysports.yahoo.com/f1/146829/invitation?key=e681c5a7fe4c0204&amp;ikey=13b751ccde2db2ca</short_invitation_url>
                             <allow_add_to_dl_extra_pos>0</allow_add_to_dl_extra_pos>
                             <is_pro_league>0</is_pro_league>
                             <is_cash_league>0</is_cash_league>
@@ -49,10 +48,10 @@
                             <season>2024</season>
                         </league>
                         <league>
-                            <league_key>449.l.442481</league_key>
-                            <league_id>442481</league_id>
+                            <league_key>449.l.111111</league_key>
+                            <league_id>111111</league_id>
                             <name>Fat Eagle</name>
-                            <url>https://football.fantasysports.yahoo.com/f1/442481</url>
+                            <url>www.example.com</url>
                             <logo_url></logo_url>
                             <draft_status>postdraft</draft_status>
                             <num_teams>12</num_teams>
@@ -61,7 +60,7 @@
                             <league_update_timestamp>1736408858</league_update_timestamp>
                             <scoring_type>head</scoring_type>
                             <league_type>private</league_type>
-                            <renew>423_439333</renew>
+                            <renew>423_222222</renew>
                             <renewed/>
                             <felo_tier>silver</felo_tier>
                             <iris_group_chat_id/>

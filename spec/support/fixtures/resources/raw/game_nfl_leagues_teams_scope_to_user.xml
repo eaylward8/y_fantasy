@@ -2,7 +2,7 @@
 <fantasy_content xml:lang="en-US" yahoo:uri="http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues/teams" time="52.29115486145ms" copyright="Certain Data by Sportradar, Stats Perform and Rotowire" refresh_rate="60" xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" xmlns="http://fantasysports.yahooapis.com/fantasy/v2/base.rng">
     <users count="1">
         <user>
-            <guid>CEI6V5IBF6AZ2K7H4WRME7HYHY</guid>
+            <guid>ABC123</guid>
             <games count="1">
                 <game>
                     <game_key>449</game_key>
@@ -17,11 +17,11 @@
                     <is_offseason>0</is_offseason>
                     <leagues count="2">
                         <league>
-                            <league_key>449.l.146829</league_key>
-                            <league_id>146829</league_id>
+                            <league_key>449.l.999999</league_key>
+                            <league_id>999999</league_id>
                             <name>812</name>
-                            <url>https://football.fantasysports.yahoo.com/f1/146829</url>
-                            <logo_url>https://yahoofantasysports-res.cloudinary.com/image/upload/t_s192sq/fantasy-logos/2f54c2ce9a674ab3fcf7926ad1785e6f7873db0d6d4f8b1965fa4d5b1037bae3.png</logo_url>
+                            <url>www.example.com</url>
+                            <logo_url>www.example.com</logo_url>
                             <password/>
                             <draft_status>postdraft</draft_status>
                             <num_teams>14</num_teams>
@@ -30,11 +30,11 @@
                             <league_update_timestamp>1736408692</league_update_timestamp>
                             <scoring_type>head</scoring_type>
                             <league_type>private</league_type>
-                            <renew>423_822848</renew>
+                            <renew>423_999999</renew>
                             <renewed/>
                             <felo_tier>silver</felo_tier>
                             <iris_group_chat_id/>
-                            <short_invitation_url>https://football.fantasysports.yahoo.com/f1/146829/invitation?key=e681c5a7fe4c0204&amp;ikey=13b751ccde2db2ca</short_invitation_url>
+                            <short_invitation_url>www.example.com</short_invitation_url>
                             <allow_add_to_dl_extra_pos>0</allow_add_to_dl_extra_pos>
                             <is_pro_league>0</is_pro_league>
                             <is_cash_league>0</is_cash_league>
@@ -49,15 +49,15 @@
                             <season>2024</season>
                             <teams count="1">
                                 <team>
-                                    <team_key>449.l.146829.t.1</team_key>
+                                    <team_key>449.l.999999.t.1</team_key>
                                     <team_id>1</team_id>
-                                    <name>Stuck in Meatspace</name>
+                                    <name>Nubz</name>
                                     <is_owned_by_current_login>1</is_owned_by_current_login>
-                                    <url>https://football.fantasysports.yahoo.com/f1/146829/1</url>
+                                    <url>www.example.com</url>
                                     <team_logos>
                                         <team_logo>
                                             <size>large</size>
-                                            <url>https://s.yimg.com/cv/apiv2/default/nfl/nfl_4.png</url>
+                                            <url>www.example.com</url>
                                         </team_logo>
                                     </team_logos>
                                     <waiver_priority>9</waiver_priority>
@@ -71,15 +71,15 @@
                                     <league_scoring_type>head</league_scoring_type>
                                     <has_draft_grade>1</has_draft_grade>
                                     <draft_grade>D</draft_grade>
-                                    <draft_recap_url>https://football.fantasysports.yahoo.com/f1/146829/1/draftrecap</draft_recap_url>
+                                    <draft_recap_url>www.example.com</draft_recap_url>
                                     <managers>
                                         <manager>
                                             <manager_id>1</manager_id>
-                                            <nickname>Erik</nickname>
-                                            <guid>CEI6V5IBF6AZ2K7H4WRME7HYHY</guid>
+                                            <nickname>Randy</nickname>
+                                            <guid>ABC123</guid>
                                             <is_commissioner>1</is_commissioner>
                                             <is_current_login>1</is_current_login>
-                                            <image_url>https://s.yimg.com/ag/images/792536d2-6540-454d-9c85-521f75746ef0iX_64sq.jpg</image_url>
+                                            <image_url>www.example.com</image_url>
                                             <felo_score>606</felo_score>
                                             <felo_tier>silver</felo_tier>
                                         </manager>
@@ -88,10 +88,10 @@
                             </teams>
                         </league>
                         <league>
-                            <league_key>449.l.442481</league_key>
-                            <league_id>442481</league_id>
+                            <league_key>449.l.888888</league_key>
+                            <league_id>888888</league_id>
                             <name>Fat Eagle</name>
-                            <url>https://football.fantasysports.yahoo.com/f1/442481</url>
+                            <url>www.example.com</url>
                             <logo_url></logo_url>
                             <draft_status>postdraft</draft_status>
                             <num_teams>12</num_teams>
@@ -100,7 +100,7 @@
                             <league_update_timestamp>1736408858</league_update_timestamp>
                             <scoring_type>head</scoring_type>
                             <league_type>private</league_type>
-                            <renew>423_439333</renew>
+                            <renew>423_888888</renew>
                             <renewed/>
                             <felo_tier>silver</felo_tier>
                             <iris_group_chat_id/>
@@ -122,11 +122,11 @@
                                     <team_id>11</team_id>
                                     <name>The Fantasy Devil</name>
                                     <is_owned_by_current_login>1</is_owned_by_current_login>
-                                    <url>https://football.fantasysports.yahoo.com/f1/442481/11</url>
+                                    <url>www.example.com</url>
                                     <team_logos>
                                         <team_logo>
                                             <size>large</size>
-                                            <url>https://s.yimg.com/cv/apiv2/default/nfl/nfl_4.png</url>
+                                            <url>www.example.com</url>
                                         </team_logo>
                                     </team_logos>
                                     <waiver_priority>8</waiver_priority>
@@ -142,14 +142,14 @@
                                     <draft_position>9</draft_position>
                                     <has_draft_grade>1</has_draft_grade>
                                     <draft_grade>F</draft_grade>
-                                    <draft_recap_url>https://football.fantasysports.yahoo.com/f1/442481/11/draftrecap</draft_recap_url>
+                                    <draft_recap_url>www.example.com</draft_recap_url>
                                     <managers>
                                         <manager>
                                             <manager_id>11</manager_id>
-                                            <nickname>Erik</nickname>
-                                            <guid>CEI6V5IBF6AZ2K7H4WRME7HYHY</guid>
+                                            <nickname>Randy</nickname>
+                                            <guid>ABC123</guid>
                                             <is_current_login>1</is_current_login>
-                                            <image_url>https://s.yimg.com/ag/images/792536d2-6540-454d-9c85-521f75746ef0iX_64sq.jpg</image_url>
+                                            <image_url>www.example.com</image_url>
                                             <felo_score>606</felo_score>
                                             <felo_tier>silver</felo_tier>
                                         </manager>
