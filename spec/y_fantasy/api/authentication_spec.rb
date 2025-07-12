@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Api::Authentication, :api do
+RSpec.describe YFantasy::Api::Authentication, :api, :suppress_output do
   before do
     YFantasy.config.yahoo_client_id = nil
     YFantasy.config.yahoo_client_secret = nil
@@ -67,18 +67,57 @@ RSpec.describe YFantasy::Api::Authentication, :api do
         YFantasy.config.yahoo_refresh_token = nil
       end
 
-      it "calls .authenticate_with_code" do
-        expect(described_class).to receive(:authenticate_with_code).once
-        described_class.authenticate
+      context "when using automated login" do
+        before do
+          YFantasy.config.automate_login = true
+        end
+
+        it "calls .authenticate_with_code" do
+          expect(described_class).to receive(:authenticate_with_code).once
+          described_class.authenticate
+        end
+
+        it "sets token data automatically" do
+          expect(described_class).to receive(:authenticate_with_code).and_call_original
+          expect(described_class).to receive(:get_auth_code_automated).and_return("fake_code")
+          described_class.authenticate
+          expect(described_class.access_token).to eq("fake_access_token")
+          expect(described_class.expires_at - Time.now.to_i).to be > 3595 # Should be 3600, providing some buffer for specs
+          expect(described_class.refresh_token).to eq("fake_refresh_token")
+        end
       end
 
-      it "sets token data" do
-        expect(described_class).to receive(:authenticate_with_code).and_call_original
-        expect(described_class).to receive(:get_auth_code).and_return("fake_code")
-        described_class.authenticate
-        expect(described_class.access_token).to eq("fake_access_token")
-        expect(described_class.expires_at - Time.now.to_i).to be > 3595 # Should be 3600, providing some buffer for specs
-        expect(described_class.refresh_token).to eq("fake_refresh_token")
+      context "when using manual login" do
+        before do
+          YFantasy.config.automate_login = false
+        end
+
+        it "receives auth code as user input to complete the auth process" do
+          expect(described_class).to receive(:authenticate_with_code).and_call_original
+          expect(described_class).to receive(:get_auth_code_manual).and_call_original
+          expect($stdin).to receive(:gets).and_return("fake_code")
+          described_class.authenticate
+          expect(described_class.access_token).to eq("fake_access_token")
+          expect(described_class.expires_at - Time.now.to_i).to be > 3595 # Should be 3600, providing some buffer for specs
+          expect(described_class.refresh_token).to eq("fake_refresh_token")
+        end
+      end
+    end
+
+    context "when an error response is received" do
+      before do
+        YFantasy.config.yahoo_refresh_token = "fake_refresh_token"
+      end
+
+      it "returns false and sets error data" do
+        json = '{"error":401,"error_description":"Uh oh"}'
+        dbl = double("HTTP Error", body: json)
+        allow(described_class).to receive(:post).and_return(dbl)
+        allow(Net::HTTPClientError).to receive(:===).and_return(true) # mock case statement
+
+        expect(described_class.authenticate).to be(false)
+        expect(described_class.error_type).to eq(401)
+        expect(described_class.error_desc).to eq("Uh oh")
       end
     end
   end

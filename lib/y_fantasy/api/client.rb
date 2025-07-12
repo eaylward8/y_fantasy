@@ -40,7 +40,6 @@ module YFantasy
 
         url = UrlBuilder.new(resource, keys: keys, game_codes: game_codes, subresources: subresources, **options).build
 
-        # TODO: remove
         puts "\n Client#get #{url} \n" # TODO: remove
 
         response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
@@ -60,19 +59,12 @@ module YFantasy
       end
 
       def authenticate
-        # TODO: clean up
         if YFantasy::Api::Authentication.authenticate
           @access_token = YFantasy::Api::Authentication.access_token
           @refresh_token = YFantasy::Api::Authentication.refresh_token
-
-          puts @access_token
-          puts @refresh_token
         else
           @error_type = YFantasy::Api::Authentication.error_type
           @error_desc = YFantasy::Api::Authentication.error_desc
-
-          puts @error_type
-          puts @error_desc
         end
       end
 

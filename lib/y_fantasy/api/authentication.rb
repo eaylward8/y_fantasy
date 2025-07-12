@@ -4,6 +4,7 @@ require "base64"
 require "net/http"
 require "uri"
 require "mechanize"
+require "timeout"
 
 module YFantasy
   module Api
@@ -16,7 +17,7 @@ module YFantasy
       REQUEST_AUTH_URL = "https://api.login.yahoo.com/oauth2/request_auth?client_id=#{YAHOO_CLIENT_ID}&redirect_uri=oob&response_type=code"
       GET_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
 
-      MSG_SEPARATOR = "########################################"
+      MSG_SEPARATOR = "#" * 50
 
       # NOTE: access token expires in 1 hour (3600 seconds)
 
@@ -76,27 +77,32 @@ module YFantasy
           puts "Store it as an ENV variable called YAHOO_REFRESH_TOKEN or save it to a database."
           puts "Then, in your application, set YFantasy.config.yahoo_refresh_token = <your_refresh_token>"
           puts "If the yahoo_refresh_token config is set, YFantasy will use it to obtain a new access token when needed."
-          puts "\nRead more about the Yahoo OAuth 2.0 Flow: https://developer.yahoo.com/oauth2/guide/flows_authcode/\n"
+          puts "\nRead more about the Yahoo OAuth 2.0 Flow: https://developer.yahoo.com/oauth2/guide/flows_authcode/\n\n"
           puts MSG_SEPARATOR
-          puts "YFantasy Manual Auth Code Flow - END"
+          puts "#      YFantasy Manual Auth Code Flow - END      #"
           puts MSG_SEPARATOR
         end
 
         def get_auth_code_manual
-          return if YFantasy.config.automate_login == true
+          return if YFantasy.config.automate_login
 
           puts MSG_SEPARATOR
-          puts "YFantasy Manual Auth Code Flow - START"
+          puts "#     YFantasy Manual Auth Code Flow - START     #"
           puts MSG_SEPARATOR
           puts "\nGo to this URL and log into your Yahoo Account:"
           puts REQUEST_AUTH_URL
           puts "\nAfter logging in, copy and paste the code here:"
-          code = gets.chomp
-          puts "\nReceived code: #{code}. Attempting to retrieve access token and refresh token...\n"
-          code
+          Timeout.timeout(YFantasy.config.manual_login_timeout_seconds) do
+            code = $stdin.gets.chomp
+            puts "\nReceived code: #{code}. Attempting to retrieve access token and refresh token...\n"
+            code
+          end
         end
 
+        # :nocov:
         def get_auth_code_automated
+          return if YFantasy.config.automate_login == false
+
           # TODO: error handling
           agent = Mechanize.new
           login_page1 = agent.get(REQUEST_AUTH_URL)
@@ -113,11 +119,11 @@ module YFantasy
           # Extract code
           # TODO: sometimes below line fails w/ undefined method [] for nil, add a retry?
           match = auth_code_page.uri.query.match(/code=(?<code>\w+)/)
-          # match[:code] if match
           return match[:code] if match
 
-          raise self::Error.new("Failed to extract auth code")
+          raise Error.new("Failed to extract auth code")
         end
+        # :nocov:
 
         def post(url, data)
           Net::HTTP.post(URI(url), URI.encode_www_form(data), post_headers)

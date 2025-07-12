@@ -25,6 +25,7 @@ module YFantasy
   setting :yahoo_password, default: ENV["YAHOO_PASSWORD"]
   setting :yahoo_refresh_token, default: ENV["YAHOO_REFRESH_TOKEN"]
   setting :automate_login, default: false
+  setting :manual_login_timeout_seconds, default: 30
 
   module Types
     include Dry.Types()

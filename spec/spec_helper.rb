@@ -13,6 +13,7 @@ require "y_fantasy"
 require "factory_bot"
 require "pry-byebug"
 require "support/fixture"
+require "support/output_suppressor"
 require "webmock/rspec"
 
 RSpec.configure do |config|
@@ -34,11 +35,22 @@ RSpec.configure do |config|
     FactoryBot.find_definitions
   end
 
+  # Suppress $stdout output during specs
+  config.include OutputSuppressor
+  config.around(:example, :suppress_output) do |ex|
+    suppress_output { ex.run }
+  end
+
+  # Ensure specs don't get stuck waiting for `gets`
+  YFantasy.config.manual_login_timeout_seconds = 0.5
+
   config.before(:each, :api) do |c|
+    # Obtain access token with code
     stub_request(:post, "https://api.login.yahoo.com/oauth2/get_token")
       .with(body: hash_including("grant_type" => "authorization_code", "code" => "fake_code"))
       .to_return(status: 200, body: Fixture.load("authentication/get_token.json"))
 
+    # Obtain access token with refresh token
     stub_request(:post, "https://api.login.yahoo.com/oauth2/get_token")
       .with(body: hash_including("grant_type" => "refresh_token", "refresh_token" => "fake_refresh_token"))
       .to_return(status: 200, body: Fixture.load("authentication/get_token.json"))
