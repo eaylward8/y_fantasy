@@ -8,6 +8,7 @@ module YFantasy
 
     # Class methods
     class << self
+      # TODO: get rid of CollectionProxy? Is it more complicated than useful?
       # Collections
       def for_current_user
         # TODO: this is not creating the correct URLs for anything besides games
@@ -25,8 +26,10 @@ module YFantasy
       def find(key, with: [], **options)
         subresources = Transformations::T.wrap_in_array(with)
         SubresourceValidator.validate!(self, subresources)
+        # TODO: Remove
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}, #{options}) \n"
-        data = YFantasy::Api::Client.get(resource_name, key, subresources, **options)
+
+        data = YFantasy::Api::Client.get(resource_name, keys: key, subresources: subresources, **options)
         Transformations.transformer_for(resource_name).call(data)
       end
 

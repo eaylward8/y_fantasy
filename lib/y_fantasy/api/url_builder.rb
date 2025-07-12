@@ -21,15 +21,17 @@ module YFantasy
       BASE_URL = "https://fantasysports.yahooapis.com/fantasy/v2"
       CURRENT_USER_URL = "#{BASE_URL}/users;use_login=1"
 
-      def initialize(resource, keys, subresources = [], **options)
+      def initialize(resource, keys: [], game_codes: [], subresources: [], **options)
         @resource = resource.to_s
         @keys = Array(keys).map(&:to_s)
+        @game_codes = Array(game_codes).map(&:to_s)
         @subresources = Array(subresources)
         @options = options
         @url = options[:scope_to_user] ? CURRENT_USER_URL.dup : BASE_URL.dup
       end
 
       def build
+        validate_args!
         singular_resource? ? build_resource_url : build_collection_url
         return @url if @subresources.empty?
 
@@ -44,10 +46,14 @@ module YFantasy
       end
 
       def build_collection_url
-        @url.concat("/", @resource, key_params)
+        @url.concat("/", @resource, collection_params)
       end
 
-      def key_params
+      def collection_params
+        if @resource == "games" && !@game_codes.empty?
+          return ";game_codes=#{@game_codes.join(",")}"
+        end
+
         return "" if @keys.compact.empty?
 
         ";#{singularize(@resource)}_keys=#{@keys.join(",")}"
@@ -59,6 +65,19 @@ module YFantasy
 
       def singularize(resource)
         YFantasy::Transformations::T.singularize(resource)
+      end
+
+      def validate_args!
+        if !@game_codes.empty? && !@keys.empty?
+          raise self.class::Error.new("Cannot build URL with both keys and game_codes")
+        end
+
+        if !@game_codes.empty? && @resource != "games"
+          raise self.class::Error.new("`game_codes` can only be used with Games collection")
+        end
+      end
+
+      class Error < StandardError
       end
     end
   end

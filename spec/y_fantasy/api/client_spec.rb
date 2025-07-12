@@ -7,9 +7,9 @@ RSpec.describe YFantasy::Api::Client do
     it "calls #get on a new instance" do
       instance = instance_double(described_class)
       expect(described_class).to receive(:new).and_return(instance)
-      expect(instance).to receive(:get).with("game", "nfl", [:game_weeks], {scope_to_user: true})
+      expect(instance).to receive(:get).with("game", keys: "nfl", game_codes: [], subresources: [:game_weeks], scope_to_user: true)
 
-      described_class.get("game", "nfl", [:game_weeks], scope_to_user: true)
+      described_class.get("game", keys: "nfl", subresources: [:game_weeks], scope_to_user: true)
     end
 
     it "retries once if an error is raised" do
@@ -18,7 +18,9 @@ RSpec.describe YFantasy::Api::Client do
       allow(instance).to receive(:get).and_raise(described_class::Error.new("test error"))
 
       expect(described_class.class_variable_get(:@@retry)).to be(true)
-      expect { described_class.get("game", "nfl", [:game_weeks], scope_to_user: true) }.to raise_error(YFantasy::Api::Client::Error)
+      expect {
+        described_class.get("game", keys: "nfl", subresources: [:game_weeks], scope_to_user: true)
+      }.to raise_error(YFantasy::Api::Client::Error)
       expect(described_class.class_variable_get(:@@retry)).to be(false)
     end
   end
@@ -37,7 +39,7 @@ RSpec.describe YFantasy::Api::Client do
       end
 
       it "parses xml and returns a hash" do
-        actual = client.get("game", "nfl")
+        actual = client.get("game", keys: "nfl")
         expected = Fixture.load_yaml("resources/parsed/game_nfl.yaml")
         expect(actual).to eq(expected)
       end
@@ -49,7 +51,7 @@ RSpec.describe YFantasy::Api::Client do
         end
 
         it "parses xml and returns a hash" do
-          actual = client.get("game", "nfl", [:game_weeks])
+          actual = client.get("game", keys: "nfl", subresources: [:game_weeks])
           expected = Fixture.load_yaml("resources/parsed/game_nfl_game_weeks.yaml")
           expect(actual).to eq(expected)
         end
@@ -63,7 +65,7 @@ RSpec.describe YFantasy::Api::Client do
       end
 
       it "parses xml and returns a hash" do
-        actual = client.get("games", %w[nfl nba])
+        actual = client.get("games", keys: %w[nfl nba])
         expected = Fixture.load_yaml("resources/parsed/games_nfl_nba.yaml")
         expect(actual).to eq(expected)
       end
@@ -75,7 +77,7 @@ RSpec.describe YFantasy::Api::Client do
         end
 
         it "parses xml and returns a hash" do
-          actual = client.get("games", %w[nfl nba], [:roster_positions])
+          actual = client.get("games", keys: %w[nfl nba], subresources: [:roster_positions])
           expected = Fixture.load_yaml("resources/parsed/games_nfl_nba_roster_positions.yaml")
           expect(actual).to eq(expected)
         end
@@ -89,7 +91,7 @@ RSpec.describe YFantasy::Api::Client do
       end
 
       it "raises" do
-        expect { client.get("game", "nfl") }.to raise_error(YFantasy::Api::Client::Error)
+        expect { client.get("game", keys: "nfl") }.to raise_error(YFantasy::Api::Client::Error)
       end
     end
   end

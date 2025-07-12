@@ -13,6 +13,7 @@ module YFantasy
       def compose_function
         t(:guard, ->(data) { data.key?(:game) }, t(:unwrap, :game))
           .>> transform_game_weeks
+          .>> transform_groups
           .>> transform_position_types
           .>> transform_roster_positions
           .>> transform_stat_categories
@@ -21,6 +22,12 @@ module YFantasy
 
       def transform_game_weeks
         DefaultTransformer.new(:game_weeks)
+      end
+
+      def transform_groups
+        map_groups_fn = t(:map_array, Transformations.group_transformer(nested: true))
+        # wrap_in_array is needed when there is only 1 group
+        DefaultTransformer.new(:groups) >> t(:map_value, :groups, t(:wrap_in_array) >> map_groups_fn)
       end
 
       def transform_position_types

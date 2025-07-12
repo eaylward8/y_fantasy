@@ -11,6 +11,14 @@ module YFantasy
       @@game_transformer ||= GameTransformer.new
     end
 
+    def self.group_transformer(nested: false)
+      if nested
+        @@group_transformer_nested ||= GroupTransformer.new(nested: true)
+      else
+        @@group_transformer ||= GroupTransformer.new
+      end
+    end
+
     def self.league_transformer
       @@league_transformer ||= LeagueTransformer.new
     end

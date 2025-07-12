@@ -10,8 +10,8 @@ module YFantasy
     class Client
       @@retry = true
 
-      def self.get(resource, keys, subresources = [], **options)
-        new.get(resource, keys, subresources, **options)
+      def self.get(resource, keys: [], game_codes: [], subresources: [], **options)
+        new.get(resource, keys: keys, game_codes: game_codes, subresources: subresources, **options)
       rescue YFantasy::Api::Client::Error
         if @@retry
           @@retry = false
@@ -35,10 +35,14 @@ module YFantasy
       #
       # This fails because "stats" is not a subresource of league: /league/380.l.190823;out=teams/stats
 
-      def get(resource, keys, subresources = [], **options)
+      def get(resource, keys: [], game_codes: [], subresources: [], **options)
         refresh_access_token_if_needed
-        url = UrlBuilder.new(resource, keys, subresources, **options).build
+
+        url = UrlBuilder.new(resource, keys: keys, game_codes: game_codes, subresources: subresources, **options).build
+
+        # TODO: remove
         puts "\n Client#get #{url} \n" # TODO: remove
+
         response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
         body = response.body
 

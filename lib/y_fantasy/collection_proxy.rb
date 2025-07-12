@@ -45,8 +45,9 @@ module YFantasy
     end
 
     def fetch_data
+      # TODO: remove
       puts "\n YFantasy::Api::Client.get('#{@collection_name}', #{@keys}, #{@subresources}, scope_to_user: #{@scope_to_user}) \n"
-      client.get(@collection_name, @keys, @subresources, scope_to_user: @scope_to_user)
+      client.get(@collection_name, keys: @keys, subresources: @subresources, scope_to_user: @scope_to_user)
     end
 
     def ensure_collection
@@ -54,6 +55,8 @@ module YFantasy
     end
 
     def ensure_keys
+      return if @collection_name == :games
+
       raise MissingKeysError.new("No keys provided for #{@collection_name} collection") if @keys.compact.empty?
     end
 

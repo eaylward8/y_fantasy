@@ -66,7 +66,7 @@ RSpec.describe YFantasy::CollectionProxy do
       expect(YFantasy::Transformations::CollectionTransformer).to(
         receive(:new).with(collection).and_return(fake_transformer)
       )
-      expect(fake_client).to receive(:get).with(collection, keys, [:game_weeks], scope_to_user: false)
+      expect(fake_client).to receive(:get).with(collection, keys: keys, subresources: [:game_weeks], scope_to_user: false)
 
       c_proxy.load
     end
