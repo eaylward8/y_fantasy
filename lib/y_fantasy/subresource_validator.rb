@@ -37,7 +37,7 @@ module YFantasy
 
           key.failure(fail_msg)
         elsif value.is_a?(Hash)
-          sub, nested_subs = value.keys.first, Array(value.values.first)
+          sub, nested_subs = value.keys.first, value.values
           valid_nested_subs = klass.subresource_tree.dig(sub)
           next key.failure(fail_msg) if !valid_nested_subs
 

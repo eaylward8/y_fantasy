@@ -9,7 +9,7 @@ RSpec.describe YFantasy::SubresourceValidator do
     end
   end
 
-  let(:subresource_1) do
+  let(:subresource_1) do # Jawn
     Class.new(YFantasy::BaseResource) do
       include YFantasy::Subresourceable
 
@@ -17,9 +17,18 @@ RSpec.describe YFantasy::SubresourceValidator do
     end
   end
 
-  let(:subresource_2) { Class.new(YFantasy::BaseResource) }
+  let(:subresource_2) do # Wooder
+    Class.new(YFantasy::BaseResource) do
+      include YFantasy::Subresourceable
+
+      has_subresource :hoagies, klass: Hoagie
+    end
+  end
+
+  let(:subresource_3) { Class.new(YFantasy::BaseResource) } # Hoagie
 
   before do
+    stub_const("Hoagie", subresource_3)
     stub_const("Wooder", subresource_2)
     stub_const("Jawn", subresource_1)
     stub_const("TestClass", test_class)
@@ -43,6 +52,11 @@ RSpec.describe YFantasy::SubresourceValidator do
 
     it "returns true for valid nested subresources" do
       validator = described_class.new(TestClass, [{jawns: :wooders}])
+      expect(validator.validate!).to be(true)
+    end
+
+    it "returns true for valid, deeply nested subresources" do
+      validator = described_class.new(TestClass, [{jawns: {wooders: :hoagies}}])
       expect(validator.validate!).to be(true)
     end
 

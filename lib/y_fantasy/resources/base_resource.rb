@@ -23,7 +23,7 @@ module YFantasy
 
       # Individual resources
       def find(key, with: [], week: nil)
-        subresources = Array(with)
+        subresources = Transformations::T.wrap_in_array(with)
         SubresourceValidator.validate!(self, subresources)
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
         data = YFantasy::Api::Client.get(resource_name, key, subresources, week: week)

@@ -72,7 +72,8 @@ module YFantasy
 
           if sub.is_a?(Hash)
             sub.each_pair do |key, nested_subs|
-              nested_subs = Array(nested_subs).map { |nested_sub| SUBRESOURCE_MAP[nested_sub] || nested_sub }
+              nested_subs = Transformations::T.wrap_in_array(nested_subs)
+              nested_subs = nested_subs.map { |nested_sub| SUBRESOURCE_MAP[nested_sub] || nested_sub }
               @nested_subs << (nested_subs.one? ? {key => nested_subs.first} : {key => nested_subs})
             end
           end

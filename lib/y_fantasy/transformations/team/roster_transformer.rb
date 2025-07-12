@@ -12,8 +12,14 @@ module YFantasy
         private
 
         def compose_function
-          fn = t(:map_value, :roster, ->(data) { DefaultTransformer.new(:players).call(data) })
-          t(:guard, ->(data) { data.key?(:roster) }, fn)
+          t(:guard, ->(data) { data.key?(:roster) }, transform_players)
+        end
+
+        def transform_players
+          map_players_fn = t(:map_array, Transformations.player_transformer(nested: true))
+          fn = DefaultTransformer.new(:players) >> t(:map_value, :players, map_players_fn)
+
+          t(:map_value, :roster, ->(data) { fn.call(data) })
         end
       end
     end

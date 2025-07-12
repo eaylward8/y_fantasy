@@ -42,6 +42,13 @@ RSpec.describe YFantasy::Api::SubresourceParamBuilder do
       end
     end
 
+    context "with deeply nested subresources" do
+      it "returns /subresource/nested1/nested2" do
+        builder = described_class.new([{roster: {players: :stats}}])
+        expect(builder.build).to eq("/roster/players/stats")
+      end
+    end
+
     context "with week" do
       context "with one weekly subresource" do
         it "adds the week param for scoreboard" do

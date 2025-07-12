@@ -31,6 +31,22 @@ module YFantasy
       teams.find { |team| team.team_key != winner_team_key }
     end
 
+    def winner_total_points
+      winning_team&.stats&.team_points&.total
+    end
+
+    def winner_proj_points
+      winning_team&.stats&.team_projected_points&.total
+    end
+
+    def loser_total_points
+      losing_team&.stats&.team_points&.total
+    end
+
+    def loser_proj_points
+      losing_team&.stats&.team_projected_points&.total
+    end
+
     def scores
       teams.map do |team|
         {

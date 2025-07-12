@@ -47,7 +47,7 @@ module YFantasy
           Ox.load(body, mode: :hash_no_attrs).fetch(:fantasy_content)
         when Net::HTTPClientError
           error = Ox.load(body, mode: :hash_no_attrs)
-          error_msg = error.dig(:"yahoo:error", :"yahoo:description")
+          error_msg = error.dig(:"yahoo:error", :"yahoo:description") || error.dig(:error, :description)
           msg = "#{response.code}: #{error_msg}"
           raise YFantasy::Api::Client::Error.new(msg)
         else

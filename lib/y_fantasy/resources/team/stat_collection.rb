@@ -15,14 +15,14 @@ module YFantasy
       option :team_points, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}
-        option :total, optional: true, type: Types::Coercible::Float, default: -> {}
+        option :total, optional: true, default: -> {}
         option :week, optional: true, default: -> {}
       end
 
       option :team_projected_points, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}
-        option :total, optional: true, type: Types::Coercible::Float, default: -> {}
+        option :total, optional: true, default: -> {}
         option :week, optional: true, default: -> {}
       end
 
