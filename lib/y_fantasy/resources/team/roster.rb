@@ -11,6 +11,8 @@ module YFantasy
       # Optional attributes
       option :date, optional: true, type: Types::Params::Date
       option :week, optional: true, type: Types::Coercible::Integer
+
+      has_subresource :players, klass: Player
     end
   end
 end

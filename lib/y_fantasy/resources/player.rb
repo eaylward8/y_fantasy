@@ -28,6 +28,19 @@ module YFantasy
     option :has_recent_player_notes, optional: true, type: Types::Params::Bool
     option :player_notes_last_timestamp, optional: true, type: Types::Coercible::Integer
 
+    option :player_points, optional: true do
+      option :coverage_type
+      option :week, optional: true, type: Types::Coercible::Integer
+      option :total, type: Types::Coercible::Float
+    end
+
+    option :selected_position, optional: true do
+      option :coverage_type
+      option :week, optional: true, type: Types::Coercible::Integer
+      option :position
+      option :is_flex, optional: true, type: Types::Params::Bool
+    end
+
     # Subresources
     option :draft_analysis, optional: true, type: instance_of(DraftAnalysis)
     option :ownership_percentage, optional: true, type: instance_of(OwnershipPercentage)

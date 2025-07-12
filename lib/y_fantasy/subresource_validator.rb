@@ -27,9 +27,9 @@ module YFantasy
         required(:subresources).value(:array)
       end
 
+      # TODO: Simplify this. It's gotten too complicated.
       rule(:subresources).each do
         fail_msg = "#{value} is not a valid subresource of #{klass}"
-
         next key.failure(fail_msg) unless value.is_a?(Symbol) || value.is_a?(Hash)
 
         if value.is_a?(Symbol)
@@ -42,6 +42,11 @@ module YFantasy
           next key.failure(fail_msg) if !valid_nested_subs
 
           nested_subs.each do |nested_sub|
+            if nested_sub.is_a?(Hash)
+              nested_klass = YFantasy.const_get(Transformations::T.singularize(nested_sub.keys.first).capitalize)
+              next if SubresourceValidator.new(nested_klass, Array(nested_sub.values.first))
+            end
+
             next if valid_nested_subs.include?(nested_sub)
             key.failure("#{nested_sub} is not a valid subresource of #{sub}")
           end

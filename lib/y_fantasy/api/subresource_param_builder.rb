@@ -41,8 +41,10 @@ module YFantasy
           key = @nested_subs.first.keys.first
           val = @nested_subs.first[key]
 
-          @params.concat("/#{key}/#{val}") if val.is_a?(Symbol)
-          @params.concat("/#{key};out=#{val.join(",")}") if val.is_a?(Array)
+          @params.concat("/#{key}")
+          @params.concat("/#{val}") if val.is_a?(Symbol)
+          @params.concat("/#{val.keys.first}/#{val.values.first}") if val.is_a?(Hash)
+          @params.concat(";out=#{val.join(",")}") if val.is_a?(Array)
         end
       end
 
