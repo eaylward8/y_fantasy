@@ -12,7 +12,7 @@ module YFantasy
         private
 
         def compose_function
-          fn = t(:rename_keys, team_standings: :standings) >> t(:map_value, :standings, transform_record_data)
+          fn = t(:map_value, :team_standings, transform_record_data)
           t(:guard, ->(data) { data.key?(:team_standings) }, fn)
         end
 
