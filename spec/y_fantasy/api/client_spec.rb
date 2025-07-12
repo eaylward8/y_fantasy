@@ -44,7 +44,7 @@ RSpec.describe YFantasy::Api::Client do
 
       context "with subresources" do
         before do
-          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/game/nfl;out=game_weeks")
+          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/game/nfl/game_weeks")
             .to_return(status: 200, body: Fixture.load("resources/raw/game_nfl_game_weeks.xml"))
         end
 
@@ -70,7 +70,7 @@ RSpec.describe YFantasy::Api::Client do
 
       context "with subresources" do
         before do
-          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/games;game_keys=nfl,nba;out=roster_positions")
+          stub_request(:get, "https://fantasysports.yahooapis.com/fantasy/v2/games;game_keys=nfl,nba/roster_positions")
             .to_return(status: 200, body: Fixture.load("resources/raw/games_nfl_nba_roster_positions.xml"))
         end
 
