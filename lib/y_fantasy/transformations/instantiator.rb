@@ -2,23 +2,23 @@
 
 module YFantasy
   module Transformations
-    class Instantiator
-      def self.for(klass)
-        new(klass)
-      end
-
-      def initialize(klass)
+    class Instantiator < BaseTransform
+      def initialize(klass, collection: false)
         @klass = klass
-        @single_transformation = t(:newify, @klass)
-        @array_transformation = t(:map_array, @single_transformation)
+        @collection = collection
+        @function = compose_function
+        super(klass)
       end
 
-      def t(*args)
-        T[*args]
+      private
+
+      def compose_function
+        fn = t(->(data) { @klass.new(**data) })
+        for_collection? ? t(:map_array, fn) : fn
       end
 
-      def call(data)
-        data.is_a?(Array) ? @array_transformation.call(data) : @single_transformation.call(data)
+      def for_collection?
+        @collection
       end
     end
   end

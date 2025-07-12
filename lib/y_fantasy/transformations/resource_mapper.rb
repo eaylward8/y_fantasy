@@ -17,7 +17,9 @@ module YFantasy
       private
 
       def compose_function
-        KeyUnwrapper.new(:fantasy_content, @resource) >> ResourceUnwrapper.new(@subresources) >> Instantiator.for(@klass)
+        KeyUnwrapper.new(:fantasy_content, @resource)
+          .>> ResourceUnwrapper.new(@subresources)
+          .>> Instantiator.new(@klass)
       end
     end
   end

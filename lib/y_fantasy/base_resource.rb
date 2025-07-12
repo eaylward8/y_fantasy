@@ -55,7 +55,7 @@ module YFantasy
       end
 
       def array_of(klass)
-        Transformations::Instantiator.for(klass)
+        Transformations::Instantiator.new(klass, collection: true)
       end
     end
 

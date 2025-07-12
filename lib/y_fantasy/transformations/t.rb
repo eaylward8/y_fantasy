@@ -26,11 +26,6 @@ module YFantasy
         jawn.end_with?("s") ? jawn[0...-1] : jawn
       end
 
-      def self.newify(data, klass)
-        puts "\n Calling newify for: #{klass} \n"
-        klass.new(**data)
-      end
-
       # Input is a hash, output is array
       def self.fetch_value(data, key)
         puts "\n Calling T.fetch_value \n"
