@@ -2,7 +2,8 @@
 
 require "simplecov"
 SimpleCov.start do
-  add_group "Lib", "lib"
+  add_filter "/spec"
+  track_files "lib/**/*.rb"
 end
 
 require "y_fantasy"
