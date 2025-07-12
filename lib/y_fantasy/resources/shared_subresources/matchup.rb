@@ -19,8 +19,6 @@ module YFantasy
     # Subresources
     option :teams, type: array_of(Team)
 
-    has_subresources :teams
-
     def winning_team
       return if is_tied
 

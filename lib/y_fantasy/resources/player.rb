@@ -33,10 +33,9 @@ module YFantasy
     option :ownership_percentage, optional: true, type: instance_of(OwnershipPercentage)
     option :stats, optional: true, type: instance_of(StatCollection)
 
-    has_subresources :draft_analysis,
-      :ownership_percentage,
-      :stats,
-      dependent: true
+    has_subresource :draft_analysis, klass: DraftAnalysis
+    has_subresource :ownership_percentage, klass: OwnershipPercentage
+    has_subresource :stats, klass: StatCollection
 
     def first_name
       name[:first]

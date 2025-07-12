@@ -5,26 +5,31 @@ RSpec.describe YFantasy::Subresourceable do
     Class.new do
       include YFantasy::Subresourceable
 
-      has_subresources :tacos, :burgers
-      has_subresources :pizzas, :pastas, dependent: true
+      has_subresource :cheesesteaks, klass: Cheesesteak
+      has_subresource :pretzels, klass: Pretzel
     end
   end
 
+  let(:primary_subresource) { Class.new(YFantasy::BaseResource) }
+  let(:dependent_subresource) { Class.new(YFantasy::DependentSubresource) }
+
   before do
+    stub_const("Cheesesteak", primary_subresource)
+    stub_const("Pretzel", dependent_subresource)
     stub_const("TestClass", test_class)
   end
 
   describe ".has_subresources" do
     it "sets primary subresources" do
-      expect(TestClass.primary_subresources).to match_array([:tacos, :burgers])
+      expect(TestClass.primary_subresources).to match_array([:cheesesteaks])
     end
 
     it "sets dependent subresources" do
-      expect(TestClass.dependent_subresources).to match_array([:pizzas, :pastas])
+      expect(TestClass.dependent_subresources).to match_array([:pretzels])
     end
 
     it "sets subresources" do
-      expect(TestClass.subresources).to match_array([:tacos, :burgers, :pizzas, :pastas])
+      expect(TestClass.subresources).to match_array([:cheesesteaks, :pretzels])
     end
 
     it "defines subresource instance methods" do
@@ -37,53 +42,24 @@ RSpec.describe YFantasy::Subresourceable do
 
     it "returns subresource value if set" do
       instance = TestClass.new
-      burgers = ["BBQ Burger", "Black Bean Burger"]
-      instance.instance_variable_set(:@burgers, burgers)
+      cheesesteaks = ["Wit", "Witout"]
+      instance.instance_variable_set(:@cheesesteaks, cheesesteaks)
 
       expect(instance).to_not receive(:instance_variable_set)
-      expect(instance.burgers).to match_array(burgers)
+      expect(instance.cheesesteaks).to match_array(cheesesteaks)
     end
 
     describe "fetching and setting subresources if not initially set" do
       context "non-dependent resource" do
         it "fetches and sets subresources" do
           instance = TestClass.new
-          tacos = ["Awesome Taco", "Spicy Taco"]
+          pretzels = ["CCP", "Mart"]
 
           expect(TestClass).to receive(:fetch_subresource).and_return(["fake_subresource"])
           expect(instance).to receive(:key)
-          expect(instance).to receive(:instance_variable_set).with(:@tacos, ["fake_subresource"]).and_return(tacos)
+          expect(instance).to receive(:instance_variable_set).with(:@pretzels, ["fake_subresource"]).and_return(pretzels)
 
-          expect(instance.tacos).to match_array(tacos)
-        end
-      end
-
-      context "dependent resource" do
-        let(:dependent_test_class) do
-          Class.new do
-            include YFantasy::Subresourceable
-
-            has_subresources :tacos, :burgers
-            has_subresources :pizzas, :pastas, dependent: true
-
-            def self.dependent?
-              true
-            end
-          end
-        end
-
-        before do
-          stub_const("DependentTestClass", dependent_test_class)
-        end
-
-        it "does nothing" do
-          instance = DependentTestClass.new
-
-          expect(DependentTestClass).to_not receive(:fetch_subresource)
-          expect(instance).to_not receive(:key)
-          expect(instance).to_not receive(:instance_variable_set)
-
-          expect(instance.tacos).to be_nil
+          expect(instance.pretzels).to match_array(pretzels)
         end
       end
     end

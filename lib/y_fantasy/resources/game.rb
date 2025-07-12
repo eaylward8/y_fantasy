@@ -26,10 +26,9 @@ module YFantasy
     option :roster_positions, optional: true, type: array_of(RosterPosition)
     option :stat_categories, optional: true, type: array_of(StatCategory)
 
-    has_subresources :game_weeks,
-      :position_types,
-      :roster_positions,
-      :stat_categories,
-      dependent: true
+    has_subresource :game_weeks, klass: GameWeek
+    has_subresource :position_types, klass: PositionType
+    has_subresource :roster_positions, klass: RosterPosition
+    has_subresource :stat_categories, klass: StatCategory
   end
 end

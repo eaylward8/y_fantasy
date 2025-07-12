@@ -47,8 +47,6 @@ module YFantasy
       option :roster_positions, optional: true, type: array_of(RosterPosition)
       option :stat_categories, optional: true, type: array_of(StatCategory)
       option :stat_modifiers, optional: true, type: array_of(StatModifier)
-
-      has_subresources :roster_positions, :stat_categories, :stat_modifiers, dependent: true
     end
   end
 end

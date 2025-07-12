@@ -41,8 +41,12 @@ module YFantasy
     option :standings, optional: true, type: instance_of(Standings)
     option :teams, optional: true, type: array_of(Team)
 
-    has_subresources :players, :teams
-    has_subresources :draft_results, :scoreboard, :settings, :standings, dependent: true
+    has_subresource :players, klass: Player
+    has_subresource :teams, klass: Team
+    has_subresource :draft_results, klass: DraftResult
+    has_subresource :scoreboard, klass: Scoreboard
+    has_subresource :settings, klass: Settings
+    has_subresource :standings, klass: Standings
 
     def previous_league_key
       renew&.split("_")&.join(".l.")

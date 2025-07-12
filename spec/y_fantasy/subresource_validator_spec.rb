@@ -5,11 +5,14 @@ RSpec.describe YFantasy::SubresourceValidator do
     Class.new do
       include YFantasy::Subresourceable
 
-      has_subresources :jawns
+      has_subresource :jawns, klass: Jawn
     end
   end
 
+  let(:primary_subresource) { Class.new(YFantasy::BaseResource) }
+
   before do
+    stub_const("Jawn", primary_subresource)
     stub_const("TestClass", test_class)
   end
 

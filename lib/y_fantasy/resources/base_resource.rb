@@ -35,9 +35,9 @@ module YFantasy
       end
 
       # Other class methods
-      # def dependent?
-      #   false
-      # end
+      def dependent?
+        false
+      end
 
       def resource_name
         return if base_resource?
