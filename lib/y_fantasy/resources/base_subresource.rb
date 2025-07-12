@@ -17,7 +17,7 @@ module YFantasy
       end
 
       def find(resource_name, key)
-        data = YFantasy::Api::Client.get(resource_name, key, subresources)
+        data = YFantasy::Api::Client.get(resource_name, keys: key)
         Transformations.transformer_for(resource_name).call(data)
       end
 
