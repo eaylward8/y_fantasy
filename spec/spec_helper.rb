@@ -3,7 +3,10 @@
 require "simplecov"
 SimpleCov.start do
   add_filter "/spec"
+  add_filter "lib/y_fantasy/version"
   track_files "lib/**/*.rb"
+  add_group "Resources", "lib/y_fantasy/resources"
+  add_group "Transformations", "lib/y_fantasy/transformations"
 end
 
 require "y_fantasy"
