@@ -16,6 +16,8 @@ module YFantasy
       REQUEST_AUTH_URL = "https://api.login.yahoo.com/oauth2/request_auth?client_id=#{YAHOO_CLIENT_ID}&redirect_uri=oob&response_type=code"
       GET_TOKEN_URL = "https://api.login.yahoo.com/oauth2/get_token"
 
+      MSG_SEPARATOR = "########################################"
+
       # NOTE: access token expires in 1 hour (3600 seconds)
 
       class << self
@@ -45,17 +47,18 @@ module YFantasy
         end
 
         def authenticate_with_code
-          puts "auth with code (mechanize)"
-          code = get_auth_code
+          puts "auth with code"
+          code = YFantasy.config.automate_login ? get_auth_code_automated : get_auth_code_manual
           response = post(GET_TOKEN_URL, post_data("authorization_code", code: code))
-          handle_response(response)
+          handle_response(response, print_tokens: !YFantasy.config.automate_login)
         end
 
-        def handle_response(response)
+        def handle_response(response, print_tokens: false)
           body = JSON.parse(response.body)
 
           case response
           when Net::HTTPSuccess
+            display_token_message(body) if print_tokens # Display token data to user after manual login
             set_token_data(body["access_token"], body["expires_in"], body["refresh_token"])
             clear_error_data
             true
@@ -65,7 +68,35 @@ module YFantasy
           end
         end
 
-        def get_auth_code
+        def display_token_message(body)
+          puts "\nAccess token: #{body["access_token"]}"
+          puts "\nAccess token expires in: #{body["expires_in"]} seconds"
+          puts "\nRefresh token: #{body["refresh_token"]}"
+          puts "\nThe refresh token is long-lived and can be used to re-authenticate without the need for credentials."
+          puts "Store it as an ENV variable called YAHOO_REFRESH_TOKEN or save it to a database."
+          puts "Then, in your application, set YFantasy.config.yahoo_refresh_token = <your_refresh_token>"
+          puts "If the yahoo_refresh_token config is set, YFantasy will use it to obtain a new access token when needed."
+          puts "\nRead more about the Yahoo OAuth 2.0 Flow: https://developer.yahoo.com/oauth2/guide/flows_authcode/\n"
+          puts MSG_SEPARATOR
+          puts "YFantasy Manual Auth Code Flow - END"
+          puts MSG_SEPARATOR
+        end
+
+        def get_auth_code_manual
+          return if YFantasy.config.automate_login == true
+
+          puts MSG_SEPARATOR
+          puts "YFantasy Manual Auth Code Flow - START"
+          puts MSG_SEPARATOR
+          puts "\nGo to this URL and log into your Yahoo Account:"
+          puts REQUEST_AUTH_URL
+          puts "\nAfter logging in, copy and paste the code here:"
+          code = gets.chomp
+          puts "\nReceived code: #{code}. Attempting to retrieve access token and refresh token...\n"
+          code
+        end
+
+        def get_auth_code_automated
           # TODO: error handling
           agent = Mechanize.new
           login_page1 = agent.get(REQUEST_AUTH_URL)
@@ -115,7 +146,6 @@ module YFantasy
         def set_token_data(access_token, expires_in, refresh_token)
           @access_token = access_token
           @expires_at = Time.now.to_i + expires_in.to_i
-          puts "Refresh: #{refresh_token}"
           @refresh_token = refresh_token
         end
 
