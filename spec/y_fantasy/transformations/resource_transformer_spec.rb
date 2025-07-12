@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Transformations::ResourceMapper do
+RSpec.describe YFantasy::Transformations::ResourceTransformer do
   describe "#call" do
     context "without subresources" do
       let(:data) do
@@ -51,10 +51,10 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
       end
 
       it "returns a resource instance and subresource instances" do
-        result = described_class.new("game", subresources: [:game_weeks]).call(data)
+        result = described_class.new("game").call(data)
 
         expect(result).to be_a(YFantasy::Game)
-        expect(result.game_weeks).to all(be_a(YFantasy::GameWeek))
+        expect(result.game_weeks).to all(be_a(YFantasy::Game::GameWeek))
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
       end
 
       it "returns a resource instance and subresource instances" do
-        result = described_class.new("game", subresources: [:stat_categories]).call(data)
+        result = described_class.new("game").call(data)
 
         expect(result).to be_a(YFantasy::Game)
         expect(result.stat_categories).to all(be_a(YFantasy::StatCategory))

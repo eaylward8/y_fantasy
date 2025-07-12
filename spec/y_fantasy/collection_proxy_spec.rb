@@ -54,17 +54,17 @@ RSpec.describe YFantasy::CollectionProxy do
     let(:keys) { [:nfl, :nba] }
     let(:c_proxy) { described_class.new(collection, keys).with(:game_weeks) }
     let(:fake_client) { instance_double(YFantasy::Api::Client) }
-    let(:fake_mapper) { instance_double(YFantasy::Transformations::CollectionMapper) }
+    let(:fake_transformer) { instance_double(YFantasy::Transformations::CollectionTransformer) }
 
     before do
       allow(c_proxy).to receive(:client).and_return(fake_client)
-      allow(fake_mapper).to receive(:call)
+      allow(fake_transformer).to receive(:call)
     end
 
     it "makes API call and relies on CollectionMapper to transform data" do
       expect(c_proxy).to receive(:collection).and_call_original
-      expect(YFantasy::Transformations::CollectionMapper).to(
-        receive(:new).with(collection, subresources: [:game_weeks]).and_return(fake_mapper)
+      expect(YFantasy::Transformations::CollectionTransformer).to(
+        receive(:new).with(collection).and_return(fake_transformer)
       )
       expect(fake_client).to receive(:get).with(collection, keys, [:game_weeks], scope_to_user: false)
 

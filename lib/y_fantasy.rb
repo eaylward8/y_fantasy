@@ -12,7 +12,7 @@ require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
 loader.collapse("#{__dir__}/y_fantasy/concerns")
 loader.collapse("#{__dir__}/y_fantasy/resources")
-loader.collapse("#{__dir__}/y_fantasy/subresources")
+loader.collapse("#{__dir__}/y_fantasy/resources/shared_subresources")
 loader.setup
 
 module YFantasy

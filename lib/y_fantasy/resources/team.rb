@@ -12,7 +12,7 @@ module YFantasy
     option :name
     option :number_of_moves, type: Types::Coercible::Integer
     option :number_of_trades, type: Types::Coercible::Integer
-    option :roster_adds, type: ->(h) { Transformations::T.numeric_values_to_ints(h) }
+    option :roster_adds, type: ->(h) { Transformations::T.map_numeric_values(h) }
     option :team_logos, type: ->(h) { h[:team_logo] }
     option :url
     option :waiver_priority, type: Types::Coercible::Integer

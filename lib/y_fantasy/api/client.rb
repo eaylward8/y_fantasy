@@ -9,14 +9,16 @@ module YFantasy
   module Api
     class Client
       def self.get(resource, keys, subresources = [], scope_to_user: false)
-        new.get(resource, keys, subresources, scope_to_user: false)
+        new.get(resource, keys, subresources, scope_to_user: scope_to_user)
       end
 
       def initialize
         YFantasy::Api::Authentication.authenticate
         @access_token = YFantasy::Api::Authentication.access_token
+        @refresh_token = YFantasy::Api::Authentication.refresh_token
 
         puts @access_token # TODO: remove
+        puts @refresh_token
       end
 
       # NOTE: URL construction needs to be sophisticated enough to know when it should use "out" params vs
@@ -32,8 +34,17 @@ module YFantasy
       def get(resource, keys, subresources = [], scope_to_user: false)
         url = UrlBuilder.new(resource, keys, subresources, scope_to_user: scope_to_user).build
         puts "\n Client#get #{url} \n"
-        response = Net::HTTP.get(URI(url), "Authorization" => "Bearer #{@access_token}")
-        Ox.load(response, mode: :hash_no_attrs).fetch(:fantasy_content)
+        response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
+        body = response.body
+
+        case response
+        when Net::HTTPSuccess
+          Ox.load(body, mode: :hash_no_attrs).fetch(:fantasy_content)
+        when Net::HTTPClientError
+          error = Ox.load(body, mode: :hash_no_attrs)
+          msg = "#{response.code}: #{error}"
+          raise msg
+        end
       end
 
       def reauthenticate

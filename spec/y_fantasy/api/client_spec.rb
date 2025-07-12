@@ -7,9 +7,9 @@ RSpec.describe YFantasy::Api::Client do
     it "calls #get on a new instance" do
       instance = instance_double(described_class)
       expect(described_class).to receive(:new).and_return(instance)
-      expect(instance).to receive(:get).with("game", "nfl", [], scope_to_user: false)
+      expect(instance).to receive(:get).with("game", "nfl", [:game_weeks], scope_to_user: true)
 
-      described_class.get("game", "nfl")
+      described_class.get("game", "nfl", [:game_weeks], scope_to_user: true)
     end
   end
 

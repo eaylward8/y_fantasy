@@ -43,10 +43,15 @@ RSpec.describe YFantasy::Transformations::T do
     end
   end
 
-  describe ".numeric_values_to_ints" do
-    it "coerces values that are string integers to integers" do
+  describe ".map_numeric_values" do
+    it "coerces values that are string integers to integers (default behavior)" do
       data = {a: "1", b: "two"}
-      expect(described_class.numeric_values_to_ints(data)).to eq({a: 1, b: "two"})
+      expect(described_class.map_numeric_values(data)).to eq({a: 1, b: "two"})
+    end
+
+    it "coerces values that are string decimals to floats" do
+      data = {a: "1.3", b: "two"}
+      expect(described_class.map_numeric_values(data, method: :to_f)).to eq({a: 1.3, b: "two"})
     end
   end
 end

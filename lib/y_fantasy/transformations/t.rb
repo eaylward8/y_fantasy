@@ -8,8 +8,9 @@ module YFantasy
       extend Dry::Transformer::Registry
 
       import Dry::Transformer::ArrayTransformations
-      import Dry::Transformer::HashTransformations
+      import Dry::Transformer::Coercions
       import Dry::Transformer::Conditional
+      import Dry::Transformer::HashTransformations
 
       # https://philadelphiaencyclopedia.org/essays/jawn/
       def self.pluralize(jawn)
@@ -23,7 +24,6 @@ module YFantasy
       end
 
       def self.dig_value(data, *keys)
-        puts "\n digging: #{keys} \n"
         data.dig(*keys)
       end
 
@@ -31,8 +31,8 @@ module YFantasy
         data.is_a?(Array) ? data : [data]
       end
 
-      def self.numeric_values_to_ints(data)
-        data.transform_values { |v| v.match?(/\d/) ? v.to_i : v }
+      def self.map_numeric_values(data, method: :to_i)
+        data.transform_values { |v| v.match?(/\d/) ? v.send(method) : v }
       end
     end
   end

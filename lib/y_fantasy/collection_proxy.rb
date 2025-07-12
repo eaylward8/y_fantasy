@@ -41,10 +41,11 @@ module YFantasy
 
     def collection
       @collection ||=
-        Transformations::CollectionMapper.new(@collection_name, subresources: @subresources).call(fetch_data)
+        Transformations::CollectionTransformer.new(@collection_name).call(fetch_data)
     end
 
     def fetch_data
+      puts "\n YFantasy::Api::Client.get('#{@collection_name}', #{@keys}, #{@subresources}, scope_to_user: #{@scope_to_user}) \n"
       client.get(@collection_name, @keys, @subresources, scope_to_user: @scope_to_user)
     end
 

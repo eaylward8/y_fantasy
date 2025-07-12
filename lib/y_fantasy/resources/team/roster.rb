@@ -6,7 +6,7 @@ module YFantasy
       # Required attributes
       option :coverage_type
       option :is_editable, type: Types::Params::Bool
-      option :players
+      option :players, type: array_of(Player)
 
       # Optional attributes
       option :date, optional: true, type: Types::Params::Date

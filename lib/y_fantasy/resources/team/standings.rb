@@ -15,7 +15,7 @@ module YFantasy
       option :points_against, optional: true, type: Types::Coercible::Float
       option :points_back, optional: true, type: Types::Coercible::Float
       option :points_change, optional: true, type: Types::Coercible::Float
-      option :streak, optional: true, type: ->(h) { Transformations::T.numeric_values_to_ints(h) }
+      option :streak, optional: true, type: ->(h) { Transformations::T.map_numeric_values(h) }
       option :ties, optional: true, type: Types::Coercible::Integer
       option :wins, optional: true, type: Types::Coercible::Integer
     end

@@ -3,10 +3,11 @@
 module YFantasy
   class StatCategory < DependentSubresource
     # Required attributes
+    option :stat_id, type: Types::Coercible::Integer
+
     option :display_name
     option :name
     option :sort_order, type: Types::Coercible::Integer
-    option :stat_id, type: Types::Coercible::Integer
 
     # Optional attributes
     option :abbr, optional: true

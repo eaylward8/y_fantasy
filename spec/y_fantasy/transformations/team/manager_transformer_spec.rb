@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Transformations::ManagerUnwrapper do
+RSpec.describe YFantasy::Transformations::Team::ManagerTransformer do
   describe "#call" do
     context "one manager" do
       let(:data) do
@@ -69,58 +69,6 @@ RSpec.describe YFantasy::Transformations::ManagerUnwrapper do
 
       it "unwraps nested hash" do
         expect(described_class.new.call(data)).to eq(expected)
-      end
-    end
-
-    context "collection" do
-      let(:data) do
-        [
-          {
-            team_key: "whatever",
-            managers: {
-              manager: {
-                manager_id: "1",
-                nickname: "Osc"
-              }
-            }
-          },
-          {
-            team_key: "anotha one",
-            managers: {
-              manager: {
-                manager_id: "2",
-                nickname: "Mr. Beef"
-              }
-            }
-          }
-        ]
-      end
-
-      let(:expected) do
-        [
-          {
-            team_key: "whatever",
-            managers: [
-              {
-                manager_id: "1",
-                nickname: "Osc"
-              }
-            ]
-          },
-          {
-            team_key: "anotha one",
-            managers: [
-              {
-                manager_id: "2",
-                nickname: "Mr. Beef"
-              }
-            ]
-          }
-        ]
-      end
-
-      it "transforms each item in collection" do
-        expect(described_class.new(collection: true).call(data)).to eq(expected)
       end
     end
   end

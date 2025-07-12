@@ -46,8 +46,16 @@ module YFantasy
         # start simple - no nested subs
         # TODO: clean this up
         subresources = @subresources.map do |sub|
-          sub == :draft_results ? :draftresults : sub
+          case sub
+          when :draft_results
+            :draftresults
+          when :ownership_percentage
+            :percent_owned
+          else
+            sub
+          end
         end
+
         out_params = ";out=#{subresources.join(",")}"
         @url.concat(out_params)
       end

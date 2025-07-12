@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe YFantasy::Transformations::CollectionMapper do
+RSpec.describe YFantasy::Transformations::CollectionTransformer do
   describe "#call" do
     context "without subresources" do
       let(:data) do
@@ -89,11 +89,11 @@ RSpec.describe YFantasy::Transformations::CollectionMapper do
       end
 
       it "returns a collection of resource instances with subresource instances" do
-        results = described_class.new("games", subresources: [:game_weeks]).call(data)
+        results = described_class.new("games").call(data)
 
         expect(results).to be_an(Array)
         results.each do |result|
-          expect(result.game_weeks).to all(be_a(YFantasy::GameWeek))
+          expect(result.game_weeks).to all(be_a(YFantasy::Game::GameWeek))
         end
       end
     end
