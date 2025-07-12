@@ -51,6 +51,10 @@ module YFantasy
             :draftresults
           when :ownership_percentage
             :percent_owned
+          when :team_standings
+            :standings
+          when :team_stats
+            :stats
           else
             sub
           end
