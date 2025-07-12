@@ -21,10 +21,32 @@ RSpec.describe YFantasy::Transformations::T do
     end
   end
 
-  describe ".fetch_value" do
+  describe ".dig_value" do
     it "returns the value of the given key" do
       data = {foo: [1, 2]}
-      expect(described_class.fetch_value(data, :foo)).to eq(data[:foo])
+      expect(described_class.dig_value(data, :foo)).to eq(data[:foo])
+    end
+
+    it "returns the value of the last given key" do
+      data = {foo: {bar: [1, 2]}}
+      expect(described_class.dig_value(data, :foo, :bar)).to eq(data[:foo][:bar])
+    end
+  end
+
+  describe ".wrap_in_array" do
+    it "wraps the value in an array" do
+      expect(described_class.wrap_in_array(13)).to eq([13])
+    end
+
+    it "returns given value if already an array" do
+      expect(described_class.wrap_in_array(["yo"])).to eq(["yo"])
+    end
+  end
+
+  describe ".numeric_values_to_ints" do
+    it "coerces values that are string integers to integers" do
+      data = {a: "1", b: "two"}
+      expect(described_class.numeric_values_to_ints(data)).to eq({a: 1, b: "two"})
     end
   end
 end

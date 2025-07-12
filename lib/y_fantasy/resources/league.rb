@@ -33,7 +33,7 @@ module YFantasy
     option :end_week, optional: true, type: Types::Coercible::Integer
     option :is_finished, optional: true, type: Types::Params::Bool
 
-    # # Subresources
+    # Subresources
     option :draft_results, optional: true, type: array_of(DraftResult)
     option :settings, optional: true, type: instance_of(Settings)
 

@@ -22,7 +22,7 @@ RSpec.describe YFantasy::Transformations::Instantiator do
       end
     end
 
-    context "when instantiating a collection of instances" do
+    context "when instantiating a collection" do
       it "instantiates classes with provided args" do
         instantiator = described_class.new(TestClass, collection: true)
         args = [

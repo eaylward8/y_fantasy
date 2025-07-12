@@ -24,6 +24,7 @@ module YFantasy
       def compose_function
         KeyUnwrapper.new(@resource)
           .>> ResourceUnwrapper.new(@subresources)
+          .>> ManagerUnwrapper.new
           .>> Instantiator.new(@klass)
       end
     end

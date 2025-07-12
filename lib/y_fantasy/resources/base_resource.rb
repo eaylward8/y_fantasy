@@ -22,6 +22,7 @@ module YFantasy
         SubresourceValidator.validate!(self, subresources)
 
         # TODO: move client stuff elsewhere?
+        puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
         data = YFantasy::Api::Client.get(resource_name, key, subresources)
         Transformations::ResourceMapper.new(resource_name, subresources: subresources).call(data)
       end

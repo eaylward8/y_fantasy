@@ -3,10 +3,8 @@
 module YFantasy
   module Transformations
     class ResourceArrayFetcher < BaseTransform
-      extend Forwardable
-
       def initialize(resource)
-        @function = t(:fetch_value, resource) >> t(:is, Hash, ->(hash) { [hash] })
+        @function = t(:dig_value, resource) >> t(:wrap_in_array)
         super(resource)
       end
     end

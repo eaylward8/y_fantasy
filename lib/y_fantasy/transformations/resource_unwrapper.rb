@@ -30,7 +30,7 @@ module YFantasy
         plural = t(:pluralize, resource).call.to_sym
         singular = t(:singularize, resource).call.to_sym
 
-        t(:unwrap, plural) >> t(:rename_keys, singular => plural)
+        t(:map_value, plural, t(:dig_value, singular))
       end
 
       def for_collection?

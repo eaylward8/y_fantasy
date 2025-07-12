@@ -23,6 +23,7 @@ module YFantasy
           .>> KeyUnwrapper.new(@collection)
           .>> ResourceArrayFetcher.new(@resource)
           .>> ResourceUnwrapper.new(@subresources, collection: true)
+          .>> ManagerUnwrapper.new(collection: true)
           .>> Instantiator.new(@klass, collection: true)
       end
     end

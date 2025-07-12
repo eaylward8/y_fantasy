@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 RSpec.describe YFantasy::CollectionProxy do
-
   describe "#find_all" do
     let(:c_proxy) { described_class.new("games") }
 
@@ -52,7 +51,7 @@ RSpec.describe YFantasy::CollectionProxy do
 
   describe "#load" do
     let(:collection) { "games" }
-    let(:keys) { [:nfl, :nba]}
+    let(:keys) { [:nfl, :nba] }
     let(:c_proxy) { described_class.new(collection, keys).with(:game_weeks) }
     let(:fake_client) { instance_double(YFantasy::Api::Client) }
     let(:fake_mapper) { instance_double(YFantasy::Transformations::CollectionMapper) }

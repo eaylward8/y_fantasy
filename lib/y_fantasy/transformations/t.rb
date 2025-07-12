@@ -7,14 +7,9 @@ module YFantasy
     module T
       extend Dry::Transformer::Registry
 
-      # TODO: remove unused stuff
-      import Dry::Transformer::Coercions
       import Dry::Transformer::ArrayTransformations
       import Dry::Transformer::HashTransformations
-      import Dry::Transformer::ClassTransformations
-      import Dry::Transformer::ProcTransformations
       import Dry::Transformer::Conditional
-      import Dry::Transformer::Recursion
 
       # https://philadelphiaencyclopedia.org/essays/jawn/
       def self.pluralize(jawn)
@@ -27,9 +22,17 @@ module YFantasy
         jawn.end_with?("s") ? jawn[0...-1] : jawn
       end
 
-      def self.fetch_value(data, key)
-        puts "\n Calling T.fetch_value \n"
-        data.fetch(key)
+      def self.dig_value(data, *keys)
+        puts "\n digging: #{keys} \n"
+        data.dig(*keys)
+      end
+
+      def self.wrap_in_array(data)
+        data.is_a?(Array) ? data : [data]
+      end
+
+      def self.numeric_values_to_ints(data)
+        data.transform_values { |v| v.match?(/\d/) ? v.to_i : v }
       end
     end
   end
