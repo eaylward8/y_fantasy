@@ -44,11 +44,11 @@ module YFantasy
     has_subresources :players, :teams
     has_subresources :draft_results, :scoreboard, :settings, :standings, dependent: true
 
-    def renew_key
+    def previous_league_key
       renew&.split("_")&.join(".l.")
     end
 
-    def renewed_key
+    def next_league_key
       renewed&.split("_")&.join(".l.")
     end
   end
