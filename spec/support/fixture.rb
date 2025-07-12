@@ -6,6 +6,7 @@ class Fixture
   end
 
   def self.load_yaml(file_name)
-    YAML.load(load(file_name))
+    deep_symbolize = YFantasy::Transformations::T[:deep_symbolize_keys]
+    deep_symbolize.call(YAML.load(load(file_name)))
   end
 end
