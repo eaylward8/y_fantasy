@@ -37,6 +37,10 @@ module YFantasy
 
           key.failure(fail_msg)
         elsif value.is_a?(Hash)
+          if value.keys.size > 1
+            next key.failure("Nested subresources should contain a single top-level key. Found: #{value.keys}")
+          end
+
           sub, nested_subs = value.keys.first, value.values
           valid_nested_subs = klass.subresource_tree.dig(sub)
           next key.failure(fail_msg) if !valid_nested_subs
