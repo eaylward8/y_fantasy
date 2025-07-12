@@ -5,26 +5,27 @@ module YFantasy
     # Required attributes
     option :league_key
     option :league_id
-    option :name
-    option :url
-    option :logo_url
+
+    option :allow_add_to_dl_extra_pos, Types::Params::Bool
     option :draft_status
-    option :num_teams, type: Types::Coercible::Integer
     option :edit_key
-    option :weekly_deadline
-    option :league_update_timestamp, Types::Coercible::Integer
-    option :scoring_type
+    option :end_date, type: Types::Params::Date
+    option :felo_tier
+    option :game_code
+    option :is_cash_league, Types::Params::Bool
+    option :is_pro_league, Types::Params::Bool
     option :league_type
+    option :league_update_timestamp, Types::Coercible::Integer
+    option :logo_url
+    option :name
+    option :num_teams, type: Types::Coercible::Integer
     option :renew
     option :renewed
-    option :felo_tier
-    option :allow_add_to_dl_extra_pos, Types::Params::Bool
-    option :is_pro_league, Types::Params::Bool
-    option :is_cash_league, Types::Params::Bool
-    option :start_date, type: Types::Params::Date
-    option :end_date, type: Types::Params::Date
-    option :game_code
+    option :scoring_type
     option :season
+    option :start_date, type: Types::Params::Date
+    option :url
+    option :weekly_deadline
 
     # Optional attributes
     option :short_invitation_url, optional: true
@@ -53,7 +54,7 @@ module YFantasy
     end
 
     def ended?
-      is_finished
+      is_finished || Date.today > end_date
     end
 
     def previous_league_key
@@ -66,10 +67,6 @@ module YFantasy
 
     def scoreboard_for_week(week)
       @scoreboard = self.class.find(league_key, with: :scoreboard, week: week).scoreboard
-    end
-
-    def team_keys
-      teams.map { |team| team.team_key }
     end
   end
 end

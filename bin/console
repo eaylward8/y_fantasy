@@ -10,7 +10,5 @@ require "y_fantasy"
 # require "irb"
 # IRB.start(__FILE__)
 
-# (If you use this, don't forget to add pry to your Gemfile!)
-# require "pry"
 require "pry-byebug"
 Pry.start

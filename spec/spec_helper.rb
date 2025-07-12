@@ -5,10 +5,11 @@ SimpleCov.start do
   add_group "Lib", "lib"
 end
 
-require "pry-byebug"
-require "webmock/rspec"
 require "y_fantasy"
+require "factory_bot"
+require "pry-byebug"
 require "support/fixture"
+require "webmock/rspec"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -22,6 +23,12 @@ RSpec.configure do |config|
   end
 
   config.order = :random
+
+  # FactoryBot config
+  config.include FactoryBot::Syntax::Methods
+  config.before(:suite) do
+    FactoryBot.find_definitions
+  end
 
   config.before(:each, :api) do |c|
     stub_request(:post, "https://api.login.yahoo.com/oauth2/get_token")
