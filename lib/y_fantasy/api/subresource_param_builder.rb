@@ -51,10 +51,8 @@ module YFantasy
       end
 
       def add_subresource_keys
-        puts "*** add_subresource_keys ***"
         return unless options_include_subresource_keys?
 
-        puts "about to loop over options"
         @options.each_pair do |k, v|
           k_str = Transformations::T.pluralize(k.to_s.sub("_keys", ""))
           if @params.include?("/#{k_str}")
@@ -64,7 +62,6 @@ module YFantasy
       end
 
       def options_include_subresource_keys?
-        puts @options.inspect
         @options.keys.map(&:to_s).any? { |s| s.end_with?("_keys") }
       end
 
