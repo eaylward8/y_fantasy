@@ -66,7 +66,9 @@ module YFantasy
           # Click "Verify password"
           auth_code_page = agent.submit(pw_form, pw_form.button("verifyPassword"))
           # Extract code
-          auth_code_page.uri.query.match(/code=(?<code>\w+)/)[:code]
+          # TODO: sometimes below line fails w/ undefined method [] for nil, add a retry?
+          match = auth_code_page.uri.query.match(/code=(?<code>\w+)/)
+          match[:code] if match
         end
 
         def post(url, data)

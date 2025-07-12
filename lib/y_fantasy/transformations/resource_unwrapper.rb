@@ -19,8 +19,8 @@ module YFantasy
       end
 
       def standard_transform
-        plural = make_plural(@resource)
-        singular = make_singular(@resource)
+        plural = make_plural(@resource).to_sym
+        singular = make_singular(@resource).to_sym
         t(:unwrap, plural) >> t(:rename_keys, singular => plural)
       end
 
@@ -30,12 +30,16 @@ module YFantasy
         T[*args]
       end
 
-      def make_plural(jawn)
-        jawn.to_s.pluralize.to_sym
+      def make_plural(resource)
+        return resource if resource.to_s.end_with?("s")
+
+        resource.concat("s")
       end
 
-      def make_singular(jawn)
-        jawn.to_s.singularize.to_sym
+      def make_singular(resource)
+        return resource unless resource.to_s.end_with?("s")
+
+        resource.to_s[0...-1]
       end
     end
   end
