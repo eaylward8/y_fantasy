@@ -56,13 +56,9 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
 
       it "returns a resource instance and subresource instances" do
         result = described_class.new("game", subresources: [:game_weeks]).call(data)
-        game_weeks = result.game_weeks
 
         expect(result).to be_a(YFantasy::Game)
-        expect(game_weeks).to be_an(Array)
-        game_weeks.each do |gw|
-          expect(gw).to be_a(YFantasy::Subresources::GameWeek)
-        end
+        expect(result.game_weeks).to all(be_a(YFantasy::Subresources::GameWeek))
       end
     end
 
@@ -96,13 +92,9 @@ RSpec.describe YFantasy::Transformations::ResourceMapper do
 
       it "returns a resource instance and subresource instances" do
         result = described_class.new("game", subresources: [:stat_categories]).call(data)
-        stat_categories = result.stat_categories
 
         expect(result).to be_a(YFantasy::Game)
-        expect(stat_categories).to be_an(Array)
-        stat_categories.each do |s|
-          expect(s).to be_a(YFantasy::Subresources::Stat)
-        end
+        expect(result.stat_categories).to all(be_a(YFantasy::Subresources::Stat))
       end
     end
   end

@@ -31,10 +31,7 @@ RSpec.describe YFantasy::Transformations::Instantiator do
         ]
         results = instantiator.call(args)
 
-        expect(results).to be_an(Array)
-        results.each do |result|
-          expect(result).to be_a(TestClass)
-        end
+        expect(results).to all(be_a(TestClass))
       end
     end
   end
