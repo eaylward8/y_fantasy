@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+require "simplecov"
+SimpleCov.start do
+  add_group "Lib", "lib"
+end
+
+require "pry-byebug"
 require "y_fantasy"
 
 RSpec.configure do |config|
