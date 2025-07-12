@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-initializer", "~> 3.0"
+  spec.add_dependency "dry-configurable", "~> 1.0"
   spec.add_dependency "dry-transformer", "~> 1.0"
   spec.add_dependency "dry-types", "~> 1.0"
   spec.add_dependency "dry-validation", "~> 1.0"
