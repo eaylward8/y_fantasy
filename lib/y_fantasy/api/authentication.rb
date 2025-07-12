@@ -25,6 +25,8 @@ module YFantasy
         def authenticate
           return true if access_token_valid?
 
+          # @refresh_token = 'ANxNNF_.6Nx0JLNpB2Tu0hCN53jfS1o9a4__NPFTfeNOKVtCT3s-' # TODO: remove
+
           refresh_token? ? authenticate_with_refresh_token : authenticate_with_code
         end
 
@@ -113,6 +115,7 @@ module YFantasy
         def set_token_data(access_token, expires_in, refresh_token)
           @access_token = access_token
           @expires_at = Time.now.to_i + expires_in.to_i
+          puts "Refresh: #{refresh_token}"
           @refresh_token = refresh_token
         end
 

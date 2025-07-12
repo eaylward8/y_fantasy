@@ -27,12 +27,12 @@ RSpec.describe YFantasy::BaseResource do
 
     describe ".find" do
       let(:key) { "thingamajig" }
-      let(:resource_transformer) { instance_double(YFantasy::Transformations::ResourceTransformer) }
+      let(:thing_transformer) { ->(data) { data } }
 
       it "calls the API and finds a transformer to map the data" do
         expect(YFantasy::Api::Client).to receive(:get).with(:thing, key, [])
-        expect(YFantasy::Transformations::ResourceTransformer).to receive(:new).with(:thing).and_return(resource_transformer)
-        expect(resource_transformer).to receive(:call)
+        expect(YFantasy::Transformations).to receive(:transformer_for).with(:thing).and_return(thing_transformer)
+        expect(thing_transformer).to receive(:call)
 
         YFantasy::Thing.find(key)
       end

@@ -10,7 +10,7 @@ module YFantasy
       private
 
       def compose_function
-        t(:dig_value, :users, :user) >> t(:reject_keys, [:guid])
+        KeyUnwrapper.new(:users, :user) >> t(:reject_keys, [:guid])
       end
     end
   end
