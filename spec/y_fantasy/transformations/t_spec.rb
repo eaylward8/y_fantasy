@@ -21,6 +21,24 @@ RSpec.describe YFantasy::Transformations::T do
     end
   end
 
+  describe ".floatize" do
+    it "returns a float when given an integer" do
+      expect(described_class.floatize(13)).to eq(13.0)
+    end
+
+    it "returns a float when given a float" do
+      expect(described_class.floatize(13.5)).to eq(13.5)
+    end
+
+    it "returns a float when given a string" do
+      expect(described_class.floatize("11")).to eq(11.0)
+    end
+
+    it "returns 0.0 when given '-'" do
+      expect(described_class.floatize("-")).to eq(0.0)
+    end
+  end
+
   describe ".dig_value" do
     it "returns the value of the given key" do
       data = {foo: [1, 2]}
@@ -40,6 +58,10 @@ RSpec.describe YFantasy::Transformations::T do
 
     it "returns given value if already an array" do
       expect(described_class.wrap_in_array(["yo"])).to eq(["yo"])
+    end
+
+    it "returns empty array if value is nil" do
+      expect(described_class.wrap_in_array(nil)).to eq([])
     end
   end
 
