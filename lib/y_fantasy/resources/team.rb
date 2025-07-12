@@ -44,6 +44,8 @@ module YFantasy
     has_subresource :stats, klass: StatCollection
     has_subresource :team_standings, klass: Standings
 
+    def_delegators :team_standings, :rank, :playoff_seed, :wins, :losses, :ties, :points_for, :points_against
+
     def manager
       managers.find { |manager| !manager.is_comanager }
     end
@@ -52,13 +54,13 @@ module YFantasy
       {
         team_key: team_key,
         name: name,
-        rank: team_standings.rank,
-        playoff_seed: team_standings.playoff_seed,
-        wins: team_standings.total_wins,
-        losses: team_standings.total_losses,
-        ties: team_standings.total_ties,
-        points_for: team_standings.points_for,
-        points_against: team_standings.points_against
+        rank: rank,
+        playoff_seed: playoff_seed,
+        wins: wins,
+        losses: losses,
+        ties: ties,
+        points_for: points_for,
+        points_against: points_against
       }
     end
 

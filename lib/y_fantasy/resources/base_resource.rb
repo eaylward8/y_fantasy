@@ -2,6 +2,7 @@
 
 module YFantasy
   class BaseResource
+    extend Forwardable
     extend Dry::Initializer[undefined: false]
     include Subresourceable
 
