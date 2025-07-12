@@ -2,7 +2,7 @@
 
 module YFantasy
   class Game
-    class PositionType < DependentSubresource
+    class PositionType < BaseSubresource
       option :type
       option :display_name
     end

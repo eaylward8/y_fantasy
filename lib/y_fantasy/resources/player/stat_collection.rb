@@ -2,7 +2,7 @@
 
 module YFantasy
   class Player
-    class StatCollection < DependentSubresource
+    class StatCollection < BaseSubresource
       # Required attributes
       option :coverage_type
       option :standard_stats, type: array_of(Stat)

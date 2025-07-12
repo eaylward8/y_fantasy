@@ -2,7 +2,7 @@
 
 module YFantasy
   class Team
-    class Standings < DependentSubresource
+    class Standings < BaseSubresource
       # Required attributes
       option :points_for, type: Types::Coercible::Float
       option :rank, type: Types::Coercible::Integer

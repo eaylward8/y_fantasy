@@ -2,7 +2,7 @@
 
 module YFantasy
   class Team
-    class Manager < DependentSubresource
+    class Manager < BaseSubresource
       # Required attributes
       option :manager_id, type: Types::Coercible::Integer
       option :guid

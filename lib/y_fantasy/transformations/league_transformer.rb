@@ -18,7 +18,7 @@ module YFantasy
           .>> transform_standings
           .>> transform_players
           .>> transform_teams
-          .>> Instantiator.new(YFantasy::League)
+          # .>> Instantiator.new(YFantasy::League)
       end
 
       def transform_draft_results

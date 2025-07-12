@@ -2,7 +2,7 @@
 
 module YFantasy
   class League
-    class Standings < DependentSubresource
+    class Standings < BaseSubresource
       # Required attributes
       option :teams, array_of(Team)
 

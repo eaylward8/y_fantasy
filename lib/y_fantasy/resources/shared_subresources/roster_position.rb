@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module YFantasy
-  class RosterPosition < DependentSubresource
+  class RosterPosition < BaseSubresource
     option :position
     option :abbreviation, optional: true
     option :display_name, optional: true

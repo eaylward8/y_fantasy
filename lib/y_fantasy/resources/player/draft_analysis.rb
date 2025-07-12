@@ -2,7 +2,7 @@
 
 module YFantasy
   class Player
-    class DraftAnalysis < DependentSubresource
+    class DraftAnalysis < BaseSubresource
       # Required attributes
       option :average_cost, type: ->(v) { Transformations::T.floatize(v) }
       option :average_pick, type: ->(v) { Transformations::T.floatize(v) }

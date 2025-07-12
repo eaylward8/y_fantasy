@@ -2,7 +2,7 @@
 
 module YFantasy
   class Player
-    class OwnershipPercentage < DependentSubresource
+    class OwnershipPercentage < BaseSubresource
       # Required attributes
       option :coverage_type
       option :delta, type: Types::Coercible::Integer

@@ -2,7 +2,7 @@
 
 module YFantasy
   class PickemTeam
-    class WeekPick < DependentSubresource
+    class WeekPick < BaseSubresource
       # Required attributes
       option :week, type: Types::Coercible::Integer
       option :picks_completed, type: Types::Coercible::Integer

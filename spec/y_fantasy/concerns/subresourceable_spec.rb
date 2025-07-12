@@ -11,7 +11,7 @@ RSpec.describe YFantasy::Subresourceable do
   end
 
   let(:primary_subresource) { Class.new(YFantasy::BaseResource) }
-  let(:dependent_subresource) { Class.new(YFantasy::DependentSubresource) }
+  let(:dependent_subresource) { Class.new(YFantasy::BaseSubresource) }
 
   before do
     stub_const("Cheesesteak", primary_subresource)

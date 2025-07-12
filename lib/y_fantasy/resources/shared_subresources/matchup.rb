@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module YFantasy
-  class Matchup < DependentSubresource
+  class Matchup < BaseSubresource
     # Required attributes
     option :is_consolation, type: Types::Params::Bool
     option :is_playoffs, type: Types::Params::Bool

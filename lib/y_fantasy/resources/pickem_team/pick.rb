@@ -2,7 +2,7 @@
 
 module YFantasy
   class PickemTeam
-    class Pick < DependentSubresource
+    class Pick < BaseSubresource
       # Required attributes
       option :team # Yahoo team key. E.g., "nfl.t.1".
       option :result

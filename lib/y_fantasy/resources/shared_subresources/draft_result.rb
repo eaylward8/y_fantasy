@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module YFantasy
-  class DraftResult < DependentSubresource
+  class DraftResult < BaseSubresource
     option :pick, type: Types::Coercible::Integer
     option :round, type: Types::Coercible::Integer
     option :player_key

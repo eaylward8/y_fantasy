@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module YFantasy
-  class DependentSubresource
+  class BaseSubresource
     extend Dry::Initializer[undefined: false]
     include Subresourceable
 
@@ -11,7 +11,7 @@ module YFantasy
       end
 
       def resource_name
-        return if self == YFantasy::DependentSubresource
+        return if self == YFantasy::BaseSubresource
 
         to_s.split("::").last.scan(/[A-Z][a-z]+/).join("_").downcase.to_sym
       end

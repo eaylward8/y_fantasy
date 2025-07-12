@@ -2,7 +2,7 @@
 
 module YFantasy
   class Team
-    class StatCollection < DependentSubresource
+    class StatCollection < BaseSubresource
       option :team_stats, optional: true, default: -> {} do
         option :coverage_type, optional: true, default: -> {}
         option :season, optional: true, default: -> {}

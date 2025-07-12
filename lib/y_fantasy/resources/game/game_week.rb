@@ -2,7 +2,7 @@
 
 module YFantasy
   class Game
-    class GameWeek < DependentSubresource
+    class GameWeek < BaseSubresource
       option :week, type: Types::Coercible::Integer
       option :display_name
       option :start, type: Types::Params::Date

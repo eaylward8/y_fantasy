@@ -2,7 +2,7 @@
 
 module YFantasy
   class League
-    class Scoreboard < DependentSubresource
+    class Scoreboard < BaseSubresource
       # Required attributes
       option :week, type: Types::Coercible::Integer
 

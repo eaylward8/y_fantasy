@@ -2,7 +2,7 @@
 
 module YFantasy
   class Group
-    class Settings < DependentSubresource
+    class Settings < BaseSubresource
       DEADLINE_1_DESC = "5 minutes before the first game of each week"
       DEADLINE_2_DESC = "Sunday at 1:00 PM EST"
 

@@ -2,7 +2,7 @@
 
 module YFantasy
   class League
-    class Settings < DependentSubresource
+    class Settings < BaseSubresource
       # Required attributes
       option :cant_cut_list
       option :draft_together, type: Types::Params::Bool

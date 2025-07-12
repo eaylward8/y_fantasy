@@ -2,7 +2,7 @@
 
 module YFantasy
   class Team
-    class Roster < DependentSubresource
+    class Roster < BaseSubresource
       # Required attributes
       option :coverage_type
       option :is_editable, type: Types::Params::Bool

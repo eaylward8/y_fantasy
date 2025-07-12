@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module YFantasy
-  class Stat < DependentSubresource
+  class Stat < BaseSubresource
     # Required attributes
     option :stat_id, type: Types::Coercible::Integer
     option :value
