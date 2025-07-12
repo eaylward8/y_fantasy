@@ -24,7 +24,19 @@ module YFantasy
         # TODO: move client stuff elsewhere?
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}) \n"
         data = YFantasy::Api::Client.get(resource_name, key, subresources)
-        Transformations::ResourceTransformer.new(resource_name).call(data)
+        # TODO: can I have a single instance of these classes created when the gem is loaded?
+        # Then we just reuse them, instead of calling .new on every request?
+        if resource_name == :game
+          Transformations::GameTransformer.new.call(data)
+        elsif resource_name == :league
+          Transformations::LeagueTransformer.new.call(data)
+        elsif resource_name == :player
+          Transformations::PlayerTransformer.new.call(data)
+        elsif resource_name == :team
+          Transformations::TeamTransformer.new.call(data)
+        else
+          Transformations::ResourceTransformer.new(resource_name).call(data)
+        end
       end
 
       def fetch_subresource(key, subresource)

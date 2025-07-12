@@ -53,7 +53,7 @@ module YFantasy
             :percent_owned
           when :team_standings
             :standings
-          when :team_stats
+          when :team_stats # TODO: can this clause be removed?
             :stats
           else
             sub

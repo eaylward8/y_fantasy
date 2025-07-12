@@ -12,7 +12,7 @@ module YFantasy
         private
 
         def compose_function
-          fn = t(:map_value, :scoreboard, CollectionTransformer.new(:matchups, return_array: false))
+          fn = t(:map_value, :scoreboard, MatchupsTransformer.new)
           t(:guard, ->(data) { data.key?(:scoreboard) }, fn)
         end
       end

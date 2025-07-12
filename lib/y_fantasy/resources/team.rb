@@ -30,14 +30,16 @@ module YFantasy
 
     # Subresources
     option :draft_results, optional: true, type: array_of(DraftResult)
+    option :matchups, optional: true, type: array_of(Matchup)
     option :roster, optional: true, type: instance_of(Roster)
-    option :team_standings, optional: true, type: instance_of(Standings)
     option :stats, optional: true, type: instance_of(StatCollection), default: -> {}
+    option :team_standings, optional: true, type: instance_of(Standings)
 
     has_subresources :draft_results,
+      :matchups,
       :roster,
-      :team_standings,
       :stats,
+      :team_standings,
       dependent: true
   end
 end

@@ -22,9 +22,11 @@ module YFantasy
         },
         team: {
           draft_results: DefaultTransformer,
+          # matchups: MatchupsTransformer,
+          matchups: CollectionTransformer,
           roster: Team::RosterTransformer,
-          team_standings: Team::StandingsTransformer,
-          stats: Team::StatsTransformer
+          stats: Team::StatsTransformer,
+          team_standings: Team::StandingsTransformer
         }
       }
 

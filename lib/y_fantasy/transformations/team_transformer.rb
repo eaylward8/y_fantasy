@@ -5,7 +5,6 @@ module YFantasy
     class TeamTransformer < BaseTransform
       def initialize(include_matchups: true)
         @include_matchups = include_matchups
-        puts "Incl matchups: #{@include_matchups}"
         @function = compose_function
         super(include_matchups)
       end
