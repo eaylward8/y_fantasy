@@ -68,7 +68,7 @@ module YFantasy
       end
 
       def singularize(resource)
-        resource.end_with?("s") ? resource[0...-1] : resource
+        YFantasy::Transformations::T.singularize(resource)
       end
     end
   end
