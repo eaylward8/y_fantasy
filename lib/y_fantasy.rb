@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "forwardable"
+
 require "dry-initializer"
 require "dry-transformer"
 require "dry-types"
