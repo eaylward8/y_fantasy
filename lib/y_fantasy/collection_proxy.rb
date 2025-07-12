@@ -61,7 +61,7 @@ module YFantasy
       if Array.instance_methods.include?(method_name)
         collection.send(method_name, *args, &block)
       else
-        super(method_names, *args, &block)
+        super(method_name, *args, &block)
       end
     end
     # :nocov:
@@ -87,9 +87,10 @@ module YFantasy
     # :nocov:
     def inspect
       entries = collection.take(5).map do |entry|
-        inspection = entry.instance_values.take(2).map do |k, v|
-          next if v.nil?
-          v.is_a?(Array) ? "#{k}: [#{v.first.class.name}...]" : "#{k}: #{v}"
+        inspection = entry.instance_variables.take(2).map do |ivar|
+          val = entry.instance_variable_get(ivar)
+          next if val.nil?
+          val.is_a?(Array) ? "#{ivar}: [#{val.first.class.name}...]" : "#{ivar}: #{val}"
         end
 
         "#<#{entry.class} #{inspection.compact.join(", ")}>"
