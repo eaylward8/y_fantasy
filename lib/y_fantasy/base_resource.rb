@@ -22,13 +22,8 @@ module YFantasy
         SubresourceValidator.new(self, subresources).validate! unless subresources.empty?
 
         # TODO: move client stuff elsewhere?
-        client = YFantasy::Api::Client.new
-
-        Transformations::ResourceMapper.new(
-          client.get(resource_name, key, subresources),
-          resource_name,
-          subresources: subresources
-        ).map
+        data = YFantasy::Api::Client.new.get(resource_name, key, subresources)
+        Transformations::ResourceMapper.new(resource_name, subresources: subresources).call(data)
       end
 
       def fetch_subresource(key, subresource)

@@ -3,35 +3,21 @@
 module YFantasy
   module Transformations
     class ResourceMapper
-      def initialize(data, resource, subresources: [])
-        @data = data
+      extend Forwardable
+
+      def_delegator :@function, :call
+
+      def initialize(resource, subresources: [])
         @resource = T[:singularize].call(resource).to_sym
         @subresources = Array(subresources)
         @klass = Object.const_get("YFantasy::#{@resource.to_s.capitalize}") # TODO: create map of resources/classes instead of using const_get
-        @transformation = build_transformation
-      end
-
-      def map
-        puts "\n ResourceMapper#map \n"
-        @transformation.call(@data)
+        @function = compose_function
       end
 
       private
 
-      def t(*args)
-        T[*args]
-      end
-
-      # Can I make something like:
-      # Unwrapper.new(:fantasy_content, @resource) >> SubresourceUnwrapper.new(data, subresources) >> Instantiator.for(@klass)
-      def build_transformation
-        KeyUnwrapper.new(:fantasy_content, @resource)
-          .>> t(:guard, ->(_data) { !@subresources.empty? }, ->(data) { unwrap_subresources(data) })
-          .>> Instantiator.for(@klass)
-      end
-
-      def unwrap_subresources(data)
-        ResourceUnwrapper.new(@subresources).call(data)
+      def compose_function
+        KeyUnwrapper.new(:fantasy_content, @resource) >> ResourceUnwrapper.new(@subresources) >> Instantiator.for(@klass)
       end
     end
   end

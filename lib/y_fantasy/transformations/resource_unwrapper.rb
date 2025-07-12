@@ -11,7 +11,13 @@ module YFantasy
         super(resources)
       end
 
+      private
+
       def compose_function
+        t(:guard, ->(_data) { !@resources.empty? }, ->(data) { compose_resource_functions.call(data) })
+      end
+
+      def compose_resource_functions
         @resources.map { |resource| function_for(resource) }.inject(:>>)
       end
 

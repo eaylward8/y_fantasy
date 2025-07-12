@@ -27,10 +27,10 @@ RSpec.describe YFantasy::Transformations::ResourceUnwrapper do
         expect(unwrapper.call(data)).to eq({games: ["hey"], leagues: ["bye"]})
       end
 
-      xit "when not passed args" do
+      it "returns original data when args are nil/empty" do
         data = {games: {game: ["hey"]}, leagues: {league: ["bye"]}}
-        unwrapper = described_class.new([])
-        expect(unwrapper.call(data)).to eq({games: ["hey"], leagues: ["bye"]})
+        unwrapper = described_class.new(nil)
+        expect(unwrapper.call(data)).to eq(data)
       end
     end
   end
