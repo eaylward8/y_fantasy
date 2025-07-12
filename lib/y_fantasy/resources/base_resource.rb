@@ -18,8 +18,19 @@ module YFantasy
         CollectionProxy.new(collection_name, scope_to_user: true)
       end
 
-      def find_all(keys = [])
-        CollectionProxy.new(collection_name, keys)
+      # def find_all(keys = [])
+      #   CollectionProxy.new(collection_name, keys)
+      # end
+
+      def find_all(keys = [], with: [], scope_to_user: false)
+        keys = Array(keys)
+        subresources = Array(with)
+        data = YFantasy::Api::Client.get(
+          collection_name, keys: keys, subresources: subresources, scope_to_user: scope_to_user
+        )
+        resources = Transformations::CollectionTransformer.new(collection_name).call(data)
+        resources.each { |resource| resource.add_fetched_subresources(subresources) }
+        resources
       end
 
       # Individual resources
@@ -30,13 +41,16 @@ module YFantasy
         puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}, #{options}) \n"
 
         data = YFantasy::Api::Client.get(resource_name, keys: key, subresources: subresources, **options)
-        Transformations.transformer_for(resource_name).call(data)
+        resource = Transformations.transformer_for(resource_name).call(data)
+        resource.add_fetched_subresources(subresources)
+        resource
       end
 
-      def fetch_subresource(key, subresource)
-        resource = find(key, with: [subresource])
-        resource.send(subresource)
-      end
+      # TODO: move to subresourceable?
+      # def fetch_subresource(key, subresource)
+      #   resource = find(key, with: [subresource])
+      #   resource.send(subresource)
+      # end
 
       # Other class methods
       def dependent?

@@ -42,10 +42,23 @@ module YFantasy
     def self.find_all_by_code(codes, with: [], **options)
       subresources = Transformations::T.wrap_in_array(with)
       SubresourceValidator.validate!(self, subresources)
-      # TODO: remove
-      puts "\n YFantasy::Api::Client.get(games, '#{codes}', #{subresources}) \n"
       data = YFantasy::Api::Client.get(:games, game_codes: codes, subresources: subresources, **options)
       Transformations::CollectionTransformer.new(:games).call(data)
     end
+
+    # def leagues(league_keys = [])
+    #   @leagues ||= League.find_all(Array(league_keys))
+    # end
+
+    # def self.fetch_subresource(key, subresource)
+    #   if subresource == :leagues
+    #     game = find_all(key, with: subresource, scope_to_user: true).first
+    #     binding.pry
+    #     # game.send(subresource)
+    #   else
+    #     resource = find(key, with: [subresource])
+    #     resource.send(subresource)
+    #   end
+    # end
   end
 end
