@@ -42,15 +42,15 @@ module YFantasy
     has_subresource :team_standings, klass: Standings
 
     def matchups_for_week(week)
-      self.class.find(team_key, with: :matchups, week: week).matchups
+      @matchups = self.class.find(team_key, with: :matchups, week: week).matchups
     end
 
     def roster_for_week(week)
-      self.class.find(team_key, with: :roster, week: week).roster
+      @roster = self.class.find(team_key, with: :roster, week: week).roster
     end
 
     def stats_for_week(week)
-      self.class.find(team_key, with: :stats, week: week).stats
+      @stats = self.class.find(team_key, with: :stats, week: week).stats
     end
   end
 end

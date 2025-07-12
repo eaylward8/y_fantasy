@@ -57,7 +57,7 @@ module YFantasy
     end
 
     def scoreboard_for_week(week)
-      self.class.find(league_key, with: :scoreboard, week: week).scoreboard
+      @scoreboard = self.class.find(league_key, with: :scoreboard, week: week).scoreboard
     end
   end
 end
