@@ -17,5 +17,12 @@ module YFantasy
     # Optional attributes
     option :commissioner_nickname, optional: true
     option :is_commissioner, optional: true, type: Types::Params::Bool
+
+    # Subresources
+    option :settings, optional: true, type: instance_of(Settings)
+    option :teams, optional: true, type: array_of(PickemGroupTeam)
+
+    has_subresource :settings, klass: Settings
+    has_subresource :teams, klass: PickemGroupTeam
   end
 end
