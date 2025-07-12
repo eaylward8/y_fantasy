@@ -5,7 +5,7 @@ module YFantasy
     class Stat < DependentSubresource
       # Required attributes
       option :stat_id, type: Types::Coercible::Integer
-      option :value, type: Types::Coercible::Float
+      option :value, type: Transformations::T[:floatize]
     end
   end
 end

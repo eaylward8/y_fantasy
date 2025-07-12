@@ -21,6 +21,10 @@ module YFantasy
         jawn.end_with?("s") ? jawn[0...-1] : jawn
       end
 
+      def self.floatize(value)
+        value == "-" ? 0.0 : Types::Coercible::Float.call(value)
+      end
+
       def self.dig_value(data, *keys)
         data.dig(*keys)
       end

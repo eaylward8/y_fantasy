@@ -10,9 +10,11 @@ module YFantasy
     }
 
     DEPENDENT = {
+      draft_analysis: Player::DraftAnalysis,
       draft_results: DraftResult,
       game_weeks: Game::GameWeek,
       matchups: Matchup,
+      ownership_percentage: Player::OwnershipPercentage,
       position_types: Game::PositionType,
       roster: Team::Roster,
       roster_positions: RosterPosition,
