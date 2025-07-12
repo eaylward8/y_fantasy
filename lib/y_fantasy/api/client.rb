@@ -36,6 +36,7 @@ module YFantasy
       # This fails because "stats" is not a subresource of league: /league/380.l.190823;out=teams/stats
 
       def get(resource, keys, subresources = [], scope_to_user: false)
+        refresh_access_token_if_needed
         url = UrlBuilder.new(resource, keys, subresources, scope_to_user: scope_to_user).build
         puts "\n Client#get #{url} \n" # TODO: remove
         response = Net::HTTP.get_response(URI(url), "Authorization" => "Bearer #{@access_token}")
@@ -69,6 +70,12 @@ module YFantasy
           puts @error_type
           puts @error_desc
         end
+      end
+
+      def refresh_access_token_if_needed
+        return if YFantasy::Api::Authentication.access_token_valid?
+
+        authenticate
       end
 
       class Error < StandardError

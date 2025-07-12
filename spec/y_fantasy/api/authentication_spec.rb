@@ -21,7 +21,7 @@ RSpec.describe YFantasy::Api::Authentication, :api do
         allow(described_class).to receive(:refresh_token).and_return("fake_refresh_token")
       end
 
-      it "calls .authenticate_with_refresh_token " do
+      it "calls .authenticate_with_refresh_token" do
         expect(described_class).to receive(:authenticate_with_refresh_token).once
         described_class.authenticate
       end
@@ -30,7 +30,7 @@ RSpec.describe YFantasy::Api::Authentication, :api do
         expect(described_class).to receive(:authenticate_with_refresh_token).and_call_original
         described_class.authenticate
         expect(described_class.access_token).to eq("fake_access_token")
-        expect(described_class.expires_in_seconds).to eq(3600)
+        expect(described_class.expires_at - Time.now.to_i).to be > 3595 # Should be 3600, providing some buffer for specs
         expect(described_class.refresh_token).to eq("fake_refresh_token")
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe YFantasy::Api::Authentication, :api do
         expect(described_class).to receive(:get_auth_code).and_return("fake_code")
         described_class.authenticate
         expect(described_class.access_token).to eq("fake_access_token")
-        expect(described_class.expires_in_seconds).to eq(3600)
+        expect(described_class.expires_at - Time.now.to_i).to be > 3595 # Should be 3600, providing some buffer for specs
         expect(described_class.refresh_token).to eq("fake_refresh_token")
       end
     end

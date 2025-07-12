@@ -19,12 +19,17 @@ module YFantasy
       # NOTE: access token expires in 1 hour (3600 seconds)
 
       class << self
-        attr_reader :access_token, :expires_in_seconds, :refresh_token, :error_type, :error_desc
+        # TODO: I don't think any of these readers are needed besides access_token. Maybe the error ones?
+        attr_reader :access_token, :expires_at, :refresh_token, :error_type, :error_desc
 
         def authenticate
           return true if access_token_valid?
 
           refresh_token? ? authenticate_with_refresh_token : authenticate_with_code
+        end
+
+        def access_token_valid?
+          !!access_token && !!expires_at && Time.now.to_i < expires_at
         end
 
         private
@@ -107,7 +112,7 @@ module YFantasy
 
         def set_token_data(access_token, expires_in, refresh_token)
           @access_token = access_token
-          @expires_in_seconds = expires_in.to_i
+          @expires_at = Time.now.to_i + expires_in.to_i
           @refresh_token = refresh_token
         end
 
@@ -119,11 +124,6 @@ module YFantasy
         def clear_error_data
           @error_type = nil
           @error_desc = nil
-        end
-
-        def access_token_valid?
-          now = Time.now.to_i
-          access_token && now < now + @expires_in_seconds
         end
 
         def refresh_token?
