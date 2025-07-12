@@ -14,11 +14,16 @@ module YFantasy
       def compose_function
         t(:guard, ->(data) { data.key?(:team) }, t(:unwrap, :team))
           .>> transform_manager
+          .>> transform_week_picks
           .>> instantiate
       end
 
       def transform_manager
         Team::ManagerTransformer.new
+      end
+
+      def transform_week_picks
+        PickemTeam::WeekPicksTransformer.new
       end
 
       def instantiate

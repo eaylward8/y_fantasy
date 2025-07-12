@@ -21,6 +21,11 @@ module YFantasy
     option :manager, optional: true, type: instance_of(Team::Manager)
     option :status, optional: true
 
+    # Subresources
+    option :week_picks, optional: true, type: array_of(WeekPick)
+
+    has_subresource :week_picks, klass: WeekPick
+
     def group_key
       @group_key ||= team_key.sub(/\.t\.\d+/, "")
     end
