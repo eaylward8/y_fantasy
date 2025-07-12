@@ -8,8 +8,9 @@ require "ox"
 module YFantasy
   module Api
     class Client
-      BASE_URL = "https://fantasysports.yahooapis.com/fantasy/v2"
-      CURRENT_USER_URL = "#{BASE_URL}/users;use_login=1"
+      def self.get(resource, keys, subresources = [], scope_to_user: false)
+        new.get(resource, keys, subresources, scope_to_user: false)
+      end
 
       def initialize
         YFantasy::Api::Authentication.authenticate
