@@ -32,8 +32,8 @@ module YFantasy
       end
 
       # Input is a hash, output is array
-      def self.fetch_array(data, key)
-        puts "\n Calling T.fetch_array \n"
+      def self.fetch_value(data, key)
+        puts "\n Calling T.fetch_value \n"
         data.fetch(key)
       end
     end

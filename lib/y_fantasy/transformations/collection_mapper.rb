@@ -26,8 +26,7 @@ module YFantasy
         KeyUnwrapper.new(:fantasy_content)
           .>> UserUnwrapper.new
           .>> KeyUnwrapper.new(@collection)
-          .>> t(:guard, ->(data) { data.fetch(@resource).is_a?(Hash) }, t(:map_value, @resource, ->(data) { [data] }))
-          .>> t(:fetch_array, @resource)
+          .>> ResourceArrayFetcher.new(@resource)
           .>> ResourceUnwrapper.new(@subresources, for_collection: true)
           .>> Instantiator.for(@klass)
       end
