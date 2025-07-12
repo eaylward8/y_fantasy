@@ -24,15 +24,5 @@ FactoryBot.define do
     start_date { "2024-09-05" }
     url { "https://fakeyahoourl.com" }
     weekly_deadline { nil }
-
-    trait :not_started do
-      start_date { Date.today + 1 }
-      end_date { Date.today + 100 }
-    end
-
-    trait :ended do
-      start_date { Date.today - 100 }
-      end_date { Date.today - 1 }
-    end
   end
 end

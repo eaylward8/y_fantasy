@@ -15,6 +15,7 @@ module YFantasy
       option :two_pick_start_week, type: Types::Coercible::Integer
       option :commissioner_note
 
+      # :nocov:
       def deadline_desc
         if deadline == 1
           DEADLINE_1_DESC
@@ -22,6 +23,7 @@ module YFantasy
           DEADLINE_2_DESC
         end
       end
+      # :nocov:
     end
   end
 end

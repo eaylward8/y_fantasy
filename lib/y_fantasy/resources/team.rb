@@ -12,11 +12,7 @@ module YFantasy
     option :name
     option :number_of_moves, type: Types::Coercible::Integer
     option :number_of_trades, type: Types::Coercible::Integer
-    option :roster_adds do
-      option :coverage_type
-      option :coverage_value, type: Types::Coercible::Integer
-      option :value, type: Types::Coercible::Integer
-    end
+    option :roster_adds
     option :team_logos, type: ->(h) { h[:team_logo] }
     option :url
 

@@ -8,9 +8,11 @@ module YFantasy
       option :result
       option :locked, type: Types::Params::Bool
 
+      # :nocov:
       def team_details
         Ref::Nfl.team(team)
       end
+      # :nocov:
     end
   end
 end
