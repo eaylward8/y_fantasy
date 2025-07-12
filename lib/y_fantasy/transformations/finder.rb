@@ -24,7 +24,7 @@ module YFantasy
           draft_results: DefaultTransformer,
           roster: Team::RosterTransformer,
           team_standings: Team::StandingsTransformer,
-          team_stats: Team::StatsTransformer
+          stats: Team::StatsTransformer
         }
       }
 

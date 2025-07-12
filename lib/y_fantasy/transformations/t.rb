@@ -22,7 +22,7 @@ module YFantasy
       end
 
       def self.floatize(value)
-        value == "-" ? 0.0 : Types::Coercible::Float.call(value)
+        (value == "-") ? 0.0 : Types::Coercible::Float.call(value)
       end
 
       def self.dig_value(data, *keys)

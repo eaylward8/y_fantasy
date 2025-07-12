@@ -34,34 +34,36 @@ module YFantasy
     option :team_standings, optional: true, type: instance_of(Standings)
 
     # Subresources provided by :team_stats
-    option :team_stats, optional: true, type: instance_of(StatCollection)
+    option :stats, optional: true, type: instance_of(StatCollection), default: -> {}
+    #   option :team_stats, optional: true#, type: instance_of(StatCollection)
 
-    option :team_points, optional: true do
-      option :coverage_type
-      option :season, optional: true, default: -> {}
-      option :total, type: Types::Coercible::Float
-      option :week, optional: true, default: -> {}
-    end
+    #   option :team_points, optional: true, default: -> {} do
+    #     option :coverage_type, optional: true, default: -> {}
+    #     option :season, optional: true, default: -> {}
+    #     option :total, optional: true, default: -> {}
+    #     option :week, optional: true, default: -> {}
+    #   end
 
-    option :team_projected_points, optional: true do
-      option :coverage_type
-      option :season, optional: true, default: -> {}
-      option :total, type: Types::Coercible::Float
-      option :week, optional: true
-    end
+    #   option :team_projected_points, optional: true, default: -> {} do
+    #     option :coverage_type, optional: true, default: -> {}
+    #     option :season, optional: true, default: -> {}
+    #     option :total, optional: true, default: -> {}
+    #     option :week, optional: true, default: -> {}
+    #   end
 
-    option :team_remaining_games, optional: true do
-      option :coverage_type
-      option :week, optional: true
-      option :completed_games, optional: true, type: Types::Coercible::Integer
-      option :live_games, optional: true, type: Types::Coercible::Integer
-      option :remaining_games, optional: true, type: Types::Coercible::Integer
-    end
+    #   option :team_remaining_games, optional: true, default: -> {} do
+    #     option :coverage_type, optional: true, default: -> {}
+    #     option :week, optional: true, default: -> {}
+    #     option :completed_games, optional: true, default: -> {}
+    #     option :live_games, optional: true, default: -> {}
+    #     option :remaining_games, optional: true, default: -> {}
+    #   end
+    # end
 
     has_subresources :draft_results,
       :roster,
       :team_standings,
-      :team_stats,
+      :stats,
       dependent: true
   end
 end
