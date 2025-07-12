@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "base64"
-require "json"
 require "net/http"
 require "uri"
 require "mechanize"
@@ -20,12 +19,12 @@ module YFantasy
       # NOTE: access token expires in 1 hour (3600 seconds)
 
       class << self
-        attr_reader :access_token, :access_token_expires_at, :refresh_token
+        attr_reader :access_token, :expires_in_seconds, :refresh_token
 
         def authenticate
           return true if access_token_valid?
 
-          @refresh_token ? authenticate_with_refresh_token : authenticate_with_code
+          refresh_token? ? authenticate_with_refresh_token : authenticate_with_code
         end
 
         private
@@ -119,6 +118,10 @@ module YFantasy
         def access_token_valid?
           now = Time.now.to_i
           access_token && now < now + @expires_in_seconds
+        end
+
+        def refresh_token?
+          !!@refresh_token
         end
       end
     end

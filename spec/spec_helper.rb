@@ -8,6 +8,7 @@ end
 require "pry-byebug"
 require "webmock/rspec"
 require "y_fantasy"
+require "support/fixture_loader"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -18,5 +19,17 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  config.order = :random
+
+  config.before(:each, :api) do |c|
+    stub_request(:post, "https://api.login.yahoo.com/oauth2/get_token")
+      .with(body: hash_including("grant_type" => "authorization_code", "code" => "fake_code"))
+      .to_return(status: 200, body: FixtureLoader.load("authentication/get_token.json"))
+
+    stub_request(:post, "https://api.login.yahoo.com/oauth2/get_token")
+      .with(body: hash_including("grant_type" => "refresh_token", "refresh_token" => "fake_refresh_token"))
+      .to_return(status: 200, body: FixtureLoader.load("authentication/get_token.json"))
   end
 end
