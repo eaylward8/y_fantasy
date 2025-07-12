@@ -13,14 +13,15 @@ module YFantasy
       end
 
       def add_fetched_subresources(subresources = [])
-        Array(subresources).each do |subresource|
+        # Using wrap_in_array here because Array() will convert a hash to array
+        Transformations::T.wrap_in_array(subresources).each do |subresource|
           case subresource
           when Symbol
             fetched_subresources << subresource
           when Hash
             key = subresource.keys.first
             fetched_subresources << key
-            send(key).each do |sub_instance|
+            send(key)&.each do |sub_instance|
               sub_instance.add_fetched_subresources(subresource[key])
             end
           end
@@ -43,22 +44,14 @@ module YFantasy
       end
 
       def has_subresource(sub, klass:)
+        check_inheritance # This smells
         klass.dependent? ? (dependent_subresources << sub) : (primary_subresources << sub)
         add_to_subresource_tree(sub, klass)
 
         define_method(sub) do
           ivar = :"@#{sub}"
           value = instance_variable_get(ivar)
-
-          # `fetched?` is defined on Team::StatCollection to help identify whether or not a team's stats have already
-          # been fetched from the Yahoo API. Yahoo values for team stats vary by sport and scoring type.
-          # This prevents fetching team stats in an infinite loop.
-          should_return =
-            (self.class.respond_to?(:dependent?) && self.class.dependent?) ||
-            (value && value != [] && !value.respond_to?(:fetched?)) ||
-            (value.respond_to?(:fetched?) && value.fetched?)
-
-          return value if should_return
+          return value if (value && value != []) || fetched_subresources.include?(sub)
 
           value = instance_variable_set(ivar, self.class.fetch_subresource(key, sub))
           add_fetched_subresources(sub)
@@ -79,6 +72,15 @@ module YFantasy
       def subresource_tree
         @subresource_tree || {}
       end
+
+      def check_inheritance
+        return if superclass == YFantasy::BaseResource || superclass == YFantasy::BaseSubresource
+
+        raise YFantasy::Subresourceable::Error.new("#{self} does not inherit from BaseResource")
+      end
+    end
+
+    class Error < StandardError
     end
   end
 end
