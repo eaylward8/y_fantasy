@@ -13,5 +13,11 @@ RSpec.describe YFantasy::Transformations::KeyUnwrapper do
       unwrapper = described_class.new(:a, :b)
       expect(unwrapper.call(data)).to eq({c: "yo"})
     end
+
+    it "fails if the value to be unwrapped is not a hash" do
+      data = {a: {b: ["yo"]}}
+      unwrapper = described_class.new(:a, :b)
+      expect { unwrapper.call(data) }.to raise_error(ArgumentError)
+    end
   end
 end

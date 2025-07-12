@@ -26,7 +26,7 @@ module YFantasy
       end
 
       def self.dig_value(data, *keys)
-        data&.dig(*keys)# || data
+        data&.dig(*keys)
       end
 
       def self.wrap_in_array(data)
