@@ -2,12 +2,14 @@
 
 module YFantasy
   class SubresourceValidator
-    def initialize(klass, subresources)
+    def initialize(klass, subresources = [])
       @contract = Contract.new(klass: klass)
-      @subresources = subresources
+      @subresources = Array(subresources)
     end
 
     def validate!
+      return true if @subresources.empty?
+
       result = @contract.call(subresources: @subresources)
       return true if result.success?
 
