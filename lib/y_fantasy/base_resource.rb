@@ -18,7 +18,7 @@ module YFantasy
 
       # Individual resources
       def find(key, with: [])
-        subresources = Array(with)
+        subresources = Array(with).map(&:to_sym)
         SubresourceValidator.new(self, subresources).validate! unless subresources.empty?
 
         # TODO: move client stuff elsewhere?

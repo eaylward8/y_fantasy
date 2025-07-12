@@ -36,14 +36,6 @@ module YFantasy
         puts "\n Calling T.fetch_array \n"
         data.fetch(key)
       end
-
-      def self.stat_categories
-        t(:unwrap, :stat_categories) >> t(:unwrap, :stats) >> t(:rename_keys, stat: :stat_categories)
-      end
-
-      # SUBRESOURCE_TRANSFORMS = {
-      #   stat_categories: T[:unwrap, :stat_categories] >> T[:unwrap, :stats] >> T[:rename_keys, stat: :stat_categories]
-      # }
     end
   end
 end

@@ -22,6 +22,8 @@ module YFantasy
       end
 
       def function_for(resource)
+        return CustomUnwrapperFunctions.send(resource) if CustomUnwrapperFunctions.respond_to?(resource)
+
         plural = t(:pluralize, resource).call.to_sym
         singular = t(:singularize, resource).call.to_sym
 
