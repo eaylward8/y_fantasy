@@ -25,22 +25,15 @@ module YFantasy
         @resource = resource.to_s
         @keys = Array(keys).map(&:to_s)
         @subresources = Array(subresources)
-        @week = week.to_s
+        @week = week
         @url = scope_to_user ? CURRENT_USER_URL.dup : BASE_URL.dup
       end
 
-      # TODO: will Set be helpful here?
       def build
-        # raise some error if resource (and keys?) not set
         singular_resource? ? build_resource_url : build_collection_url
         return @url if @subresources.empty?
 
-        # TODO: this is hacky, just wanted to make something work.
-        if @subresources.include?(:scoreboard) && @week
-          return @url.concat("/scoreboard;week=", @week)
-        end
-
-        params = SubresourceParamBuilder.new(@subresources).build
+        params = SubresourceParamBuilder.new(@subresources, week: @week).build
         @url.concat(params)
       end
 

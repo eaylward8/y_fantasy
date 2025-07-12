@@ -9,15 +9,16 @@ module YFantasy
         team_standings: :standings
       }
 
-      def initialize(subresources = [])
-        @subs = subresources
-        @regular_subs, @nested_subs = normalize_subresources
+      def initialize(subresources = [], week: nil)
+        @regular_subs, @nested_subs = normalize_subresources(subresources)
+        @week = week
       end
 
       def build
         @params = +""
         add_regular_subresource_segments
         add_nested_subresource_segments
+        add_week
         @params
       end
 
@@ -45,11 +46,24 @@ module YFantasy
         end
       end
 
-      def normalize_subresources
+      def add_week
+        return if @week.nil?
+
+        case @params
+        when /\/(roster|scoreboard)/
+          @params.sub!(/\/(?<res>roster|scoreboard)/, "/\\k<res>;week=#{@week}")
+        when /\/matchups/
+          @params.sub!("matchups", "matchups;weeks=#{@week}")
+        when /\/stats/
+          @params.sub!("stats", "stats;type=week;week=#{@week}")
+        end
+      end
+
+      def normalize_subresources(subs)
         @regular_subs = []
         @nested_subs = []
 
-        @subs.each do |sub|
+        subs.each do |sub|
           if sub.is_a?(Symbol)
             @regular_subs << (SUBRESOURCE_MAP[sub] || sub)
           end

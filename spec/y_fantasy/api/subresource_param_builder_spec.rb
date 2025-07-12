@@ -41,5 +41,43 @@ RSpec.describe YFantasy::Api::SubresourceParamBuilder do
         expect(builder.build).to eq(";out=scoreboard/teams;out=matchups,standings")
       end
     end
+
+    context "with week" do
+      context "with one weekly subresource" do
+        it "adds the week param for scoreboard" do
+          builder = described_class.new([:scoreboard], week: 8)
+          expect(builder.build).to eq("/scoreboard;week=8")
+        end
+
+        it "adds the week param for roster" do
+          builder = described_class.new([:roster], week: 13)
+          expect(builder.build).to eq("/roster;week=13")
+        end
+
+        it "adds the weeks param for matchups" do
+          builder = described_class.new([:matchups], week: 3)
+          expect(builder.build).to eq("/matchups;weeks=3")
+        end
+
+        it "adds the 'type=week' and week param for stats" do
+          builder = described_class.new([:stats], week: 1)
+          expect(builder.build).to eq("/stats;type=week;week=1")
+        end
+      end
+
+      context "with one non-weekly subresource" do
+        it "does not add the week param" do
+          builder = described_class.new([:settings], week: 1)
+          expect(builder.build).to eq("/settings")
+        end
+      end
+
+      context "with a combination of non-weekly and weekly subresources" do
+        it "adds the week param appropriately" do
+          builder = described_class.new([:settings, {teams: :roster}], week: 1)
+          expect(builder.build).to eq(";out=settings/teams/roster;week=1")
+        end
+      end
+    end
   end
 end
