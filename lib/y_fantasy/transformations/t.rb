@@ -16,6 +16,16 @@ module YFantasy
       import Dry::Transformer::Conditional
       import Dry::Transformer::Recursion
 
+      def self.pluralize(jawn)
+        jawn = jawn.to_s
+        jawn.end_with?("s") ? jawn : "#{jawn}s"
+      end
+
+      def self.singularize(jawn)
+        jawn = jawn.to_s
+        jawn.end_with?("s") ? jawn[0...-1] : jawn
+      end
+
       def self.newify(data, klass)
         puts "\n Calling newify for: #{klass} \n"
         klass.new(**data)

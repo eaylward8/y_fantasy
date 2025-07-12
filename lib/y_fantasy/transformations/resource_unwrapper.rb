@@ -2,44 +2,24 @@
 
 module YFantasy
   module Transformations
-    class ResourceUnwrapper
-      def self.for(resource)
-        new(resource)
+    class ResourceUnwrapper < BaseTransform
+      extend Forwardable
+
+      def initialize(resources)
+        @resources = Array(resources)
+        @function = compose_function
+        super(resources)
       end
 
-      attr_reader :transformation
-
-      def initialize(resource)
-        @resource = resource
-        @transformation = T.respond_to?(resource) ? T.send(resource) : standard_transform
+      def compose_function
+        @resources.map { |resource| function_for(resource) }.inject(:>>)
       end
 
-      def call(data)
-        @transformation.call(data)
-      end
+      def function_for(resource)
+        plural = t(:pluralize, resource).call.to_sym
+        singular = t(:singularize, resource).call.to_sym
 
-      def standard_transform
-        plural = make_plural(@resource).to_sym
-        singular = make_singular(@resource).to_sym
         t(:unwrap, plural) >> t(:rename_keys, singular => plural)
-      end
-
-      private
-
-      def t(*args)
-        T[*args]
-      end
-
-      def make_plural(resource)
-        return resource if resource.to_s.end_with?("s")
-
-        resource.concat("s")
-      end
-
-      def make_singular(resource)
-        return resource unless resource.to_s.end_with?("s")
-
-        resource.to_s[0...-1]
       end
     end
   end

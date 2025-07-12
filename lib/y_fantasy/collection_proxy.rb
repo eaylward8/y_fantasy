@@ -46,7 +46,7 @@ module YFantasy
     # Adapted from code found in ActiveRecord
     def inspect
       entries = collection.take(5).map do |entry|
-        inspection = entry.instance_values.map do |k, v|
+        inspection = entry.instance_values.take(5).map do |k, v|
           next if v.nil?
           v.is_a?(Array) ? "#{k}: [#{v.first.class.name}...]" : "#{k}: #{v}"
         end

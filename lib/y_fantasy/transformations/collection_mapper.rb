@@ -23,24 +23,24 @@ module YFantasy
         T[*args]
       end
 
-      # TODO: may be able to combine the (unwrap, collection) and the first guard transform and put it in ResourceUnwrapper
+      # TODO: may be able to combine the (unwrap, collection) and the first guard transform and put it in ResourceUnwrapperOld
       def build_transformation
         t(:unwrap, :fantasy_content)
           .>> UserUnwrapper.pipeline
           .>> t(:unwrap, @collection)
           .>> t(:guard, ->(data) { data.fetch(@collection_singular).is_a?(Hash) }, t(:map_value, @collection_singular, ->(data) { [data] }))
           .>> t(:fetch_array, @collection_singular)
-          .>> t(:guard, ->(data) { !@subresources.empty? }, t(:map_array, ->(data) { subresource_transformations.call(data) }))
+          .>> t(:guard, ->(data) { !@subresources.empty? }, t(:map_array, ->(data) { subresource_transformations.call(data) })) # turn this into class
           .>> Instantiator.for(@klass)
       end
 
       def subresource_transformations
-        return ResourceUnwrapper.for(@subresources[0]) if @subresources.length == 1
+        return ResourceUnwrapperOld.for(@subresources[0]) if @subresources.length == 1
 
-        pipeline = ResourceUnwrapper.for(@subresources[0]).transformation
+        pipeline = ResourceUnwrapperOld.for(@subresources[0]).transformation
 
         @subresources[1..].each do |subresource|
-          pipeline = pipeline.send(:>>, ResourceUnwrapper.for(subresource).transformation)
+          pipeline = pipeline.send(:>>, ResourceUnwrapperOld.for(subresource).transformation)
         end
 
         pipeline
