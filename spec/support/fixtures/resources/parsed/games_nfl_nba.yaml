@@ -1,0 +1,23 @@
+:fantasy_content:
+    :games:
+      :game:
+      - :game_key: '414'
+        :game_id: '414'
+        :name: Football
+        :code: nfl
+        :type: full
+        :url: https://football.fantasysports.yahoo.com/f1
+        :season: '2022'
+        :is_registration_over: '1'
+        :is_game_over: '0'
+        :is_offseason: '0'
+      - :game_key: '418'
+        :game_id: '418'
+        :name: Basketball
+        :code: nba
+        :type: full
+        :url: https://basketball.fantasysports.yahoo.com/nba
+        :season: '2022'
+        :is_registration_over: '0'
+        :is_game_over: '0'
+        :is_offseason: '0'
