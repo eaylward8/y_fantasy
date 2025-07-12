@@ -1,9 +1,16 @@
-# image: ruby:3.1.2
+image: ruby:3.1.2
 
-# before_script:
-#   - gem install bundler -v 2.3.7
-#   - bundle install
+stages:
+  - build
+  - test
 
-# example_job:
-#   script:
-#     - bundle exec rake
+build-job:
+  stage: build
+  script:
+    - gem install bundler -v 2.3.7
+    - bundle install
+
+test-job:
+  stage: test
+  script:
+    - bundle exec rspec
