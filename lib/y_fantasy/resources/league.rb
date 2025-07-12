@@ -55,5 +55,9 @@ module YFantasy
     def next_league_key
       renewed&.split("_")&.join(".l.")
     end
+
+    def scoreboard_for_week(week)
+      self.class.find(league_key, with: :scoreboard, week: week).scoreboard
+    end
   end
 end
