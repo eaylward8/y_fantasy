@@ -39,7 +39,7 @@ module YFantasy
 
         pipeline = ResourceUnwrapper.for(@subresources[0]).transformation
 
-        @subresources[1..-1].each do |subresource|
+        @subresources[1..].each do |subresource|
           pipeline = pipeline.send(:>>, ResourceUnwrapper.for(subresource).transformation)
         end
 
