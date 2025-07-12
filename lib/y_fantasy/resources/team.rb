@@ -41,6 +41,24 @@ module YFantasy
     has_subresource :stats, klass: StatCollection
     has_subresource :team_standings, klass: Standings
 
+    def manager
+      managers.find { |manager| !manager.is_comanager }
+    end
+
+    def simple_standings
+      {
+        team_key: team_key,
+        name: name,
+        rank: team_standings.rank,
+        playoff_seed: team_standings.playoff_seed,
+        wins: team_standings.total_wins,
+        losses: team_standings.total_losses,
+        ties: team_standings.total_ties,
+        points_for: team_standings.points_for,
+        points_against: team_standings.points_against
+      }
+    end
+
     def matchups_for_week(week)
       @matchups = self.class.find(team_key, with: :matchups, week: week).matchups
     end
