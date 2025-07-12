@@ -13,7 +13,7 @@ RSpec.describe YFantasy::SubresourceValidator do
     stub_const("TestClass", test_class)
   end
 
-  describe "validate!" do
+  describe "#validate!" do
     it "returns true if subresources exist on given class" do
       validator = described_class.new(TestClass, [:jawns])
       expect(validator.validate!).to be(true)

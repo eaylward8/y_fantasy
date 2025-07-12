@@ -3,6 +3,16 @@
 RSpec.describe YFantasy::Api::Client do
   let(:client) { described_class.new }
 
+  describe ".get" do
+    it "calls #get on a new instance" do
+      instance = instance_double(described_class)
+      expect(described_class).to receive(:new).and_return(instance)
+      expect(instance).to receive(:get).with("game", "nfl", [], scope_to_user: false)
+
+      described_class.get("game", "nfl")
+    end
+  end
+
   describe "#get" do
     before do
       allow(YFantasy::Api::Authentication).to receive(:authenticate).and_return(true)

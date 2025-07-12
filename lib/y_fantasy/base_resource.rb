@@ -19,10 +19,10 @@ module YFantasy
       # Individual resources
       def find(key, with: [])
         subresources = Array(with).map(&:to_sym)
-        SubresourceValidator.new(self, subresources).validate! unless subresources.empty?
+        SubresourceValidator.validate!(self, subresources)
 
         # TODO: move client stuff elsewhere?
-        data = YFantasy::Api::Client.new.get(resource_name, key, subresources)
+        data = YFantasy::Api::Client.get(resource_name, key, subresources)
         Transformations::ResourceMapper.new(resource_name, subresources: subresources).call(data)
       end
 

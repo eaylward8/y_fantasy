@@ -2,6 +2,10 @@
 
 module YFantasy
   class SubresourceValidator
+    def self.validate!(klass, subresources = [])
+      new(klass, subresources).validate!
+    end
+
     def initialize(klass, subresources = [])
       @contract = Contract.new(klass: klass)
       @subresources = Array(subresources)
