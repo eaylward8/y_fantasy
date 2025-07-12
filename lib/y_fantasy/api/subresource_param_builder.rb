@@ -9,15 +9,17 @@ module YFantasy
         team_standings: :standings
       }
 
-      def initialize(subresources = [], week: nil)
+      def initialize(subresources = [], **options)
         @regular_subs, @nested_subs = normalize_subresources(subresources)
-        @week = week
+        @week = options.delete(:week)
+        @options = options
       end
 
       def build
         @params = +""
         add_regular_subresource_segments
         add_nested_subresource_segments
+        add_subresource_keys
         add_week
         @params
       end
@@ -46,6 +48,24 @@ module YFantasy
           @params.concat("/#{val.keys.first}/#{val.values.first}") if val.is_a?(Hash)
           @params.concat(";out=#{val.join(",")}") if val.is_a?(Array)
         end
+      end
+
+      def add_subresource_keys
+        puts "*** add_subresource_keys ***"
+        return unless options_include_subresource_keys?
+
+        puts "about to loop over options"
+        @options.each_pair do |k, v|
+          k_str = Transformations::T.pluralize(k.to_s.sub("_keys", ""))
+          if @params.include?("/#{k_str}")
+            @params.sub!(k_str, "#{k_str};#{k}=#{v.join(",")}")
+          end
+        end
+      end
+
+      def options_include_subresource_keys?
+        puts @options.inspect
+        @options.keys.map(&:to_s).any? { |s| s.end_with?("_keys") }
       end
 
       def add_week

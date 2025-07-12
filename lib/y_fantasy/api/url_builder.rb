@@ -21,19 +21,19 @@ module YFantasy
       BASE_URL = "https://fantasysports.yahooapis.com/fantasy/v2"
       CURRENT_USER_URL = "#{BASE_URL}/users;use_login=1"
 
-      def initialize(resource, keys, subresources = [], week: nil, scope_to_user: false)
+      def initialize(resource, keys, subresources = [], **options)
         @resource = resource.to_s
         @keys = Array(keys).map(&:to_s)
         @subresources = Array(subresources)
-        @week = week
-        @url = scope_to_user ? CURRENT_USER_URL.dup : BASE_URL.dup
+        @options = options
+        @url = options[:scope_to_user] ? CURRENT_USER_URL.dup : BASE_URL.dup
       end
 
       def build
         singular_resource? ? build_resource_url : build_collection_url
         return @url if @subresources.empty?
 
-        params = SubresourceParamBuilder.new(@subresources, week: @week).build
+        params = SubresourceParamBuilder.new(@subresources, **@options).build
         @url.concat(params)
       end
 

@@ -30,7 +30,7 @@ RSpec.describe YFantasy::BaseResource do
       let(:thing_transformer) { ->(data) { data } }
 
       it "calls the API and finds a transformer to map the data" do
-        expect(YFantasy::Api::Client).to receive(:get).with(:thing, key, [], week: nil)
+        expect(YFantasy::Api::Client).to receive(:get).with(:thing, key, [])
         expect(YFantasy::Transformations).to receive(:transformer_for).with(:thing).and_return(thing_transformer)
         expect(thing_transformer).to receive(:call)
 

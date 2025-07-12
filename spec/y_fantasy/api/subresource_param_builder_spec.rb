@@ -49,6 +49,20 @@ RSpec.describe YFantasy::Api::SubresourceParamBuilder do
       end
     end
 
+    context "with keys for subresources" do
+      it "appends keys to the appropriate subresource" do
+        builder1 = described_class.new([:players], player_keys: %w[123.p.1 123.p.2])
+        builder2 = described_class.new([:teams], team_keys: %w[123.l.12345.t.1 123.l.12345.t.2])
+        expect(builder1.build).to eq("/players;player_keys=123.p.1,123.p.2")
+        expect(builder2.build).to eq("/teams;team_keys=123.l.12345.t.1,123.l.12345.t.2")
+      end
+
+      it "does not append mismatched keys" do
+        builder = described_class.new([:players], team_keys: %w[123.p.1 123.p.2])
+        expect(builder.build).to eq("/players")
+      end
+    end
+
     context "with week" do
       context "with one weekly subresource" do
         it "adds the week param for scoreboard" do
