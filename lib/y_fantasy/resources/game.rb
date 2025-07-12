@@ -11,7 +11,7 @@ module YFantasy
     option :code
     option :type
     option :url
-    option :season
+    option :season, type: Types::Coercible::Integer
     option :is_registration_over, type: Types::Params::Bool
     option :is_game_over, type: Types::Params::Bool
     option :is_offseason, type: Types::Params::Bool

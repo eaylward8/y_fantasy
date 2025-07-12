@@ -100,5 +100,41 @@ RSpec.describe YFantasy::Api::SubresourceParamBuilder do
         end
       end
     end
+
+    context "with player options" do
+      context "with players subresource specified" do
+        it "adds one valid player param" do
+          builder = described_class.new([:players], position: "QB")
+          expect(builder.build).to eq("/players;position=QB")
+        end
+
+        it "adds multiple valid player params" do
+          builder = described_class.new([:players], position: "QB", status: "FA")
+          expect(builder.build).to eq("/players;position=QB;status=FA")
+        end
+
+        it "does not add invalid player params" do
+          builder = described_class.new([:players], position: "QB", invalid: "FOO")
+          expect(builder.build).to eq("/players;position=QB")
+        end
+
+        it "adds the param correctly when there are multiple subresources" do
+          builder = described_class.new([:settings, :teams, :players], position: "QB")
+          expect(builder.build).to eq(";out=settings,teams/players;position=QB")
+        end
+
+        it "adds the param correctly when players has a nested subresource" do
+          builder = described_class.new([players: :stats], position: "QB")
+          expect(builder.build).to eq("/players;position=QB/stats")
+        end
+      end
+
+      context "with players subresource omitted" do
+        it "does not add player params" do
+          builder = described_class.new([:teams], position: "QB")
+          expect(builder.build).to eq("/teams")
+        end
+      end
+    end
   end
 end
