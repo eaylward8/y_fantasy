@@ -76,8 +76,9 @@ module YFantasy
       @matchups = self.class.find(team_key, with: :matchups, week: week).matchups
     end
 
-    def roster_for_week(week)
-      @roster = self.class.find(team_key, with: :roster, week: week).roster
+    def roster_for_week(week, player_stats: false)
+      with = player_stats ? {roster: {players: :stats}} : :roster
+      @roster = self.class.find(team_key, with: with, week: week).roster
     end
 
     def stats_for_week(week)
