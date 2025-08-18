@@ -92,7 +92,26 @@ module YFantasy
     # Returns the group this PickemTeam belongs to
     # @return [Group] the group object
     def group
-      @group ||= Group.find(group_key)
+      @group ||= Group.find(group_key, with: :settings)
+    end
+
+    # Returns the week picks up to and including the group end week
+    # For some reason, Yahoo's API can return more weeks than the group settings allow, and they are always strikes.
+    # @return [Array<WeekPick>] the weekly picks for this team
+    def true_week_picks
+      @true_week_picks = week_picks.slice(0, group.settings.end_week)
+    end
+
+    # Returns the "true" total strikes, based on the group end week.
+    # If the group allows two picks per week, fall back to `total_strikes` from the PickemTeam.
+    # @return [Integer] the "true" total strikes for this team
+    def true_total_strikes
+      return total_strikes if group.settings.two_pick_start_week != 0
+
+      strikes = true_week_picks.count { |wp| wp.picks.first.result == "strike" }
+      return group.settings.max_strikes if strikes > group.settings.max_strikes
+
+      strikes
     end
   end
 end
