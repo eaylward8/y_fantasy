@@ -28,17 +28,17 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "dry-initializer", "~> 3.0"
-  spec.add_dependency "dry-configurable", "~> 1.0"
-  spec.add_dependency "dry-transformer", "~> 1.0"
-  spec.add_dependency "dry-types", "~> 1.0"
-  spec.add_dependency "dry-validation", "~> 1.0"
+  spec.add_dependency "dry-initializer", "~> 3.1.1"
+  spec.add_dependency "dry-configurable", "~> 1.1.0"
+  spec.add_dependency "dry-transformer", "~> 1.0.1"
+  spec.add_dependency "dry-types", "~> 1.7.2"
+  spec.add_dependency "dry-validation", "~> 1.10.0"
   spec.add_dependency "mechanize", "~> 2.9"
   spec.add_dependency "ox", "~> 2.14"
   spec.add_dependency "thor", "~> 1.3"
-  spec.add_dependency "zeitwerk", "~> 2.5"
+  spec.add_dependency "zeitwerk", "~> 2.7"
 
-  spec.add_development_dependency "bundler", "~> 2.3"
+  spec.add_development_dependency "bundler", "~> 2.7"
   spec.add_development_dependency "factory_bot", "~> 6.5"
   spec.add_development_dependency "pry-byebug", "~> 3.10"
   spec.add_development_dependency "rake", "~> 13.0"
