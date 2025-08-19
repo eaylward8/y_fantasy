@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.1.4] - 2025-08-19
+
+- Update dry-* gems
+
 ## [0.1.3] - 2025-08-19
 
 - Fix error when requesting week_picks for a PickemTeam and only a single week_pick is present
