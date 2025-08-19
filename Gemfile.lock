@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    y_fantasy (0.1.1)
+    y_fantasy (0.1.2)
       dry-configurable (~> 1.1.0)
       dry-initializer (~> 3.1.1)
       dry-transformer (~> 1.0.1)
