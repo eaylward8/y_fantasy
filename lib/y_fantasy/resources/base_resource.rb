@@ -41,9 +41,6 @@ module YFantasy
         validate_options(options)
         subresources = Transformations::T.wrap_in_array(with)
         SubresourceValidator.validate!(self, subresources)
-        # TODO: Remove
-        # puts "\n YFantasy::Api::Client.get('#{resource_name}', '#{key}', #{subresources}, #{options}) \n"
-
         data = YFantasy::Api::Client.get(resource_name, keys: key, subresources: subresources, **options)
         resource = Transformations.transformer_for(resource_name).call(data)
         resource.add_fetched_subresources(subresources)

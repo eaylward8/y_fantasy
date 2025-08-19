@@ -26,6 +26,8 @@ module YFantasy
       end
 
       def self.dig_value(data, *keys)
+        raise ArgumentError, "Data must be a Hash, but it was #{data.class}: #{data.inspect}" unless data.is_a?(Hash)
+
         data&.dig(*keys)
       end
 

@@ -49,6 +49,10 @@ RSpec.describe YFantasy::Transformations::T do
       data = {foo: {bar: [1, 2]}}
       expect(described_class.dig_value(data, :foo, :bar)).to eq(data[:foo][:bar])
     end
+
+    it "raises an error if data is not a Hash" do
+      expect { described_class.dig_value([1, 2], :foo) }.to raise_error(ArgumentError, /Data must be a Hash/)
+    end
   end
 
   describe ".wrap_in_array" do

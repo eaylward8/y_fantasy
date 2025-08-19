@@ -17,7 +17,8 @@ module YFantasy
 
         def transform_week_picks
           map_week_picks_fn = t(:map_array, transform_picks)
-          DefaultTransformer.new(:week_picks) >> t(:map_value, :week_picks, map_week_picks_fn)
+          # wrap_in_array is needed when only a single week_pick is present
+          DefaultTransformer.new(:week_picks) >> t(:map_value, :week_picks, t(:wrap_in_array) >> map_week_picks_fn)
         end
 
         def transform_picks
