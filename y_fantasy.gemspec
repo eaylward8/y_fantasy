@@ -28,11 +28,11 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "dry-initializer", "~> 3.1.1"
-  spec.add_dependency "dry-configurable", "~> 1.1.0"
-  spec.add_dependency "dry-transformer", "~> 1.0.1"
-  spec.add_dependency "dry-types", "~> 1.7.2"
-  spec.add_dependency "dry-validation", "~> 1.10.0"
+  spec.add_dependency "dry-initializer", "~> 3.1"
+  spec.add_dependency "dry-configurable", "~> 1.1"
+  spec.add_dependency "dry-transformer", "~> 1.0"
+  spec.add_dependency "dry-types", "~> 1.7"
+  spec.add_dependency "dry-validation", "~> 1.10"
   spec.add_dependency "mechanize", "~> 2.9"
   spec.add_dependency "ox", "~> 2.14"
   spec.add_dependency "thor", "~> 1.3"
